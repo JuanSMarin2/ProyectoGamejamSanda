@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float initialSpeed = 3f;
     [SerializeField] private float maxSpeed = 8f;
     [SerializeField] private float acceleration = 12f;
+    private bool movementEnabled = true;
 
     private Rigidbody2D rb;
     private PlayerInputActions inputActions;
@@ -38,9 +39,19 @@ public class PlayerMovement : MonoBehaviour
         Move();
     }
 
+public void SetMovementEnabled(bool enabled)
+{
+    movementEnabled = enabled;
+
+    if (!enabled)
+        rb.linearVelocity = Vector2.zero;
+}
+
     private void Move()
     {
-
+if (!movementEnabled)
+    return;
+    
         if (movementInput.sqrMagnitude < 0.01f)
         {
             rb.linearVelocity = Vector2.zero;

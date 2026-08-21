@@ -25,6 +25,16 @@
                     "interactions": "",
                     "initialStateCheck": false,
                     "priority": 0
+                },
+                {
+                    "name": "NextText",
+                    "type": "Button",
+                    "id": "f7fc2d84-0136-481f-a842-debea313fc16",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
                 }
             ],
             "bindings": [
@@ -151,12 +161,23 @@
                 },
                 {
                     "name": "",
+                    "id": "203a6be5-5b48-4e64-97c3-2937aae34e88",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NextText",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "03c006b0-9f17-45c8-b482-3332f8b1020b",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Interact",
+                    "action": "NextText",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
