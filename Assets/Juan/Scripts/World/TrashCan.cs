@@ -6,7 +6,9 @@ using UnityEngine;
 public class TrashItemChance
 {
     public int itemId;
-    [Range(0f, 100f)] public float probability;
+
+    [Range(0f, 100f)]
+    public float probability;
 }
 
 
@@ -14,7 +16,10 @@ public class TrashCan : MonoBehaviour
 {
     [SerializeField] private List<TrashItemChance> items = new();
 
-    [SerializeField] private float coinProbability = 50f;
+    [SerializeField]
+    [Range(0f, 100f)]
+    private float coinProbability = 50f;
+
 
     private bool alreadyUsed = false;
 
@@ -24,36 +29,72 @@ public class TrashCan : MonoBehaviour
         if (alreadyUsed)
             return;
 
+
         alreadyUsed = true;
 
-        TryGiveItems();
+
+        List<Item> obtainedItems = TryGiveItems();
+
+        int coinsGained = 0;
 
 
         while (Random.Range(0f, 100f) < coinProbability)
         {
             TryGiveCoin();
+            coinsGained++;
+        }
+
+
+        if (TrashFeedback.Instance != null && (obtainedItems.Count > 0 || coinsGained > 0))
+        {
+            TrashFeedback.Instance.ShowFeedback(obtainedItems, coinsGained);
         }
     }
 
 
-    private void TryGiveItems()
+    private List<Item> TryGiveItems()
     {
+        List<Item> obtainedItems = new();
+
+
         foreach (TrashItemChance itemChance in items)
         {
+            if (obtainedItems.Count >= 3)
+                break;
+
+
             if (Random.Range(0f, 100f) < itemChance.probability)
             {
-                Item[] availableItems = Resources.LoadAll<Item>("Items");
+                Item item = GetItemByID(itemChance.itemId);
 
-                foreach (Item item in availableItems)
+
+                if (item != null && InventoryData.Instance.AddItem(item))
                 {
-                    if (item.id == itemChance.itemId)
-                    {
-                        InventoryData.Instance.AddItem(item);
-                        break;
-                    }
+                    obtainedItems.Add(item);
                 }
             }
         }
+
+
+        return obtainedItems;
+    }
+
+
+    private Item GetItemByID(int id)
+    {
+        Item[] availableItems = Resources.LoadAll<Item>("Items");
+
+
+        foreach (Item item in availableItems)
+        {
+            if (item.id == id)
+            {
+                return item;
+            }
+        }
+
+
+        return null;
     }
 
 

@@ -2,17 +2,22 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class InventoryData : MonoBehaviour
 {
     public static InventoryData Instance { get; private set; }
 
-    [SerializeField] private int maxSlots = 3;
+    [SerializeField] private int maxSlots = 6;
     [SerializeField] private List<Item> items = new();
 
+
     public event Action OnInventoryChanged;
+    public event Action OnSlotsChanged;
+
 
     public int MaxSlots => maxSlots;
     public IReadOnlyList<Item> Items => items;
+
 
     private void Awake()
     {
@@ -24,7 +29,10 @@ public class InventoryData : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        maxSlots = Mathf.Clamp(maxSlots, 6, 9);
     }
+
 
     public bool AddItem(Item item)
     {
@@ -32,10 +40,12 @@ public class InventoryData : MonoBehaviour
             return false;
 
         items.Add(item);
+
         OnInventoryChanged?.Invoke();
 
         return true;
     }
+
 
     public bool RemoveItem(int index)
     {
@@ -43,10 +53,12 @@ public class InventoryData : MonoBehaviour
             return false;
 
         items.RemoveAt(index);
+
         OnInventoryChanged?.Invoke();
 
         return true;
     }
+
 
     public Item GetItem(int index)
     {
@@ -56,22 +68,21 @@ public class InventoryData : MonoBehaviour
         return items[index];
     }
 
+
+    public void BuySlot()
+    {
+        if (maxSlots >= 9)
+            return;
+
+        maxSlots++;
+
+        OnSlotsChanged?.Invoke();
+        OnInventoryChanged?.Invoke();
+    }
+
+
     public bool IsFull()
     {
         return items.Count >= maxSlots;
-    }
-
-    public int GetItemCount()
-    {
-        return items.Count;
-    }
-
-    public void ClearInventory()
-    {
-        if (items.Count == 0)
-            return;
-
-        items.Clear();
-        OnInventoryChanged?.Invoke();
     }
 }
