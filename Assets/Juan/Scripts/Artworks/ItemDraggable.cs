@@ -5,17 +5,16 @@ using UnityEngine.InputSystem;
 public class ItemDraggable : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private float returnSpeed = 5f;
 
     private Item item;
 
     private Vector3 originalPosition;
     private Vector3 mouseOffset;
 
-    private bool dragging = false;
-    private bool placed = false;
-    private bool returning = false;
-
-    private float returnSpeed = 8f;
+    private bool dragging;
+    private bool placed;
+    private bool returning;
 
 
     private void Awake()
@@ -24,8 +23,6 @@ public class ItemDraggable : MonoBehaviour
             spriteRenderer = GetComponent<SpriteRenderer>();
 
         originalPosition = transform.position;
-
-        gameObject.tag = "ItemDraggable";
 
         gameObject.SetActive(false);
     }
@@ -49,71 +46,50 @@ public class ItemDraggable : MonoBehaviour
         }
 
 
-        if (!dragging)
-            return;
-
-
         if (Mouse.current == null)
             return;
 
 
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(
-            Mouse.current.position.ReadValue()
-        );
-
-        mousePosition.z = transform.position.z;
-
-        transform.position = mousePosition + mouseOffset;
+        Vector2 mousePosition = Mouse.current.position.ReadValue();
+        Vector2 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
 
-        if (Mouse.current.leftButton.wasReleasedThisFrame)
+        if (Mouse.current.leftButton.wasPressedThisFrame && !dragging)
         {
-            StopDragging();
+            Collider2D hit = Physics2D.OverlapPoint(worldPosition);
+
+            if (hit != null && hit.gameObject == gameObject)
+            {
+                dragging = true;
+                returning = false;
+
+                mouseOffset = transform.position - (Vector3)worldPosition;
+            }
         }
-    }
 
 
-    private void OnMouseDown()
-    {
-        if (Mouse.current == null)
-            return;
-
-        dragging = true;
-        returning = false;
-
-
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(
-            Mouse.current.position.ReadValue()
-        );
-
-        mousePosition.z = transform.position.z;
-
-        mouseOffset = transform.position - mousePosition;
-    }
-
-
-    private void StopDragging()
-    {
-        dragging = false;
-
-
-        if (DraggableManager.Instance == null)
-            return;
-
-
-        if (DraggableManager.Instance.IsCompletelyInsideWorkspace(this))
+        if (dragging && Mouse.current.leftButton.isPressed)
         {
-            placed = true;
-
-            gameObject.tag = "ItemDraggablePlaced";
+            transform.position = (Vector3)worldPosition + mouseOffset;
         }
-        else
+
+
+        if (dragging && Mouse.current.leftButton.wasReleasedThisFrame)
         {
-            placed = false;
+            dragging = false;
 
-            gameObject.tag = "ItemDraggable";
-
-            returning = true;
+            if (DraggableManager.Instance != null &&
+                DraggableManager.Instance.IsCompletelyInsideWorkspace(this))
+            {
+                placed = true;
+                gameObject.tag = "ItemDraggablePlaced";
+            }
+            else
+            {
+                placed = false;
+                gameObject.tag = "ItemDraggable";
+                returning = true;
+            }
         }
     }
 
@@ -122,17 +98,16 @@ public class ItemDraggable : MonoBehaviour
     {
         item = newItem;
 
-
         if (item == null)
         {
             gameObject.SetActive(false);
             return;
         }
 
-
         gameObject.SetActive(true);
 
-        spriteRenderer.sprite = item.sprite;
+        if (spriteRenderer != null)
+            spriteRenderer.sprite = item.sprite;
     }
 
 
@@ -157,17 +132,5 @@ public class ItemDraggable : MonoBehaviour
         placed = false;
 
         gameObject.tag = "ItemDraggable";
-    }
-
-
-    private void OnDrawGizmos()
-    {
-        if (DraggableManager.Instance == null)
-            return;
-
-        if (DraggableManager.Instance.IsCompletelyInsideWorkspace(this))
-        {
-            Gizmos.DrawWireSphere(transform.position, 0.1f);
-        }
     }
 }

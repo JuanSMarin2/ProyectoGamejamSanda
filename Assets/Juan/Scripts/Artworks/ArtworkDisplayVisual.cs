@@ -5,8 +5,19 @@ using UnityEngine;
 public class ArtworkDisplayVisual : MonoBehaviour
 {
     [SerializeField] private List<SpriteRenderer> shelves = new();
+public static ArtworkDisplayVisual Instance { get; private set; }
 
+private void Awake()
+{
+    Instance = this;
+}
+public Transform GetShelf(int index)
+{
+    if (index < 0 || index >= shelves.Count)
+        return null;
 
+    return shelves[index].transform;
+}
     private void OnEnable()
     {
         if (ArtworkDisplayData.Instance != null)

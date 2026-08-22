@@ -1,20 +1,18 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+
 public class InteractableObject : MonoBehaviour
 {
     [SerializeField] private GameObject interactableFeedback;
     [SerializeField] private float fadeSpeed = 5f;
     [SerializeField] private UnityEvent onInteract;
 
-
-
-    private SpriteRenderer feedbackRenderer;
     private bool playerInside = false;
+    private bool interactionEnabled = true;
+
     private PlayerInputActions inputActions;
-
-
-
+    private SpriteRenderer feedbackRenderer;
 
 
     private void Awake()
@@ -37,14 +35,6 @@ public class InteractableObject : MonoBehaviour
     }
 
 
-
-
-
-
-
-
-
-
     private void OnEnable()
     {
         inputActions.Enable();
@@ -59,25 +49,41 @@ public class InteractableObject : MonoBehaviour
 
     private void Update()
     {
+        if (!interactionEnabled)
+        {
+            playerInside = false;
+            HideFeedback();
+            return;
+        }
+
+
         if (playerInside && inputActions.Player.Interact.WasPressedThisFrame())
         {
             onInteract?.Invoke();
         }
 
 
-if (feedbackRenderer == null)
+        if (feedbackRenderer == null)
             return;
 
 
         Color color = feedbackRenderer.color;
 
- if (playerInside)
+        if (playerInside)
         {
-            color.a = Mathf.MoveTowards(color.a, 1f, fadeSpeed * Time.deltaTime);
+            color.a = Mathf.MoveTowards(
+                color.a,
+                1f,
+                fadeSpeed * Time.deltaTime
+            );
         }
         else
         {
-            color.a = Mathf.MoveTowards(color.a, 0f, fadeSpeed * Time.deltaTime);
+            color.a = Mathf.MoveTowards(
+                color.a,
+                0f,
+                fadeSpeed * Time.deltaTime
+            );
         }
 
         feedbackRenderer.color = color;
@@ -86,6 +92,9 @@ if (feedbackRenderer == null)
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!interactionEnabled)
+            return;
+
         if (!collision.CompareTag("Player"))
             return;
 
@@ -95,9 +104,32 @@ if (feedbackRenderer == null)
 
     private void OnTriggerExit2D(Collider2D collision)
     {
- if (!collision.CompareTag("Player"))
+        if (!collision.CompareTag("Player"))
             return;
 
         playerInside = false;
+    }
+
+
+    public void SetInteractionEnabled(bool enabled)
+    {
+        interactionEnabled = enabled;
+
+        if (!enabled)
+        {
+            playerInside = false;
+            HideFeedback();
+        }
+    }
+
+
+    private void HideFeedback()
+    {
+        if (feedbackRenderer == null)
+            return;
+
+        Color color = feedbackRenderer.color;
+        color.a = 0f;
+        feedbackRenderer.color = color;
     }
 }
