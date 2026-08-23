@@ -144,9 +144,9 @@ public class CuttingController : MonoBehaviour
             return;
         }
 
-        ObjectData[] objects = FindObjectsByType<ObjectData>(FindObjectsSortMode.None);
+        PieceObjectData[] objects = FindObjectsByType<PieceObjectData>(FindObjectsSortMode.None);
 
-        foreach (ObjectData objectData in objects)
+        foreach (PieceObjectData objectData in objects)
         {
             if (!objectData.IsSelected || objectData.Category != PieceCategory.Base)
                 continue;

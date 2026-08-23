@@ -22,6 +22,8 @@ public class HeartBeath : MonoBehaviour
 
 
         float escalaActual = Mathf.Lerp(escalaMinima, 1f, oscilacion);
+
+
         transform.localScale = escalaOriginal * escalaActual;
     }
 }

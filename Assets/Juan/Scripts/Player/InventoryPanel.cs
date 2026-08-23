@@ -20,10 +20,14 @@ public class InventoryPanel : MonoBehaviour
     private int selectedIndex = -1;
 
 
+    private static Dictionary<int, Sprite> spriteCache;
+
+
     private void Awake()
     {
         inputActions = new PlayerInputActions();
 
+        EnsureSpriteCacheLoaded();
 
         for (int i = 0; i < itemButtons.Count; i++)
         {
@@ -67,7 +71,11 @@ public class InventoryPanel : MonoBehaviour
         }
 
 
-        if (selectedIndex != -1 && Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        if (selectedIndex != -1 &&
+            selectedIndex < itemButtons.Count &&
+            selectedIndex < discardButtons.Count &&
+            Mouse.current != null &&
+            Mouse.current.leftButton.wasPressedThisFrame)
         {
             Vector2 mousePosition = Mouse.current.position.ReadValue();
 
@@ -125,6 +133,9 @@ public class InventoryPanel : MonoBehaviour
             return;
 
         if (index >= InventoryData.Instance.Items.Count)
+            return;
+
+        if (index >= discardButtons.Count)
             return;
 
 
@@ -185,7 +196,7 @@ public class InventoryPanel : MonoBehaviour
 
             if (slotBought && hasItem)
             {
-                Item item = InventoryData.Instance.Items[i];
+                ObjectData item = InventoryData.Instance.Items[i];
 
                 itemImages[i].gameObject.SetActive(true);
                 itemImages[i].sprite = GetSpriteByID(item.id, item.sprite);
@@ -197,7 +208,7 @@ public class InventoryPanel : MonoBehaviour
             }
 
 
-            if (!slotBought)
+            if (!slotBought && i < discardButtons.Count)
             {
                 discardButtons[i].gameObject.SetActive(false);
             }
@@ -207,18 +218,32 @@ public class InventoryPanel : MonoBehaviour
 
     private Sprite GetSpriteByID(int id, Sprite fallback)
     {
-        Item[] availableItems = Resources.LoadAll<Item>("Items");
+        EnsureSpriteCacheLoaded();
 
-
-        foreach (Item item in availableItems)
-        {
-            if (item.id == id)
-            {
-                return item.sprite;
-            }
-        }
-
+        if (spriteCache.TryGetValue(id, out Sprite sprite))
+            return sprite;
 
         return fallback;
+    }
+
+
+    private static void EnsureSpriteCacheLoaded()
+    {
+        if (spriteCache != null)
+            return;
+
+        spriteCache = new Dictionary<int, Sprite>();
+
+        ObjectData[] availableItems =
+            Resources.LoadAll<ObjectData>("Items");
+
+        foreach (ObjectData item in availableItems)
+        {
+            if (item == null)
+                continue;
+
+            if (!spriteCache.ContainsKey(item.id))
+                spriteCache.Add(item.id, item.sprite);
+        }
     }
 }

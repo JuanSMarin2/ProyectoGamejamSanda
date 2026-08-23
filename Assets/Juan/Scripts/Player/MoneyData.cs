@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class MoneyData : MonoBehaviour
@@ -10,27 +11,44 @@ public class MoneyData : MonoBehaviour
     public int Money => money;
 
 
+    public event Action OnMoneyChanged;
 
 
-    private void Awake() {
+    private void Awake()
+    {
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
-    Instance = this;
+
+        Instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
 
- public void AddMoney(int amount)
-    {  money += amount; }
+    public void AddMoney(int amount)
+    {
+        if (amount <= 0)
+            return;
+
+        money += amount;
+        OnMoneyChanged?.Invoke();
+    }
 
 
-    public void RemoveMoney(int amount)
-    { money -= amount; }
+    public bool RemoveMoney(int amount)
+    {
+        if (amount <= 0 || !CanAfford(amount))
+            return false;
 
-public bool CanAfford(int amount)
+        money -= amount;
+        OnMoneyChanged?.Invoke();
+        return true;
+    }
+
+
+    public bool CanAfford(int amount)
     {
         return money >= amount;
     }

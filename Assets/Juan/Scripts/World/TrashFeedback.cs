@@ -51,45 +51,50 @@ public class TrashFeedback : MonoBehaviour
     }
 
 
-   public void ShowFeedback(List<Item> items, int coins, bool inventoryFull)
-{
-    if (feedbackCoroutine != null)
-        StopCoroutine(feedbackCoroutine);
-
-
-    UpdateFeedback(items, coins, inventoryFull);
-
-    feedbackCoroutine = StartCoroutine(ShowFeedbackCoroutine());
-}
-
-
-private void UpdateFeedback(List<Item> items, int coins, bool inventoryFull)
-{
-    for (int i = 0; i < itemImages.Count; i++)
+    public void ShowFeedback(List<ObjectData> items, int coins, bool inventoryFull)
     {
-        bool hasItem = i < items.Count;
+        if (feedbackCoroutine != null)
+            StopCoroutine(feedbackCoroutine);
 
-        itemImages[i].gameObject.SetActive(hasItem);
-        itemNames[i].gameObject.SetActive(hasItem);
 
-        if (hasItem)
+        UpdateFeedback(items, coins, inventoryFull);
+
+        feedbackCoroutine = StartCoroutine(ShowFeedbackCoroutine());
+    }
+
+
+    private void UpdateFeedback(List<ObjectData> items, int coins, bool inventoryFull)
+    {
+        int slotCount = Mathf.Min(itemImages.Count, itemNames.Count);
+
+        for (int i = 0; i < slotCount; i++)
         {
-            itemImages[i].sprite = items[i].sprite;
-            itemNames[i].text = items[i].itemName;
+            bool hasItem = i < items.Count;
+
+            itemImages[i].gameObject.SetActive(hasItem);
+            itemNames[i].gameObject.SetActive(hasItem);
+
+            if (hasItem)
+            {
+                itemImages[i].sprite = items[i].sprite;
+                itemNames[i].text = items[i].itemName;
+            }
+        }
+
+
+        if (inventoryFull && itemNames.Count > 0)
+        {
+            itemNames[0].gameObject.SetActive(true);
+            itemNames[0].text = "Inventario lleno";
+        }
+
+
+        if (coinsGainText != null)
+        {
+            coinsGainText.gameObject.SetActive(true);
+            coinsGainText.text = "x" + coins;
         }
     }
-
-
-    if (inventoryFull && itemNames.Count > 0)
-    {
-        itemNames[0].gameObject.SetActive(true);
-        itemNames[0].text = "Inventario lleno";
-    }
-
-
-    coinsGainText.gameObject.SetActive(true);
-    coinsGainText.text = "x" + coins;
-}
 
 
     private IEnumerator ShowFeedbackCoroutine()

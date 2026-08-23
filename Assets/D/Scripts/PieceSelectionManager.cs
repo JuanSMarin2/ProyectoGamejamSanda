@@ -10,22 +10,25 @@ public class PieceSelectionManager : MonoBehaviour
     private const int MaxSmallAccessories = 3;
 
     [SerializeField] private bool discoverSceneObjects = true;
-    [SerializeField] private ObjectData[] selectablePieces;
+    [SerializeField] private PieceObjectData[] selectablePieces;
     [SerializeField] private BoardSlot[] boardSlots;
 
     public event Action OnSelectionPhaseCompleted;
     public bool IsSelectionPhaseCompleted { get; private set; }
 
     private Camera mainCamera;
-    private readonly List<ObjectData> selectedPieces = new List<ObjectData>();
+    private readonly List<PieceObjectData> selectedPieces = new List<PieceObjectData>();
 
     private void Start()
     {
         mainCamera = Camera.main;
 
+        if (mainCamera == null)
+            mainCamera = FindFirstObjectByType<Camera>();
+
         if (discoverSceneObjects)
         {
-            selectablePieces = FindObjectsByType<ObjectData>(FindObjectsSortMode.None);
+            selectablePieces = FindObjectsByType<PieceObjectData>(FindObjectsSortMode.None);
             boardSlots = FindObjectsByType<BoardSlot>(FindObjectsSortMode.None);
         }
 
@@ -52,16 +55,20 @@ public class PieceSelectionManager : MonoBehaviour
             return false;
 
         Vector3 worldPosition = mainCamera.ScreenToWorldPoint(screenPosition);
-        Collider2D hitCollider = Physics2D.OverlapPoint(worldPosition);
+        Collider2D[] hitColliders = Physics2D.OverlapPointAll(worldPosition);
 
-        if (hitCollider == null)
-            return false;
+        foreach (Collider2D hitCollider in hitColliders)
+        {
+            PieceObjectData piece = hitCollider.GetComponentInParent<PieceObjectData>();
 
-        ObjectData piece = hitCollider.GetComponentInParent<ObjectData>();
-        return TrySelectPiece(piece);
+            if (TrySelectPiece(piece))
+                return true;
+        }
+
+        return false;
     }
 
-    public bool TrySelectPiece(ObjectData piece)
+    public bool TrySelectPiece(PieceObjectData piece)
     {
         if (piece == null ||
             piece.Data == null ||
@@ -120,7 +127,7 @@ public class PieceSelectionManager : MonoBehaviour
     {
         int count = 0;
 
-        foreach (ObjectData piece in selectedPieces)
+        foreach (PieceObjectData piece in selectedPieces)
         {
             if (piece != null && piece.Category == category)
                 count++;
@@ -136,7 +143,7 @@ public class PieceSelectionManager : MonoBehaviour
         if (selectablePieces == null)
             return;
 
-        foreach (ObjectData piece in selectablePieces)
+        foreach (PieceObjectData piece in selectablePieces)
         {
             if (piece != null && piece.IsSelected)
                 selectedPieces.Add(piece);
