@@ -12,6 +12,6 @@ public class MoneyVisual : MonoBehaviour
         if (MoneyData.Instance == null)
             return;
 
-        moneyText.text = MoneyData.Instance.Money.ToString();
+        moneyText.text = "" + MoneyData.Instance.Money;
     }
 }

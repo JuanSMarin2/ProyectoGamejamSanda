@@ -51,47 +51,45 @@ public class TrashFeedback : MonoBehaviour
     }
 
 
-    public void ShowFeedback(List<Item> items, int coins)
+   public void ShowFeedback(List<Item> items, int coins, bool inventoryFull)
+{
+    if (feedbackCoroutine != null)
+        StopCoroutine(feedbackCoroutine);
+
+
+    UpdateFeedback(items, coins, inventoryFull);
+
+    feedbackCoroutine = StartCoroutine(ShowFeedbackCoroutine());
+}
+
+
+private void UpdateFeedback(List<Item> items, int coins, bool inventoryFull)
+{
+    for (int i = 0; i < itemImages.Count; i++)
     {
-        if (feedbackCoroutine != null)
-            StopCoroutine(feedbackCoroutine);
+        bool hasItem = i < items.Count;
 
+        itemImages[i].gameObject.SetActive(hasItem);
+        itemNames[i].gameObject.SetActive(hasItem);
 
-        UpdateFeedback(items, coins);
-
-        feedbackCoroutine = StartCoroutine(ShowFeedbackCoroutine());
+        if (hasItem)
+        {
+            itemImages[i].sprite = items[i].sprite;
+            itemNames[i].text = items[i].itemName;
+        }
     }
 
 
-    private void UpdateFeedback(List<Item> items, int coins)
+    if (inventoryFull && itemNames.Count > 0)
     {
-        for (int i = 0; i < itemImages.Count; i++)
-        {
-            bool hasItem = i < items.Count;
-
-
-            itemImages[i].gameObject.SetActive(hasItem);
-            itemNames[i].gameObject.SetActive(hasItem);
-
-
-            if (hasItem)
-            {
-                itemImages[i].sprite = items[i].sprite;
-                itemNames[i].text = items[i].itemName;
-            }
-        }
-
-
-        if (coins > 0)
-        {
-            coinsGainText.gameObject.SetActive(true);
-            coinsGainText.text = "x" + coins;
-        }
-        else
-        {
-            coinsGainText.gameObject.SetActive(false);
-        }
+        itemNames[0].gameObject.SetActive(true);
+        itemNames[0].text = "Inventario lleno";
     }
+
+
+    coinsGainText.gameObject.SetActive(true);
+    coinsGainText.text = "x" + coins;
+}
 
 
     private IEnumerator ShowFeedbackCoroutine()

@@ -21,33 +21,58 @@ public class TrashCan : MonoBehaviour
     private float coinProbability = 50f;
 
 
-    private bool alreadyUsed = false;
+    private bool itemsCollected = false;
+    private bool coinsCollected = false;
 
 
     public void Interact()
     {
-        if (alreadyUsed)
+        if (itemsCollected)
+            return;
+
+        if (InventoryData.Instance == null)
             return;
 
 
-        alreadyUsed = true;
-
-
-        List<Item> obtainedItems = TryGiveItems();
-
+        List<Item> obtainedItems = new();
         int coinsGained = 0;
 
 
-        while (Random.Range(0f, 100f) < coinProbability)
+        if (!coinsCollected)
         {
             TryGiveCoin();
             coinsGained++;
+
+            while (Random.Range(0f, 100f) < coinProbability)
+            {
+                TryGiveCoin();
+                coinsGained++;
+            }
+
+            coinsCollected = true;
         }
 
 
-        if (TrashFeedback.Instance != null && (obtainedItems.Count > 0 || coinsGained > 0))
+        if (!InventoryData.Instance.IsFull())
         {
-            TrashFeedback.Instance.ShowFeedback(obtainedItems, coinsGained);
+            obtainedItems = TryGiveItems();
+
+            if (obtainedItems.Count > 0)
+                itemsCollected = true;
+        }
+
+
+        if (TrashFeedback.Instance != null)
+        {
+            bool inventoryFull =
+                InventoryData.Instance.IsFull() &&
+                obtainedItems.Count == 0;
+
+            TrashFeedback.Instance.ShowFeedback(
+                obtainedItems,
+                coinsGained,
+                inventoryFull
+            );
         }
     }
 
@@ -62,6 +87,9 @@ public class TrashCan : MonoBehaviour
             if (obtainedItems.Count >= 3)
                 break;
 
+            if (InventoryData.Instance.IsFull())
+                break;
+
 
             if (Random.Range(0f, 100f) < itemChance.probability)
             {
@@ -72,6 +100,10 @@ public class TrashCan : MonoBehaviour
                 {
                     obtainedItems.Add(item);
                 }
+
+
+                if (InventoryData.Instance.IsFull())
+                    break;
             }
         }
 
@@ -88,9 +120,7 @@ public class TrashCan : MonoBehaviour
         foreach (Item item in availableItems)
         {
             if (item.id == id)
-            {
                 return item;
-            }
         }
 
 
@@ -100,6 +130,7 @@ public class TrashCan : MonoBehaviour
 
     private void TryGiveCoin()
     {
-        MoneyData.Instance.AddMoney(1);
+        if (MoneyData.Instance != null)
+            MoneyData.Instance.AddMoney(1);
     }
 }

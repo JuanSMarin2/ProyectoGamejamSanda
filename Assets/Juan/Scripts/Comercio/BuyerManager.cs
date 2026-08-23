@@ -8,6 +8,8 @@ public class BuyerManager : MonoBehaviour
 
     [SerializeField] private Transform spawnPoint;
 
+    [SerializeField] private PlayerMovement playerMovement;
+
     [SerializeField] private float spawnInterval = 10f;
 
     [SerializeField]
@@ -25,10 +27,8 @@ public class BuyerManager : MonoBehaviour
         if (currentBuyer != null)
             return;
 
-
         if (ArtworkDisplayData.Instance == null)
             return;
-
 
         if (ArtworkDisplayData.Instance.Artworks.Count == 0)
             return;
@@ -58,10 +58,7 @@ public class BuyerManager : MonoBehaviour
             return;
 
 
-        int randomIndex = Random.Range(
-            0,
-            buyerPrefabs.Count
-        );
+        int randomIndex = Random.Range(0, buyerPrefabs.Count);
 
 
         GameObject buyerObject = Instantiate(
@@ -76,11 +73,25 @@ public class BuyerManager : MonoBehaviour
 
         if (currentBuyer != null)
         {
-            currentBuyer.Initialize(spawnPoint);
+            currentBuyer.Initialize(spawnPoint, this);
         }
         else
         {
             Destroy(buyerObject);
         }
+    }
+
+
+    public void SetPlayerMovement(bool enabled)
+    {
+        if (playerMovement != null)
+            playerMovement.SetMovementEnabled(enabled);
+    }
+
+
+    public void BuyerFinished(Buyer buyer)
+    {
+        if (currentBuyer == buyer)
+            currentBuyer = null;
     }
 }

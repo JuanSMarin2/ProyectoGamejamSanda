@@ -32,8 +32,7 @@ public class Buyer : MonoBehaviour
     [SerializeField] private Button rejectButton;
 
 
-    [Header("Player")]
-    [SerializeField] private PlayerMovement playerMovement;
+ private BuyerManager buyerManager;
 
 
     private Transform spawnPoint;
@@ -76,14 +75,15 @@ public class Buyer : MonoBehaviour
     }
 
 
-    public void Initialize(Transform newSpawnPoint)
-    {
-        spawnPoint = newSpawnPoint;
+public void Initialize(Transform newSpawnPoint, BuyerManager newBuyerManager)
+{
+    spawnPoint = newSpawnPoint;
+    buyerManager = newBuyerManager;
 
-        transform.position = spawnPoint.position;
+    transform.position = spawnPoint.position;
 
-        ChooseArtwork();
-    }
+    ChooseArtwork();
+}
 
 
     private void Update()
@@ -217,8 +217,8 @@ public class Buyer : MonoBehaviour
         if (interactable != null)
             interactable.SetInteractionEnabled(false);
 
-        if (playerMovement != null)
-            playerMovement.SetMovementEnabled(false);
+     if (buyerManager != null)
+    buyerManager.SetPlayerMovement(false);
 
 
         offer = CalculateOffer();
@@ -306,8 +306,8 @@ public class Buyer : MonoBehaviour
             interactable.SetInteractionEnabled(false);
 
 
-        if (playerMovement != null)
-            playerMovement.SetMovementEnabled(true);
+        if (buyerManager != null)
+    buyerManager.SetPlayerMovement(true);
 
 
         if (spriteRenderer != null)
@@ -332,12 +332,15 @@ public class Buyer : MonoBehaviour
 
 
         if (Vector3.Distance(transform.position, spawnPoint.position) < 0.01f)
-        {
-            transform.position = spawnPoint.position;
+{
+    transform.position = spawnPoint.position;
 
-            returning = false;
+    returning = false;
 
-            Destroy(gameObject);
-        }
+    if (buyerManager != null)
+        buyerManager.BuyerFinished(this);
+
+    Destroy(gameObject);
+}
     }
 }
