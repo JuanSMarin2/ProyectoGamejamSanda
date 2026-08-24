@@ -38,8 +38,11 @@ public class TrashCan : MonoBehaviour
 
     public void Interact()
     {
-        if (itemsCollected)
+        if (itemsCollected){
+// Poner sonido de caneca vacia aqui
             return;
+        }
+           // Poner sonido de caneca llena aqui
 
         if (InventoryData.Instance == null)
             return;
@@ -55,10 +58,20 @@ public class TrashCan : MonoBehaviour
         }
 
 
-        List<ObjectData> obtainedItems = TryGiveItems();
+        List<ObjectData> obtainedItems = new();
 
+        if (PoliceOfficer.IsPlayerInVision)
+        {
+            PoliceOfficer.ReportCrime();
 
-        itemsCollected = !CanGiveAnything();
+            Debug.Log("[TRASH] Un policía te ha visto: no consigues objetos de la caneca.");
+        }
+        else
+        {
+            obtainedItems = TryGiveItems();
+
+            itemsCollected = !CanGiveAnything();
+        }
 
 
         if (TrashFeedback.Instance != null)
@@ -83,9 +96,6 @@ public class TrashCan : MonoBehaviour
 
         int coinsGained = 0;
 
-
-        if (Random.Range(0f, 100f) >= coinProbability)
-            return 0;
 
         MoneyData.Instance.AddMoney(1);
         coinsGained++;
@@ -158,12 +168,6 @@ public class TrashCan : MonoBehaviour
             }
 
             TrashItemChance itemChance = pool[i];
-
-            if (itemChance.probability <= 0f)
-            {
-                consumedEntries.Add(i);
-                continue;
-            }
 
 
             if (Random.Range(0f, 100f) >= itemChance.probability)
@@ -239,20 +243,11 @@ public class TrashCan : MonoBehaviour
 
         for (int i = 0; i < pool.Count; i++)
         {
-            if (!consumedEntries.Contains(i) &&
-                pool[i].probability > 0f &&
-                IsValidCategoryItem(pool[i], category))
+            if (!consumedEntries.Contains(i))
                 return true;
         }
 
         return false;
-    }
-
-
-    private bool IsValidCategoryItem(TrashItemChance itemChance, PieceCategory category)
-    {
-        ObjectData item = GetItemByID(itemChance.itemId);
-        return item != null && item.Category == category;
     }
 
 

@@ -82,6 +82,16 @@ public class InventoryData : MonoBehaviour
     }
 
 
+    public void ClearInventory()
+    {
+        if (items.Count == 0)
+            return;
+
+        items.Clear();
+        OnInventoryChanged?.Invoke();
+    }
+
+
     public ObjectData GetItem(int index)
     {
         if (index < 0 || index >= items.Count)

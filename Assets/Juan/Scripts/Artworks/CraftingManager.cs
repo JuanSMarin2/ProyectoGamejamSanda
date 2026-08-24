@@ -67,6 +67,9 @@ public class CraftingManager : MonoBehaviour
             if (added)
             {
                 CurrentArtworkData.Instance.ClearArtwork();
+
+                if (InventoryData.Instance != null)
+                    InventoryData.Instance.ClearInventory();
             }
         }
     }
