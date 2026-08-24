@@ -32,7 +32,8 @@ public class Buyer : MonoBehaviour
     [SerializeField] private Button rejectButton;
 
 
- private BuyerManager buyerManager;
+    private BuyerManager buyerManager;
+    private NpcAnimatorController npcAnimator;
 
 
     private Transform spawnPoint;
@@ -52,6 +53,8 @@ public class Buyer : MonoBehaviour
 
     private void Awake()
     {
+        npcAnimator = GetComponent<NpcAnimatorController>();
+
         if (spriteRenderer == null)
             spriteRenderer = GetComponent<SpriteRenderer>();
 
@@ -75,15 +78,15 @@ public class Buyer : MonoBehaviour
     }
 
 
-public void Initialize(Transform newSpawnPoint, BuyerManager newBuyerManager)
-{
-    spawnPoint = newSpawnPoint;
-    buyerManager = newBuyerManager;
+    public void Initialize(Transform newSpawnPoint, BuyerManager newBuyerManager)
+    {
+        spawnPoint = newSpawnPoint;
+        buyerManager = newBuyerManager;
 
-    transform.position = spawnPoint.position;
+        transform.position = spawnPoint.position;
 
-    ChooseArtwork();
-}
+        ChooseArtwork();
+    }
 
 
     private void Update()
@@ -148,6 +151,9 @@ public void Initialize(Transform newSpawnPoint, BuyerManager newBuyerManager)
         transform.position = spawnPoint.position;
 
         movingToArtwork = true;
+
+        if (npcAnimator != null)
+            npcAnimator.PlayUp();
     }
 
 
@@ -194,6 +200,8 @@ public void Initialize(Transform newSpawnPoint, BuyerManager newBuyerManager)
             movingToArtwork = false;
             waitingForInteraction = true;
 
+            if (npcAnimator != null)
+                npcAnimator.PlayIdle();
 
             if (spriteRenderer != null)
                 spriteRenderer.color = interactColor;
@@ -217,8 +225,8 @@ public void Initialize(Transform newSpawnPoint, BuyerManager newBuyerManager)
         if (interactable != null)
             interactable.SetInteractionEnabled(false);
 
-     if (buyerManager != null)
-    buyerManager.SetPlayerMovement(false);
+        if (buyerManager != null)
+            buyerManager.SetPlayerMovement(false);
 
 
         offer = CalculateOffer();
@@ -307,7 +315,7 @@ public void Initialize(Transform newSpawnPoint, BuyerManager newBuyerManager)
 
 
         if (buyerManager != null)
-    buyerManager.SetPlayerMovement(true);
+            buyerManager.SetPlayerMovement(true);
 
 
         if (spriteRenderer != null)
@@ -315,6 +323,9 @@ public void Initialize(Transform newSpawnPoint, BuyerManager newBuyerManager)
 
 
         returning = true;
+
+        if (npcAnimator != null)
+            npcAnimator.PlayDown();
     }
 
 
@@ -332,15 +343,15 @@ public void Initialize(Transform newSpawnPoint, BuyerManager newBuyerManager)
 
 
         if (Vector3.Distance(transform.position, spawnPoint.position) < 0.01f)
-{
-    transform.position = spawnPoint.position;
+        {
+            transform.position = spawnPoint.position;
 
-    returning = false;
+            returning = false;
 
-    if (buyerManager != null)
-        buyerManager.BuyerFinished(this);
+            if (buyerManager != null)
+                buyerManager.BuyerFinished(this);
 
-    Destroy(gameObject);
-}
+            Destroy(gameObject);
+        }
     }
 }

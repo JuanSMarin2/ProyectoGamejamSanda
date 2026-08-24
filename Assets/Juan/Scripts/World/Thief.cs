@@ -15,6 +15,7 @@ public class Thief : MonoBehaviour
     [SerializeField] private float moneyStealPercent = 10f;
 
     private Transform player;
+    private NpcAnimatorController npcAnimator;
 
     private int currentWaypointIndex;
     private bool playerInVision;
@@ -23,6 +24,8 @@ public class Thief : MonoBehaviour
 
     private void Awake()
     {
+        npcAnimator = GetComponent<NpcAnimatorController>();
+
         if (thiefPanel != null)
             thiefPanel.SetActive(false);
     }
@@ -38,11 +41,20 @@ public class Thief : MonoBehaviour
     private void Update()
     {
         if (stealing)
+        {
+            if (npcAnimator != null)
+                npcAnimator.PlayIdle();
+
             return;
+        }
 
         if (chasing && playerInVision && player != null)
         {
             MoveTowards(player.position, chaseSpeed);
+
+            if (npcAnimator != null)
+                npcAnimator.SetMoveDirection(player.position - transform.position);
+
             return;
         }
 
@@ -55,7 +67,12 @@ public class Thief : MonoBehaviour
     private void Patrol()
     {
         if (waypoints.Count == 0)
+        {
+            if (npcAnimator != null)
+                npcAnimator.PlayIdle();
+
             return;
+        }
 
         Transform target = waypoints[currentWaypointIndex];
 
@@ -66,6 +83,9 @@ public class Thief : MonoBehaviour
         }
 
         MoveTowards(target.position, patrolSpeed);
+
+        if (npcAnimator != null)
+            npcAnimator.SetMoveDirection(target.position - transform.position);
 
         if (Vector3.Distance(transform.position, target.position) < 0.05f)
             NextWaypoint();

@@ -28,6 +28,7 @@ public class PoliceOfficer : MonoBehaviour
 
     private Transform player;
     private PlayerMovement playerMovement;
+    private NpcAnimatorController npcAnimator;
 
     private int currentWaypointIndex;
     private bool playerInVision;
@@ -36,6 +37,8 @@ public class PoliceOfficer : MonoBehaviour
 
     private void Awake()
     {
+        npcAnimator = GetComponent<NpcAnimatorController>();
+
         if (policePunishPanel != null)
             policePunishPanel.SetActive(false);
     }
@@ -64,11 +67,20 @@ public class PoliceOfficer : MonoBehaviour
     private void Update()
     {
         if (punishing)
+        {
+            if (npcAnimator != null)
+                npcAnimator.PlayIdle();
+
             return;
+        }
 
         if (chasing && player != null)
         {
             MoveTowards(player.position, chaseSpeed);
+
+            if (npcAnimator != null)
+                npcAnimator.SetMoveDirection(player.position - transform.position);
+
             return;
         }
 
@@ -78,7 +90,12 @@ public class PoliceOfficer : MonoBehaviour
     private void Patrol()
     {
         if (waypoints.Count == 0)
+        {
+            if (npcAnimator != null)
+                npcAnimator.PlayIdle();
+
             return;
+        }
 
         Transform target = waypoints[currentWaypointIndex];
 
@@ -89,6 +106,9 @@ public class PoliceOfficer : MonoBehaviour
         }
 
         MoveTowards(target.position, patrolSpeed);
+
+        if (npcAnimator != null)
+            npcAnimator.SetMoveDirection(target.position - transform.position);
 
         if (Vector3.Distance(transform.position, target.position) < 0.05f)
             NextWaypoint();
