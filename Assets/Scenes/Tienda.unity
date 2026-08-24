@@ -254,7 +254,7 @@ MonoBehaviour:
   m_text: Descartar
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 8988435612387764985, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -422,7 +422,7 @@ MonoBehaviour:
   m_text: Descartar
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 8988435612387764985, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3106,7 +3106,7 @@ MonoBehaviour:
   m_text: Descartar
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 8988435612387764985, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5830,7 +5830,7 @@ MonoBehaviour:
   m_text: Descartar
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 8988435612387764985, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -8023,7 +8023,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -9153,7 +9153,7 @@ MonoBehaviour:
   m_text: Descartar
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 8988435612387764985, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -10107,6 +10107,7 @@ GameObject:
   - component: {fileID: 1165108180}
   - component: {fileID: 1165108181}
   - component: {fileID: 1165108182}
+  - component: {fileID: 1165108183}
   m_Layer: 0
   m_Name: PoliceOfficer
   m_TagString: Untagged
@@ -10329,6 +10330,19 @@ MonoBehaviour:
   spriteRenderer: {fileID: 1165108176}
   directionDeadZone: 0.01
   directionHysteresis: 0.2
+--- !u!114 &1165108183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165108174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0d8444a646fd774a8705122bee45ca9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimationAudioProxy
+  maxDistance: 3
 --- !u!1 &1180240499
 GameObject:
   m_ObjectHideFlags: 0
@@ -10839,7 +10853,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -10989,7 +11003,7 @@ MonoBehaviour:
   m_text: Monedas
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 8988435612387764985, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -13074,6 +13088,8 @@ GameObject:
   - component: {fileID: 1428071712}
   - component: {fileID: 1428071711}
   - component: {fileID: 1428071710}
+  - component: {fileID: 1428071717}
+  - component: {fileID: 1428071718}
   m_Layer: 0
   m_Name: Thief (3)
   m_TagString: Untagged
@@ -13299,6 +13315,50 @@ Transform:
   - {fileID: 1833641636}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1428071717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1428071709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0d8444a646fd774a8705122bee45ca9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimationAudioProxy
+  maxDistance: 3
+--- !u!114 &1428071718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1428071709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 796023247
+      Data2: 1116227756
+      Data3: 1737395080
+      Data4: -609136307
+    Path: event:/Enemigos/RisaVagabundo
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 5.7116423
 --- !u!1 &1429431662
 GameObject:
   m_ObjectHideFlags: 0
@@ -13637,7 +13697,7 @@ MonoBehaviour:
   m_text: Descartar
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 8988435612387764985, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -14558,7 +14618,7 @@ MonoBehaviour:
   m_text: Monedas
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 8988435612387764985, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -15119,7 +15179,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -15534,6 +15594,8 @@ GameObject:
   - component: {fileID: 1643619111}
   - component: {fileID: 1643619110}
   - component: {fileID: 1643619109}
+  - component: {fileID: 1643619116}
+  - component: {fileID: 1643619117}
   m_Layer: 0
   m_Name: Thief (2)
   m_TagString: Untagged
@@ -15759,6 +15821,50 @@ Transform:
   - {fileID: 1795902774}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1643619116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643619108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0d8444a646fd774a8705122bee45ca9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimationAudioProxy
+  maxDistance: 3
+--- !u!114 &1643619117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643619108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 796023247
+      Data2: 1116227756
+      Data3: 1737395080
+      Data4: -609136307
+    Path: event:/Enemigos/RisaVagabundo
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 5.7116423
 --- !u!1 &1648823022
 GameObject:
   m_ObjectHideFlags: 0
@@ -16371,7 +16477,7 @@ MonoBehaviour:
   m_text: Te han Robado
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 8988435612387764985, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -16800,7 +16906,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -16951,7 +17057,7 @@ MonoBehaviour:
     no tienen sentido del arte."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 8988435612387764985, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -17063,6 +17169,8 @@ GameObject:
   - component: {fileID: 1738606815}
   - component: {fileID: 1738606820}
   - component: {fileID: 1738606821}
+  - component: {fileID: 1738606822}
+  - component: {fileID: 1738606823}
   m_Layer: 0
   m_Name: Thief
   m_TagString: Untagged
@@ -17288,6 +17396,50 @@ MonoBehaviour:
   spriteRenderer: {fileID: 1738606818}
   directionDeadZone: 0.01
   directionHysteresis: 0.2
+--- !u!114 &1738606822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738606814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0d8444a646fd774a8705122bee45ca9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimationAudioProxy
+  maxDistance: 3
+--- !u!114 &1738606823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738606814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 796023247
+      Data2: 1116227756
+      Data3: 1737395080
+      Data4: -609136307
+    Path: event:/Enemigos/RisaVagabundo
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 5.7116423
 --- !u!1 &1750585115
 GameObject:
   m_ObjectHideFlags: 0
@@ -17612,7 +17764,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -18677,7 +18829,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -18701,7 +18853,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1919159344}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -19759,7 +19911,7 @@ MonoBehaviour:
   m_text: Descartar
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 8988435612387764985, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -20194,7 +20346,7 @@ MonoBehaviour:
   m_text: Descartar
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 8988435612387764985, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -20830,6 +20982,8 @@ GameObject:
   - component: {fileID: 2021112933}
   - component: {fileID: 2021112932}
   - component: {fileID: 2021112931}
+  - component: {fileID: 2021112938}
+  - component: {fileID: 2021112939}
   m_Layer: 0
   m_Name: Thief (1)
   m_TagString: Untagged
@@ -21055,6 +21209,50 @@ Transform:
   - {fileID: 100869896}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2021112938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2021112930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0d8444a646fd774a8705122bee45ca9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimationAudioProxy
+  maxDistance: 3
+--- !u!114 &2021112939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2021112930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 796023247
+      Data2: 1116227756
+      Data3: 1737395080
+      Data4: -609136307
+    Path: event:/Enemigos/RisaVagabundo
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 5.7116423
 --- !u!1 &2026625869
 GameObject:
   m_ObjectHideFlags: 0
@@ -21253,7 +21451,7 @@ MonoBehaviour:
   m_text: Descartar
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 8988435612387764985, guid: 30d5cb42c70b60c4782c00ea33e0e30a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
