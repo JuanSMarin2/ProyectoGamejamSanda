@@ -1,0 +1,452 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2111420267665370162
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6050981970137647217}
+  - component: {fileID: 3445095302981711515}
+  m_Layer: 0
+  m_Name: SceneConfig
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6050981970137647217
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111420267665370162}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 786004688318518928}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3445095302981711515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111420267665370162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 226184ec84b5faf4688db32db7155077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioConfig
+  <sceneMusic>k__BackingField:
+    Guid:
+      Data1: -1646900895
+      Data2: 1127050741
+      Data3: 2028947134
+      Data4: 598502889
+    Path: event:/Music/Vals
+  <sceneAmbience>k__BackingField:
+    Guid:
+      Data1: 1931165471
+      Data2: 1243517489
+      Data3: 1285963194
+      Data4: 1921454954
+    Path: event:/Ambientes/Museo
+--- !u!1 &4445221089626689294
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3638851068484561869}
+  - component: {fileID: 6256484602951906354}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3638851068484561869
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4445221089626689294}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 786004688318518928}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6256484602951906354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4445221089626689294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c2e03e6cf7c12844a4c7048d65e7ef1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  masterVolume: 1
+  musicVolume: 1
+  ambienceVolume: 1
+  SFXVolume: 1
+--- !u!1 &5152327709853532430
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 786004688318518928}
+  m_Layer: 0
+  m_Name: SoundManagers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &786004688318518928
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5152327709853532430}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3638851068484561869}
+  - {fileID: 7394758648485169802}
+  - {fileID: 6050981970137647217}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5858054643346434190
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7394758648485169802}
+  - component: {fileID: 4944038423966083397}
+  m_Layer: 0
+  m_Name: FMODevents
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7394758648485169802
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5858054643346434190}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 786004688318518928}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4944038423966083397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5858054643346434190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0661bd290dc7d354b91791b490fa9417, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FMODEvents
+  <agarrarObjeto>k__BackingField:
+    Guid:
+      Data1: 1885686804
+      Data2: 1309321224
+      Data3: -572633410
+      Data4: -89904997
+    Path: event:/Personaje/Agarrar Objeto
+  <moverPilaChatarra>k__BackingField:
+    Guid:
+      Data1: -1501116690
+      Data2: 1334207297
+      Data3: -237315913
+      Data4: 401845564
+    Path: event:/Personaje/Mover pila chatarra
+  <abrirCaneca>k__BackingField:
+    Guid:
+      Data1: -1517354147
+      Data2: 1301375043
+      Data3: 13664683
+      Data4: 2070729671
+    Path: event:/Personaje/AbrirCaneca
+  <cerrarCaneca>k__BackingField:
+    Guid:
+      Data1: 1053855742
+      Data2: 1133383799
+      Data3: 1121857968
+      Data4: 1285974003
+    Path: event:/Personaje/CerrarCaneca
+  <pasosPersonaje>k__BackingField:
+    Guid:
+      Data1: 1226667
+      Data2: 1139280174
+      Data3: 1659932336
+      Data4: -2128773978
+    Path: event:/Personaje/PasosPersonaje
+  <recolectarDinero>k__BackingField:
+    Guid:
+      Data1: -1049297427
+      Data2: 1165991267
+      Data3: 2073772682
+      Data4: 1122801328
+    Path: event:/Personaje/RecolectarDinero
+  <abrirInventario>k__BackingField:
+    Guid:
+      Data1: 1973026470
+      Data2: 1291929030
+      Data3: 605882295
+      Data4: 716955871
+    Path: event:/Personaje/AbrirInventario
+  <abrirTaller>k__BackingField:
+    Guid:
+      Data1: -1110554720
+      Data2: 1317513502
+      Data3: -1043447900
+      Data4: 587414771
+    Path: event:/Personaje/AbrirTaller
+  <construccionMejora>k__BackingField:
+    Guid:
+      Data1: 1689717564
+      Data2: 1213244782
+      Data3: -488362309
+      Data4: 1263304931
+    Path: event:/Mejoras/ConstruccionMejora
+  <cachingComprar>k__BackingField:
+    Guid:
+      Data1: -1733965500
+      Data2: 1309116860
+      Data3: -984336000
+      Data4: 1173533478
+    Path: event:/Mejoras/Caching Comprar
+  <martilloContrayunque>k__BackingField:
+    Guid:
+      Data1: 492775476
+      Data2: 1147843775
+      Data3: 1204112048
+      Data4: 2081117577
+    Path: event:/Mejoras/MartilloContrayunque
+  <lijar>k__BackingField:
+    Guid:
+      Data1: 593162737
+      Data2: 1194013718
+      Data3: 105369991
+      Data4: -1602073399
+    Path: event:/Mejoras/Lijar
+  <martillo>k__BackingField:
+    Guid:
+      Data1: -916420521
+      Data2: 1274008112
+      Data3: 1662808712
+      Data4: -313885951
+    Path: event:/Mejoras/Martillo
+  <soldar>k__BackingField:
+    Guid:
+      Data1: 1849360637
+      Data2: 1226681755
+      Data3: -1006937722
+      Data4: 993525464
+    Path: event:/Mejoras/Soldar
+  <serrucho>k__BackingField:
+    Guid:
+      Data1: 501511045
+      Data2: 1182430552
+      Data3: 1728887426
+      Data4: 1204779951
+    Path: event:/Mejoras/Serrucho
+  <feedbackMegafono>k__BackingField:
+    Guid:
+      Data1: -358228398
+      Data2: 1176238532
+      Data3: 1715499696
+      Data4: 1288569609
+    Path: event:/Mejoras/FeedbackMegafono
+  <sirenaPolicia>k__BackingField:
+    Guid:
+      Data1: -1718861018
+      Data2: 1312452226
+      Data3: 1001113000
+      Data4: -1708611039
+    Path: event:/Enemigos/Sirena de policia
+  <risaVagabundo>k__BackingField:
+    Guid:
+      Data1: 796023247
+      Data2: 1116227756
+      Data3: 1737395080
+      Data4: -609136307
+    Path: event:/Enemigos/RisaVagabundo
+  <ajaVagabundo>k__BackingField:
+    Guid:
+      Data1: 1950307712
+      Data2: 1113793549
+      Data3: 1369224351
+      Data4: -92792854
+    Path: event:/Enemigos/AjaVagabundo
+  <slapRapar>k__BackingField:
+    Guid:
+      Data1: 349513802
+      Data2: 1232823419
+      Data3: 696791474
+      Data4: -993422142
+    Path: event:/Enemigos/SlapRapar
+  <pausa>k__BackingField:
+    Guid:
+      Data1: -297422057
+      Data2: 1289351344
+      Data3: 715286174
+      Data4: -869667804
+    Path: event:/UI/Pausa
+  <boton>k__BackingField:
+    Guid:
+      Data1: -513410950
+      Data2: 1324070155
+      Data3: -898947684
+      Data4: -729853238
+    Path: event:/UI/Boton
+  <reactivarAudio>k__BackingField:
+    Guid:
+      Data1: 531392276
+      Data2: 1265467656
+      Data3: 40252854
+      Data4: -1561922805
+    Path: event:/UI/ReactivarAudio
+  <victoria>k__BackingField:
+    Guid:
+      Data1: 1848104304
+      Data2: 1271972489
+      Data3: -1701372537
+      Data4: -1540847041
+    Path: event:/UI/Victoria
+  <derrota>k__BackingField:
+    Guid:
+      Data1: 985874470
+      Data2: 1138961789
+      Data3: -430451836
+      Data4: -1117715407
+    Path: event:/UI/Derrota
+  <error>k__BackingField:
+    Guid:
+      Data1: 1052186350
+      Data2: 1221359386
+      Data3: 1413352594
+      Data4: -1521628011
+    Path: event:/UI/Error
+  <positivo>k__BackingField:
+    Guid:
+      Data1: 288967810
+      Data2: 1200993186
+      Data3: 2010110349
+      Data4: 688769305
+    Path: event:/UI/Positivo
+  <calendarioAbierto>k__BackingField:
+    Guid:
+      Data1: -2058463045
+      Data2: 1268941756
+      Data3: 1068840893
+      Data4: -1909297515
+    Path: event:/UI/CalendarioAbierto
+  <aparicionDinero>k__BackingField:
+    Guid:
+      Data1: 1355295161
+      Data2: 1260668777
+      Data3: -184181119
+      Data4: 333051315
+    Path: event:/UI/AparicionDinero
+  <metalesPequenos>k__BackingField:
+    Guid:
+      Data1: 169089694
+      Data2: 1230042962
+      Data3: -1988252008
+      Data4: -1119917144
+    Path: "event:/Objetos/Metales peque\xF1os"
+  <metalesMedianos>k__BackingField:
+    Guid:
+      Data1: -436199125
+      Data2: 1208869254
+      Data3: 1791827625
+      Data4: -632871644
+    Path: event:/Objetos/Metales Medianos
+  <metalesGrandes>k__BackingField:
+    Guid:
+      Data1: 1624330412
+      Data2: 1119804628
+      Data3: -1109860191
+      Data4: -880284384
+    Path: event:/Objetos/Metales Grandes
+  <ciudad>k__BackingField:
+    Guid:
+      Data1: -973375104
+      Data2: 1122287401
+      Data3: -2020023626
+      Data4: -667893039
+    Path: event:/Ambientes/Ciudad
+  <museo>k__BackingField:
+    Guid:
+      Data1: 1931165471
+      Data2: 1243517489
+      Data3: 1285963194
+      Data4: 1921454954
+    Path: event:/Ambientes/Museo
+  <taller>k__BackingField:
+    Guid:
+      Data1: -1250895336
+      Data2: 1187555430
+      Data3: -418147921
+      Data4: -1052740833
+    Path: event:/Ambientes/Taller
+  <vals>k__BackingField:
+    Guid:
+      Data1: -1646900895
+      Data2: 1127050741
+      Data3: 2028947134
+      Data4: 598502889
+    Path: event:/Music/Vals
+  <reggae>k__BackingField:
+    Guid:
+      Data1: -1053692542
+      Data2: 1302845053
+      Data3: -1690949995
+      Data4: 185294847
+    Path: event:/Music/Reggae
+  <funk>k__BackingField:
+    Guid:
+      Data1: 970427715
+      Data2: 1153870238
+      Data3: -1711208012
+      Data4: 189329526
+    Path: event:/Music/Funk
