@@ -38,6 +38,13 @@ public class TrashFeedback : MonoBehaviour
         Instance = this;
 
 
+        if (feedbackPanel == null)
+        {
+            Debug.LogError("[TRASH FEEDBACK] No hay un panel de feedback asignado.");
+            return;
+        }
+
+
         originalScale = feedbackPanel.transform.localScale;
 
         feedbackPanel.SetActive(false);
@@ -99,6 +106,9 @@ public class TrashFeedback : MonoBehaviour
 
     private IEnumerator ShowFeedbackCoroutine()
     {
+        if (feedbackPanel == null)
+            yield break;
+
         feedbackPanel.SetActive(true);
 
 

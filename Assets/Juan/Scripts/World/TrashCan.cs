@@ -39,10 +39,11 @@ public class TrashCan : MonoBehaviour
     public void Interact()
     {
         if (itemsCollected){
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.cerrarCaneca, transform.position);
+            PlayTrashSound(FMODEvents.instance != null ? FMODEvents.instance.cerrarCaneca : default);
             return;
         }
-           AudioManager.instance.PlayOneShot(FMODEvents.instance.abrirCaneca, transform.position);
+
+        PlayTrashSound(FMODEvents.instance != null ? FMODEvents.instance.abrirCaneca : default);
 
         if (InventoryData.Instance == null)
             return;
@@ -258,6 +259,19 @@ public class TrashCan : MonoBehaviour
         return itemCache.TryGetValue(id, out ObjectData item)
             ? item
             : null;
+    }
+
+
+    private void PlayTrashSound(FMODUnity.EventReference eventReference)
+    {
+        if (AudioManager.instance == null ||
+            FMODEvents.instance == null ||
+            eventReference.IsNull)
+        {
+            return;
+        }
+
+        AudioManager.instance.PlayOneShot(eventReference, transform.position);
     }
 
 

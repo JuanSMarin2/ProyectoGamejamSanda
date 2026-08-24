@@ -100,7 +100,22 @@ public class InventoryPanel : MonoBehaviour
 
     private void ToggleInventory()
     {
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.abrirInventario, transform.position);
+        if (AudioManager.instance != null &&
+            FMODEvents.instance != null &&
+            !FMODEvents.instance.abrirInventario.IsNull)
+        {
+            AudioManager.instance.PlayOneShot(
+                FMODEvents.instance.abrirInventario,
+                transform.position
+            );
+        }
+
+        if (inventoryPanel == null)
+        {
+            Debug.LogError("[INVENTORY] No hay un panel de inventario asignado.");
+            return;
+        }
+
         if (inventoryPanel.activeSelf)
             CloseInventory();
         else
