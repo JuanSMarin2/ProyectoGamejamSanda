@@ -130,7 +130,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5152327709853532430}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -303,6 +303,13 @@ MonoBehaviour:
       Data3: 1001113000
       Data4: -1708611039
     Path: event:/Enemigos/Sirena de policia
+  <pasosEnemigo>k__BackingField:
+    Guid:
+      Data1: -262517549
+      Data2: 1102177087
+      Data3: -1673154388
+      Data4: -358467092
+    Path: event:/Personaje/PasosEnemigo
   <risaVagabundo>k__BackingField:
     Guid:
       Data1: 796023247
@@ -338,6 +345,20 @@ MonoBehaviour:
       Data3: -898947684
       Data4: -729853238
     Path: event:/UI/Boton
+  <uiBotonClick>k__BackingField:
+    Guid:
+      Data1: -513410950
+      Data2: 1324070155
+      Data3: -898947684
+      Data4: -729853238
+    Path: event:/UI/Boton
+  <beep>k__BackingField:
+    Guid:
+      Data1: 1265837474
+      Data2: 1201929814
+      Data3: 1463194292
+      Data4: 1548398085
+    Path: event:/UI/Beep
   <reactivarAudio>k__BackingField:
     Guid:
       Data1: 531392276

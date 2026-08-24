@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 522c9f22473c82e459fe0c7152d36c72, type: 3}
-  m_Name: Teja 1
+  m_Name: TornilloPeq2
   m_EditorClassIdentifier: Assembly-CSharp::ObjectData
-  pieceId: 1
-  category: 0
-  elegance: 3
+  pieceId: 202
+  category: 2
+  elegance: 0
   robustness: 0
-  brightness: 0
-  id: 1
-  itemName: Teja
-  sprite: {fileID: -1249294221, guid: 9f7da2251c7c17f4c93a5f0db301dd50, type: 3}
+  brightness: 1
+  id: 202
+  itemName: TorniPeq2
+  sprite: {fileID: 1784638643, guid: eb87f4c24d54d394ea15ff82d2565120, type: 3}
