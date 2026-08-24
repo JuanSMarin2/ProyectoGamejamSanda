@@ -66,11 +66,25 @@ public class CuttingController : MonoBehaviour
         if (Mouse.current != null && !Mouse.current.leftButton.isPressed)
             ignoreCurrentClick = false;
 
-        if (Mouse.current != null &&
-            Mouse.current.leftButton.wasPressedThisFrame &&
-            shapeSelected &&
+        // Lógica de click izquierdo: Cortar o Deseleccionar
+        if (Mouse.current != null && 
+            Mouse.current.leftButton.wasPressedThisFrame && 
+            shapeSelected && 
             !ignoreCurrentClick)
-            ConfirmCut();
+        {
+            if (hasValidPosition)
+                ConfirmCut();
+            else
+                DeselectShape();
+        }
+
+        // Click derecho: Deseleccionar manualmente
+        if (Mouse.current != null && 
+            Mouse.current.rightButton.wasPressedThisFrame && 
+            shapeSelected)
+        {
+            DeselectShape();
+        }
     }
 
     private void OnDisable()
@@ -117,15 +131,41 @@ public class CuttingController : MonoBehaviour
         CreatePreview();
     }
 
+    public void DeselectShape()
+    {
+        shapeSelected = false;
+        hasValidPosition = false;
+        
+        if (previewRenderer != null)
+            previewRenderer.enabled = false;
+    }
+
     public void ConfirmCut()
     {
         if (IsCuttingCompleted || !shapeSelected || !hasValidPosition || baseCleaningObject == null)
             return;
 
+        // IMPORTANTE: Calculamos la malla ANTES de cortar por si el corte altera el tamaño del Sprite base
+        Vector2[] colliderPoints = GetCurrentCutPolygonLocalPoints();
+
+        // 1. Efectuar el corte visual a la textura
         if (selectedMaskSprite != null)
             baseCleaningObject.ApplyWorkArea(selectedMaskSprite, lastValidUv, cutSize);
         else
             baseCleaningObject.ApplyWorkArea(selectedShape, lastValidUv, cutSize);
+
+        // 2. Modificar el PolygonCollider2D para que tome la forma calculada
+        if (colliderPoints != null)
+        {
+            PolygonCollider2D polygonCollider = baseCleaningObject.GetComponent<PolygonCollider2D>();
+            
+            if (polygonCollider == null)
+            {
+                polygonCollider = baseCleaningObject.gameObject.AddComponent<PolygonCollider2D>();
+            }
+            
+            polygonCollider.SetPath(0, colliderPoints);
+        }
 
         IsCuttingCompleted = true;
         shapeSelected = false;
@@ -134,6 +174,72 @@ public class CuttingController : MonoBehaviour
             previewRenderer.enabled = false;
 
         OnCuttingCompleted?.Invoke();
+    }
+
+    /// <summary>
+    /// Calcula los puntos geométricos exactos sin deformación basada en el aspect ratio del sprite base.
+    /// </summary>
+    private Vector2[] GetCurrentCutPolygonLocalPoints()
+    {
+        if (baseRenderer == null || baseRenderer.sprite == null) 
+            return null;
+
+        Bounds bounds = baseRenderer.sprite.bounds;
+        
+        // El centro de la figura calculado en el espacio físico
+        Vector2 localCenter = new Vector2(
+            Mathf.Lerp(bounds.min.x, bounds.max.x, lastValidUv.x),
+            Mathf.Lerp(bounds.min.y, bounds.max.y, lastValidUv.y)
+        );
+
+        // Escala basada en la anchura
+        float localHalfWidth = (cutSize * bounds.size.x) * 0.5f;
+
+        // Forzar el aspecto físico correcto (1 para figuras predeterminadas para evitar estiramiento Y)
+        float shapeAspect = 1f; 
+        if (selectedMaskSprite != null)
+        {
+            shapeAspect = selectedMaskSprite.rect.width / selectedMaskSprite.rect.height;
+        }
+
+        float localHalfHeight = localHalfWidth / shapeAspect;
+
+        Vector2[] points;
+
+        switch (selectedShape)
+        {
+            case CuttingShape.Triangle:
+                points = new Vector2[3];
+                points[0] = localCenter + new Vector2(0f, -localHalfHeight);      // Inferior (punta hacia abajo)
+                points[1] = localCenter + new Vector2(-localHalfWidth, localHalfHeight); // Sup Izq
+                points[2] = localCenter + new Vector2(localHalfWidth, localHalfHeight);  // Sup Der
+                break;
+
+            case CuttingShape.Square:
+                points = new Vector2[4];
+                points[0] = localCenter + new Vector2(-localHalfWidth, -localHalfHeight); // Inf Izq
+                points[1] = localCenter + new Vector2(-localHalfWidth, localHalfHeight);  // Sup Izq
+                points[2] = localCenter + new Vector2(localHalfWidth, localHalfHeight);   // Sup Der
+                points[3] = localCenter + new Vector2(localHalfWidth, -localHalfHeight);  // Inf Der
+                break;
+
+            case CuttingShape.Circle:
+                int segments = 16;
+                points = new Vector2[segments];
+                for (int i = 0; i < segments; i++)
+                {
+                    float angle = i * Mathf.PI * 2f / segments;
+                    float x = Mathf.Cos(angle) * localHalfWidth;
+                    float y = Mathf.Sin(angle) * localHalfHeight;
+                    points[i] = localCenter + new Vector2(x, y);
+                }
+                break;
+
+            default:
+                return null;
+        }
+
+        return points;
     }
 
     private void ResolveBase()
@@ -185,7 +291,11 @@ public class CuttingController : MonoBehaviour
         float maximumY = 1f - halfHeight;
 
         if (minimumX > maximumX || minimumY > maximumY)
+        {
+            hasValidPosition = false;
+            if (previewRenderer != null) previewRenderer.enabled = false;
             return;
+        }
 
         if (uv.x >= minimumX && uv.x <= maximumX &&
             uv.y >= minimumY && uv.y <= maximumY)
@@ -201,6 +311,11 @@ public class CuttingController : MonoBehaviour
                 );
                 previewRenderer.enabled = true;
             }
+        }
+        else
+        {
+            hasValidPosition = false;
+            if (previewRenderer != null) previewRenderer.enabled = false;
         }
     }
 

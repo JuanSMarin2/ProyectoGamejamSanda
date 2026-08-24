@@ -46,7 +46,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _CleanTexture:
-        m_Texture: {fileID: 2800000, guid: 9f7da2251c7c17f4c93a5f0db301dd50, type: 3}
+        m_Texture: {fileID: 2800000, guid: eb87f4c24d54d394ea15ff82d2565120, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Cleaning_Mask:
@@ -98,7 +98,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RustTexture:
-        m_Texture: {fileID: 2800000, guid: d2204e574a0a1fc449a89844da0717a4, type: 3}
+        m_Texture: {fileID: 2800000, guid: fa4323affd4dbf844be56d407a97ab3a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
