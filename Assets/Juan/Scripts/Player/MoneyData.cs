@@ -1,13 +1,13 @@
 using System;
 using UnityEngine;
-
+using FMODUnity;
+using FMOD.Studio;   
 public class MoneyData : MonoBehaviour
 {
     public static MoneyData Instance { get; private set; }
 
     [SerializeField] private int money = 0;
-
-
+    
     public int Money => money;
 
 
@@ -26,13 +26,19 @@ public class MoneyData : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-
+  
     public void AddMoney(int amount)
     {
         if (amount <= 0)
             return;
 
         money += amount;
+      
+      // Play coin sound effect when money is gained
+      EventInstance coinInstance = AudioManager.instance.CreateInstance(FMODEvents.instance.recolectarDinero);
+        coinInstance.setParameterByName("CoinCount", (float)amount);
+        coinInstance.start();
+        coinInstance.release();
         OnMoneyChanged?.Invoke();
     }
 
@@ -43,6 +49,11 @@ public class MoneyData : MonoBehaviour
             return false;
 
         money -= amount;
+        // Play coin sound effect when money is removed
+        EventInstance coinInstance = AudioManager.instance.CreateInstance(FMODEvents.instance.recolectarDinero);
+         coinInstance.setParameterByName("CoinCount", (float)amount);
+        coinInstance.start();
+        coinInstance.release();
         OnMoneyChanged?.Invoke();
         return true;
     }

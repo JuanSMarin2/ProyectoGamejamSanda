@@ -127,7 +127,8 @@ public class PoliceOfficer : MonoBehaviour
 
         if (!collision.collider.CompareTag("Player"))
             return;
-
+        //Policia atrapa al jugador
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.error, transform.position);
         StartCoroutine(PunishRoutine());
     }
 
@@ -149,7 +150,7 @@ public class PoliceOfficer : MonoBehaviour
             return;
 
         chasing = true;
-
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.sirenaPolicia, transform.position);
         Debug.Log("[POLICE] Te han visto rebuscando. El policía va a por ti.");
     }
 

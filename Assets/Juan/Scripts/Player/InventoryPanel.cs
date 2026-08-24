@@ -100,6 +100,7 @@ public class InventoryPanel : MonoBehaviour
 
     private void ToggleInventory()
     {
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.abrirInventario, transform.position);
         if (inventoryPanel.activeSelf)
             CloseInventory();
         else

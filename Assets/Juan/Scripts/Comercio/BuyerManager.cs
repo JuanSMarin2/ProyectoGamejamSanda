@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 
 public class BuyerManager : MonoBehaviour
@@ -16,10 +17,21 @@ public class BuyerManager : MonoBehaviour
     [Range(0f, 100f)]
     private float spawnProbability = 33f;
 
+    [SerializeField] private string buyerCountParameterName = "TouristCount";
+
 
     private Buyer currentBuyer;
+    private readonly HashSet<Buyer> activeBuyers = new();
+    private bool hasResolvedMuseumAmbienceState;
+    private bool isMuseumAmbienceScene;
 
     private float timer;
+
+    private void Start()
+    {
+        TryResolveMuseumAmbienceState();
+        UpdateBuyerCountParameter();
+    }
 
 
     private void Update()
@@ -74,6 +86,8 @@ public class BuyerManager : MonoBehaviour
         if (currentBuyer != null)
         {
             currentBuyer.Initialize(spawnPoint, this);
+            if (activeBuyers.Add(currentBuyer))
+                UpdateBuyerCountParameter();
         }
         else
         {
@@ -93,5 +107,35 @@ public class BuyerManager : MonoBehaviour
     {
         if (currentBuyer == buyer)
             currentBuyer = null;
+
+        if (buyer != null && activeBuyers.Remove(buyer))
+            UpdateBuyerCountParameter();
+    }
+
+    private bool TryResolveMuseumAmbienceState()
+    {
+        if (hasResolvedMuseumAmbienceState)
+            return true;
+
+        if (AudioConfig.instance == null || FMODEvents.instance == null)
+            return false;
+
+        if (AudioConfig.instance.sceneAmbience.IsNull || FMODEvents.instance.museo.IsNull)
+            return false;
+
+        isMuseumAmbienceScene = AudioConfig.instance.sceneAmbience.Path == FMODEvents.instance.museo.Path;
+        hasResolvedMuseumAmbienceState = true;
+        return true;
+    }
+
+    private void UpdateBuyerCountParameter()
+    {
+        if (!TryResolveMuseumAmbienceState() || !isMuseumAmbienceScene)
+            return;
+
+        if (AudioManager.instance == null)
+            return;
+
+        AudioManager.instance.SetAmbienceParameter(buyerCountParameterName, activeBuyers.Count);
     }
 }

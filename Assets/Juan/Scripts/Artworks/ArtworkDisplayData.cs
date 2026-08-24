@@ -67,7 +67,9 @@ public class ArtworkDisplayData : MonoBehaviour
     {
         if (index < 0 || index >= artworks.Count)
             return null;
-
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.cachingComprar, transform.position);
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.construccionMejora, transform.position);
         return artworks[index];
+
     }
 }

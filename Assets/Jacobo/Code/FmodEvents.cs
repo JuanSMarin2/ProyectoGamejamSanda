@@ -34,6 +34,8 @@ public class FMODEvents : MonoBehaviour
     [field: Header("UI")]
     [field: SerializeField] public EventReference pausa { get; private set; }
     [field: SerializeField] public EventReference boton { get; private set; }
+    [field: SerializeField] public EventReference uiBotonClick { get; private set; }
+    [field: SerializeField] public EventReference beep { get; private set; }
     [field: SerializeField] public EventReference reactivarAudio { get; private set; }
     [field: SerializeField] public EventReference victoria { get; private set; }
     [field: SerializeField] public EventReference derrota { get; private set; }
