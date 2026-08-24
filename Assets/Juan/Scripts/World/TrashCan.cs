@@ -39,10 +39,10 @@ public class TrashCan : MonoBehaviour
     public void Interact()
     {
         if (itemsCollected){
-// Poner sonido de caneca vacia aqui
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.cerrarCaneca, transform.position);
             return;
         }
-           // Poner sonido de caneca llena aqui
+           AudioManager.instance.PlayOneShot(FMODEvents.instance.abrirCaneca, transform.position);
 
         if (InventoryData.Instance == null)
             return;

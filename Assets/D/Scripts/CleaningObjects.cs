@@ -1,9 +1,15 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using FMOD.Studio;
+using FMODUnity;
 
 public class CleaningObject : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
+    private EventInstance sandingInstance;
+    private bool sandingInstanceCreated;
+    private bool isSanding;
+    private Vector2 lastMousePosition;
 
     [SerializeField] private RenderTexture cleaningMask;
     [SerializeField] private string cleaningMaskPropertyName = "_Cleaning_Mask";
@@ -52,17 +58,38 @@ public class CleaningObject : MonoBehaviour
 
         maskReadback = new Texture2D(maskInstance.width, maskInstance.height, TextureFormat.RGBA32, false);
         ConfigureMaskUV();
+        InitializeSandingAudio();
     }
 
     private void Update()
     {
+        if (Mouse.current == null)
+        {
+            StopSandingIfNeeded();
+            return;
+        }
+
         if (!interactionEnabled)
+        {
+            StopSandingIfNeeded();
             return;
+        }
 
-        if (Mouse.current == null || !Mouse.current.leftButton.isPressed)
+        if (!Mouse.current.leftButton.isPressed)
+        {
+            StopSandingIfNeeded();
             return;
+        }
 
-        PaintFromScreenPosition(Mouse.current.position.ReadValue(), mainCamera);
+        Vector2 mousePosition = Mouse.current.position.ReadValue();
+
+        if (!isSanding)
+        {
+            StartSanding();
+        }
+
+        UpdateSandingIntensity(mousePosition);
+        PaintFromScreenPosition(mousePosition, mainCamera);
     }
 
     public void SetInteractionEnabled(bool isEnabled)
@@ -72,6 +99,8 @@ public class CleaningObject : MonoBehaviour
 
     private void OnDestroy()
     {
+        StopSanding();
+
         if (maskInstance != null)
         {
             maskInstance.Release();
@@ -103,6 +132,70 @@ public class CleaningObject : MonoBehaviour
 
         if (cachedReadableShapeTexture != null)
             Destroy(cachedReadableShapeTexture);
+    }
+
+    private void InitializeSandingAudio()
+    {
+        if (sandingInstanceCreated && sandingInstance.isValid())
+            return;
+
+        if (AudioManager.instance == null)
+            return;
+
+        if (FMODEvents.instance == null)
+            return;
+
+        if (FMODEvents.instance.lijar.IsNull)
+            return;
+
+        sandingInstance = AudioManager.instance.CreateInstance(FMODEvents.instance.lijar);
+        sandingInstanceCreated = sandingInstance.isValid();
+    }
+
+    private void StartSanding()
+    {
+        if (!sandingInstance.isValid())
+            return;
+
+        PLAYBACK_STATE playbackState;
+        sandingInstance.getPlaybackState(out playbackState);
+
+        if (isSanding || playbackState == PLAYBACK_STATE.PLAYING || playbackState == PLAYBACK_STATE.STARTING)
+            return;
+
+        isSanding = true;
+        lastMousePosition = Mouse.current != null ? Mouse.current.position.ReadValue() : Vector2.zero;
+        sandingInstance.start();
+    }
+
+    private void UpdateSandingIntensity(Vector2 currentMousePosition)
+    {
+        if (!sandingInstance.isValid())
+            return;
+
+        float mouseSpeed = (currentMousePosition - lastMousePosition).magnitude / Mathf.Max(Time.deltaTime, 0.01f);
+        lastMousePosition = currentMousePosition;
+
+        float intensity = Mathf.Clamp01(mouseSpeed / 1000f);
+        sandingInstance.setParameterByName("DragIntensity", intensity);
+    }
+
+    private void StopSandingIfNeeded()
+    {
+        if (isSanding)
+            StopSanding();
+    }
+
+    private void StopSanding()
+    {
+        if (!sandingInstance.isValid())
+        {
+            isSanding = false;
+            return;
+        }
+
+        isSanding = false;
+        sandingInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 
     private void RefreshCleaningPercentage()

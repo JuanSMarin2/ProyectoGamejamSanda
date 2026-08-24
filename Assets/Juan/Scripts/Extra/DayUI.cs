@@ -190,12 +190,14 @@ public class DayUI : MonoBehaviour
     "Fin del día! 6:00PM\n" +
     "Pagaste $" + rent + " de arriendo.\n" +
     "Conservas $" + (money - rent) + ".";
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.victoria, transform.position);
             }
             else
             {
                 resultsText.text =
                     "GAME OVER\n" +
                     "No tienes suficiente dinero para pagar el arriendo.";
+                    AudioManager.instance.PlayOneShot(FMODEvents.instance.derrota, transform.position);
             }
         }
 
