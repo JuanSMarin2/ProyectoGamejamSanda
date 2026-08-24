@@ -23,4 +23,10 @@ public class FMODButtonSFX : MonoBehaviour, IPointerDownHandler
             AudioManager.instance.PlayOneShot(FMODEvents.instance.boton, transform.position);
         }
     }
+
+    //Botones de crafteo:
+    public void PlaySoldarButtonSound()
+    {
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.soldar, transform.position);
+    }
 }
