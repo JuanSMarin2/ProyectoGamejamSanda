@@ -7,7 +7,7 @@ public class WeldingManager : MonoBehaviour
 {
     [Header("Objects")]
     [SerializeField] private bool discoverSelectedObjects = true;
-    [SerializeField] private ObjectData[] weldableObjects;
+    [SerializeField] private PieceObjectData[] weldableObjects;
 
     [Header("Assembly")]
     [SerializeField] private Transform assemblyParent;
@@ -18,11 +18,11 @@ public class WeldingManager : MonoBehaviour
 
     private Camera mainCamera;
 
-    private ObjectData currentObject;
+    private PieceObjectData currentObject;
     private Vector3 currentObjectOffset;
 
-    private readonly List<ObjectData> selectedObjects =
-        new List<ObjectData>();
+    private readonly List<PieceObjectData> selectedObjects =
+        new List<PieceObjectData>();
 
     private bool isDragging;
 
@@ -55,13 +55,13 @@ public class WeldingManager : MonoBehaviour
         if (discoverSelectedObjects)
         {
             weldableObjects =
-                FindObjectsByType<ObjectData>(FindObjectsSortMode.None);
+                FindObjectsByType<PieceObjectData>(FindObjectsSortMode.None);
         }
 
         if (weldableObjects == null)
             return;
 
-        foreach (ObjectData objectData in weldableObjects)
+        foreach (PieceObjectData objectData in weldableObjects)
         {
             if (objectData == null)
                 continue;
@@ -123,8 +123,8 @@ public class WeldingManager : MonoBehaviour
         if (hit == null)
             return;
 
-        ObjectData objectData =
-            hit.GetComponentInParent<ObjectData>();
+        PieceObjectData objectData =
+            hit.GetComponentInParent<PieceObjectData>();
 
         if (objectData == null)
             return;
@@ -225,7 +225,7 @@ public class WeldingManager : MonoBehaviour
             assembly.AddComponent<WeldedAssembly>();
     }
 
-    foreach (ObjectData objectData in selectedObjects)
+    foreach (PieceObjectData objectData in selectedObjects)
     {
         if (objectData == null)
             continue;

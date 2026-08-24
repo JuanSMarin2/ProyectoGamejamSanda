@@ -39,19 +39,19 @@ public class PlayerMovement : MonoBehaviour
         Move();
     }
 
-public void SetMovementEnabled(bool enabled)
-{
-    movementEnabled = enabled;
+    public void SetMovementEnabled(bool enabled)
+    {
+        movementEnabled = enabled;
 
-    if (!enabled)
-        rb.linearVelocity = Vector2.zero;
-}
+        if (!enabled)
+            rb.linearVelocity = Vector2.zero;
+    }
 
     private void Move()
     {
-if (!movementEnabled)
-    return;
-    
+        if (!movementEnabled)
+            return;
+
         if (movementInput.sqrMagnitude < 0.01f)
         {
             rb.linearVelocity = Vector2.zero;
@@ -59,25 +59,27 @@ if (!movementEnabled)
         }
 
         Vector2 direction = movementInput.normalized;
- float currentSpeed = rb.linearVelocity.magnitude;
+        float currentSpeed = rb.linearVelocity.magnitude;
 
-  
-    if (currentSpeed < 0.01f)
+
+        if (currentSpeed < 0.01f)
         {
             currentSpeed = initialSpeed;
         }
         else if (Vector2.Dot(rb.linearVelocity.normalized, direction) < 0f)
-        {rb.linearVelocity = direction * currentSpeed;
+        {
+            rb.linearVelocity = direction * currentSpeed;
             return;
         }
-
         else
-        { currentSpeed = Mathf.MoveTowards(
+        {
+            currentSpeed = Mathf.MoveTowards(
                 currentSpeed,
                 maxSpeed,
                 acceleration * Time.fixedDeltaTime
             );
         }
+
 
         rb.linearVelocity = direction * currentSpeed;
     }

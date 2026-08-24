@@ -109,9 +109,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9733a9406fa1cd84999662506eeec967, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrashCan
-  items:
-  - itemId: 0
-    probability: 100
+  baseItems:
   - itemId: 1
+    probability: 100
+  largeAccessoryItems:
+  - itemId: 100
+    probability: 100
+  smallAccessoryItems:
+  - itemId: 200
     probability: 100
   coinProbability: 90

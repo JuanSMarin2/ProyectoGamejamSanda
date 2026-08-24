@@ -9,11 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 522c9f22473c82e459fe0c7152d36c72, type: 3}
   m_Name: "TuercaPeque\xF1a"
-  m_EditorClassIdentifier: Assembly-CSharp::ObjectDataProfile
-  pieceId: 5
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectData
+  pieceId: 200
   category: 2
-  elegance: 0
-  robustness: 0
+  elegance: 2
+  robustness: 1
   brightness: 0
+  id: 200
+  itemName: "TuercaPeque\xF1a"
+  sprite: {fileID: 1329796215, guid: 9f7da2251c7c17f4c93a5f0db301dd50, type: 3}

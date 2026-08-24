@@ -21,8 +21,7 @@ public class PaintingManager : MonoBehaviour
 
     private Camera mainCamera;
 
-    // Este es SOLO el color actualmente seleccionado
-    // en la paleta.
+
     private Color selectedColor = Color.white;
 
     private bool paintingEnabled;
@@ -39,17 +38,13 @@ public class PaintingManager : MonoBehaviour
 
         DiscoverObjects();
 
-        // Seleccionar automáticamente el primer color
-        // de la paleta al comenzar la fase.
+
         if (palette != null && palette.Length > 0)
         {
             selectedColor = palette[0];
         }
 
-        // IMPORTANTE:
-        // Aquí NO asignamos el color a los objetos.
-        //
-        // Cada objeto conservará su propio color.
+
         foreach (PaintableObject paintable in paintableObjects)
         {
             if (paintable != null)
@@ -101,9 +96,6 @@ public class PaintingManager : MonoBehaviour
         }
     }
 
-    // =========================================================
-    // BUSCAR OBJETO CORRECTO
-    // =========================================================
 
     private void BeginPainting()
     {
@@ -183,26 +175,20 @@ public class PaintingManager : MonoBehaviour
 
         currentObject = bestObject;
 
-        // =====================================================
-        // PINTAR OBJETO
-        // =====================================================
 
         if (currentObject != null)
         {
-            // Primero asignamos al objeto el color que
-            // está actualmente seleccionado.
+
+
             currentObject.SetPaintColor(
                 selectedColor
             );
 
-            // Después lo pintamos completamente.
+
             currentObject.FillWithPaint();
         }
     }
 
-    // =========================================================
-    // DESCUBRIR OBJETOS
-    // =========================================================
 
     private void DiscoverObjects()
     {
@@ -220,9 +206,6 @@ public class PaintingManager : MonoBehaviour
         );
     }
 
-    // =========================================================
-    // COLORES
-    // =========================================================
 
     public void SelectColor0()
     {
@@ -265,16 +248,6 @@ public class PaintingManager : MonoBehaviour
             return;
         }
 
-        // =====================================================
-        // IMPORTANTE
-        // =====================================================
-        //
-        // Solo cambiamos el color que se utilizará
-        // para FUTURAS pinturas.
-        //
-        // NO modificamos ningún PaintableObject que
-        // ya haya sido pintado.
-        // =====================================================
 
         selectedColor =
             palette[index];
@@ -285,9 +258,6 @@ public class PaintingManager : MonoBehaviour
         );
     }
 
-    // =========================================================
-    // TERMINAR
-    // =========================================================
 
     public void ConfirmPainting()
     {

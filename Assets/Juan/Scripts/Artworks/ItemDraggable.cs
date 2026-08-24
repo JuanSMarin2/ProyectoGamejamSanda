@@ -7,7 +7,7 @@ public class ItemDraggable : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private float returnSpeed = 5f;
 
-    private Item item;
+    private ObjectData item;
 
     private Vector3 originalPosition;
     private Vector3 mouseOffset;
@@ -94,7 +94,7 @@ public class ItemDraggable : MonoBehaviour
     }
 
 
-    public void SetItem(Item newItem)
+    public void SetItem(ObjectData newItem)
     {
         item = newItem;
 
@@ -111,7 +111,7 @@ public class ItemDraggable : MonoBehaviour
     }
 
 
-    public Item GetItem()
+    public ObjectData GetItem()
     {
         return item;
     }
