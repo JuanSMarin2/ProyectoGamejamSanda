@@ -123,7 +123,7 @@ public class BuyerManager : MonoBehaviour
         if (AudioConfig.instance.sceneAmbience.IsNull || FMODEvents.instance.museo.IsNull)
             return false;
 
-        isMuseumAmbienceScene = AudioConfig.instance.sceneAmbience.Path == FMODEvents.instance.museo.Path;
+        isMuseumAmbienceScene = AudioConfig.instance.sceneAmbience.Guid == FMODEvents.instance.museo.Guid;
         hasResolvedMuseumAmbienceState = true;
         return true;
     }
