@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 522c9f22473c82e459fe0c7152d36c72, type: 3}
-  m_Name: TuercaMediana
+  m_Name: Hornamentacion
   m_EditorClassIdentifier: Assembly-CSharp::ObjectData
-  pieceId: 100
-  category: 1
+  pieceId: 3
+  category: 0
   elegance: 2
-  robustness: 0
-  brightness: 0
-  id: 100
-  itemName: Tuerca Mediana
-  sprite: {fileID: -2042128421, guid: 9f7da2251c7c17f4c93a5f0db301dd50, type: 3}
+  robustness: 1
+  brightness: 1
+  id: 3
+  itemName: Hornamentacion
+  sprite: {fileID: 684666033, guid: eb87f4c24d54d394ea15ff82d2565120, type: 3}
