@@ -139,6 +139,9 @@ public class Thief : MonoBehaviour
         int stolenMoney = StealMoney();
         string stolenItemName = StealItem();
 
+        if (stolenMoney > 0 || stolenItemName != null)
+            PlaySlapSound();
+
         ShowThiefPanel(stolenMoney, stolenItemName);
 
         yield return new WaitForSeconds(panelDuration);
@@ -193,5 +196,13 @@ public class Thief : MonoBehaviour
             itemText.text = stolenItemName != null ? "-" + stolenItemName : "-";
 
         Debug.Log($"[THIEF] Te robaron ${stolenMoney} y {(stolenItemName ?? "nada")}.");
+    }
+
+    private void PlaySlapSound()
+    {
+        if (AudioManager.instance == null || FMODEvents.instance == null || FMODEvents.instance.slapRapar.IsNull)
+            return;
+
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.slapRapar, transform.position);
     }
 }

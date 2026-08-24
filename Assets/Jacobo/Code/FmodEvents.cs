@@ -27,6 +27,7 @@ public class FMODEvents : MonoBehaviour
 
     [field: Header("Enemigos")]
     [field: SerializeField] public EventReference sirenaPolicia { get; private set; }
+    [field: SerializeField] public EventReference pasosEnemigo { get; private set; }
     [field: SerializeField] public EventReference risaVagabundo { get; private set; }
     [field: SerializeField] public EventReference ajaVagabundo { get; private set; }
     [field: SerializeField] public EventReference slapRapar { get; private set; }
