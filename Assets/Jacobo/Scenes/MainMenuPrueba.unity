@@ -5044,6 +5044,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3445095302981711515, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
+      propertyPath: <sceneMusic>k__BackingField.Path
+      value: event:/Music/Reggae
+      objectReference: {fileID: 0}
+    - target: {fileID: 3445095302981711515, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
+      propertyPath: <sceneMusic>k__BackingField.Guid.Data1
+      value: -1053692542
+      objectReference: {fileID: 0}
+    - target: {fileID: 3445095302981711515, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
+      propertyPath: <sceneMusic>k__BackingField.Guid.Data2
+      value: 1302845053
+      objectReference: {fileID: 0}
+    - target: {fileID: 3445095302981711515, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
+      propertyPath: <sceneMusic>k__BackingField.Guid.Data3
+      value: -1690949995
+      objectReference: {fileID: 0}
+    - target: {fileID: 3445095302981711515, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
+      propertyPath: <sceneMusic>k__BackingField.Guid.Data4
+      value: 185294847
+      objectReference: {fileID: 0}
     - target: {fileID: 5152327709853532430, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
       propertyPath: m_Name
       value: SoundManagers
