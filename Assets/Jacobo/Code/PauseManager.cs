@@ -7,6 +7,7 @@ public class PauseManager : MonoBehaviour
     private const float volumeReductionFactor = 0.8f; // reduce to 80% (20% reduction)
     [Header("UI")]
     [SerializeField] private GameObject pausePanel;
+    [SerializeField] private GameObject pauseButton;
 
     private void Update()
     {
@@ -34,8 +35,7 @@ public class PauseManager : MonoBehaviour
         }
 
         if (pausePanel != null) pausePanel.SetActive(true);
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+        if (pauseButton != null) pauseButton.SetActive(false);
     }
 
     public void Resume()
@@ -50,7 +50,6 @@ public class PauseManager : MonoBehaviour
         }
 
         if (pausePanel != null) pausePanel.SetActive(false);
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        if (pauseButton != null) pauseButton.SetActive(true);
     }
 }
