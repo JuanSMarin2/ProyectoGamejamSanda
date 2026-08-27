@@ -11,6 +11,12 @@ public class DayUI : MonoBehaviour
     [SerializeField] private TMP_Text rentText;
 
 
+    [Header("Time Warning")]
+    [SerializeField] private float lastHourPulseSpeed = 2f;
+    [SerializeField] private float lastHalfHourPulseSpeed = 4f;
+    [SerializeField] private float pulseScale = 1.08f;
+
+
     [Header("Results")]
     [SerializeField] private GameObject dayResultsPanel;
     [SerializeField] private TMP_Text resultsText;
@@ -20,8 +26,13 @@ public class DayUI : MonoBehaviour
     [SerializeField] private Button finishButton;
 
 
+    private Vector3 originalTimeScale;
+
+
     private void Start()
     {
+        originalTimeScale = timeText.transform.localScale;
+
         Subscribe();
 
         UpdateVisual();
@@ -126,6 +137,62 @@ public class DayUI : MonoBehaviour
             minute.ToString("00") +
             " " +
             suffix;
+
+
+        UpdateTimeWarning();
+    }
+
+
+    private void UpdateTimeWarning()
+    {
+        int currentHour = TimeManager.Instance.CurrentHour;
+        int currentMinute = TimeManager.Instance.CurrentMinute;
+
+
+        int totalCurrentMinutes =
+            currentHour * 60 +
+            currentMinute;
+
+
+        int endTimeMinutes = 18 * 60;
+
+
+        int minutesLeft = endTimeMinutes - totalCurrentMinutes;
+
+
+        if (minutesLeft > 60)
+        {
+            timeText.color = Color.white;
+            timeText.transform.localScale = originalTimeScale;
+
+            return;
+        }
+
+
+        float pulseSpeed = minutesLeft <= 30
+            ? lastHalfHourPulseSpeed
+            : lastHourPulseSpeed;
+
+
+        float pulse = (Mathf.Sin(Time.unscaledTime * pulseSpeed) + 1f) / 2f;
+
+
+        timeText.color = Color.Lerp(
+            Color.black,
+            Color.red,
+            pulse
+        );
+
+
+        float currentScale = Mathf.Lerp(
+            1f,
+            pulseScale,
+            pulse
+        );
+
+
+        timeText.transform.localScale =
+            originalTimeScale * currentScale;
     }
 
 
@@ -179,6 +246,10 @@ public class DayUI : MonoBehaviour
         }
 
 
+        timeText.color = Color.white;
+        timeText.transform.localScale = originalTimeScale;
+
+
         dayResultsPanel.SetActive(true);
 
 
@@ -187,17 +258,25 @@ public class DayUI : MonoBehaviour
             if (paid)
             {
                 resultsText.text =
-    "Fin del día! 6:00PM\n" +
-    "Pagaste $" + rent + " de arriendo.\n" +
-    "Conservas $" + (money - rent) + ".";
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.victoria, transform.position);
+                    "Fin del día! 6:00PM\n" +
+                    "Pagaste $" + rent + " de arriendo.\n" +
+                    "Conservas $" + (money - rent) + ".";
+
+                AudioManager.instance.PlayOneShot(
+                    FMODEvents.instance.victoria,
+                    transform.position
+                );
             }
             else
             {
                 resultsText.text =
                     "GAME OVER\n" +
                     "No tienes suficiente dinero para pagar el arriendo.";
-                    AudioManager.instance.PlayOneShot(FMODEvents.instance.derrota, transform.position);
+
+                AudioManager.instance.PlayOneShot(
+                    FMODEvents.instance.derrota,
+                    transform.position
+                );
             }
         }
 
@@ -220,6 +299,10 @@ public class DayUI : MonoBehaviour
 
         if (dayResultsPanel == null)
             return;
+
+
+        timeText.color = Color.white;
+        timeText.transform.localScale = originalTimeScale;
 
 
         dayResultsPanel.SetActive(true);

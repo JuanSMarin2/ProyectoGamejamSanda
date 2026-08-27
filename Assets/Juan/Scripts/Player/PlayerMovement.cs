@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
@@ -7,18 +8,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float maxSpeed = 8f;
     [SerializeField] private float acceleration = 12f;
 
+
     [Header("Animation")]
     [SerializeField] private Animator animator;
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private float directionDeadZone = 0.01f;
 
-    private enum Facing
-    {
-        None,
-        Front,
-        Up,
-        Right
-    }
 
     private bool movementEnabled = true;
 
@@ -26,29 +20,34 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInputActions inputActions;
 
     private Vector2 movementInput;
-    private Facing currentFacing = Facing.None;
+
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         inputActions = new PlayerInputActions();
 
+
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
+
 
         if (spriteRenderer == null)
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
+
 
     private void OnEnable()
     {
         inputActions.Enable();
     }
 
+
     private void OnDisable()
     {
         inputActions.Disable();
     }
+
 
     private void Update()
     {
@@ -57,26 +56,34 @@ public class PlayerMovement : MonoBehaviour
         UpdateAnimation();
     }
 
+
     private void FixedUpdate()
     {
         Move();
     }
 
+
     public void SetMovementEnabled(bool enabled)
     {
         movementEnabled = enabled;
 
+
         if (!enabled)
         {
+            movementInput = Vector2.zero;
             rb.linearVelocity = Vector2.zero;
-            SetFacing(Facing.None);
         }
     }
+
 
     private void Move()
     {
         if (!movementEnabled)
+        {
+            rb.linearVelocity = Vector2.zero;
             return;
+        }
+
 
         if (movementInput.sqrMagnitude < 0.01f)
         {
@@ -84,8 +91,10 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+
         Vector2 direction = movementInput.normalized;
         float currentSpeed = rb.linearVelocity.magnitude;
+
 
         if (currentSpeed < 0.01f)
         {
@@ -105,62 +114,42 @@ public class PlayerMovement : MonoBehaviour
             );
         }
 
+
         rb.linearVelocity = direction * currentSpeed;
     }
+
 
     private void UpdateAnimation()
     {
         if (animator == null)
             return;
 
-        if (!movementEnabled || movementInput.sqrMagnitude < directionDeadZone)
-        {
-            SetFacing(Facing.None);
-            return;
-        }
 
-        Facing newFacing;
+        bool isMoving = movementEnabled && movementInput.sqrMagnitude > 0.01f;
+
+
+        animator.SetBool("Moving", isMoving);
+
+
+        if (!isMoving)
+            return;
+
 
         if (Mathf.Abs(movementInput.x) > Mathf.Abs(movementInput.y))
         {
-            newFacing = Facing.Right;
+            animator.SetInteger("Direction", 2);
+
 
             if (spriteRenderer != null)
                 spriteRenderer.flipX = movementInput.x < 0f;
         }
         else if (movementInput.y > 0f)
         {
-            newFacing = Facing.Up;
+            animator.SetInteger("Direction", 1);
         }
         else
         {
-            newFacing = Facing.Front;
-        }
-
-        SetFacing(newFacing);
-    }
-
-    private void SetFacing(Facing newFacing)
-    {
-        if (newFacing == currentFacing)
-            return;
-
-        currentFacing = newFacing;
-
-        switch (newFacing)
-        {
-            case Facing.Front:
-                animator.SetTrigger("IsFront");
-                break;
-            case Facing.Up:
-                animator.SetTrigger("IsUp");
-                break;
-            case Facing.Right:
-                animator.SetTrigger("IsRight");
-                break;
-            case Facing.None:
-                animator.SetTrigger("IsIdle");
-                break;
+            animator.SetInteger("Direction", 0);
         }
     }
 }

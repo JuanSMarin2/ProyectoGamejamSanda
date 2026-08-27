@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,23 +9,19 @@ public class PaintingManager : MonoBehaviour
     [SerializeField]
     private Color[] palette = new Color[6];
 
-    [Header("Paintable Objects")]
-    [SerializeField]
-    private bool discoverPaintableObjects = true;
-
-    [SerializeField]
-    private PaintableObject[] paintableObjects;
-
     public event Action OnPaintingCompleted;
 
     public bool IsPaintingCompleted { get; private set; }
 
     private Camera mainCamera;
 
+    private PaintableObject[] paintableObjects;
 
     private Color selectedColor = Color.white;
 
     private bool paintingEnabled;
+
+    private bool objectsReady;
 
     private PaintableObject currentObject;
 
@@ -34,24 +31,15 @@ public class PaintingManager : MonoBehaviour
 
         IsPaintingCompleted = false;
         paintingEnabled = true;
+        objectsReady = false;
         currentObject = null;
-
-        DiscoverObjects();
-
 
         if (palette != null && palette.Length > 0)
         {
             selectedColor = palette[0];
         }
 
-
-        foreach (PaintableObject paintable in paintableObjects)
-        {
-            if (paintable != null)
-            {
-                paintable.SetInteractionEnabled(true);
-            }
-        }
+        TryPrepareObjects();
 
         Debug.Log(
             $"[PAINTING] Fase activada. " +
@@ -81,6 +69,9 @@ public class PaintingManager : MonoBehaviour
         if (!paintingEnabled || IsPaintingCompleted)
             return;
 
+        if (!objectsReady)
+            TryPrepareObjects();
+
         if (Mouse.current == null)
             return;
 
@@ -96,6 +87,58 @@ public class PaintingManager : MonoBehaviour
         }
     }
 
+    private void TryPrepareObjects()
+    {
+        CraftingInventoryManager craftingInventory = FindFirstObjectByType<CraftingInventoryManager>();
+
+        if (craftingInventory != null && craftingInventory.SpawnedPieces.Count == 0)
+            return;
+
+        PopulatePaintableObjects(craftingInventory);
+
+        if (paintableObjects == null || paintableObjects.Length == 0)
+            return;
+
+        objectsReady = true;
+
+        foreach (PaintableObject paintable in paintableObjects)
+        {
+            if (paintable != null)
+            {
+                paintable.SetInteractionEnabled(true);
+            }
+        }
+    }
+
+    private void PopulatePaintableObjects(CraftingInventoryManager craftingInventory)
+    {
+        List<PaintableObject> found = new List<PaintableObject>();
+
+        if (craftingInventory != null)
+        {
+            foreach (GameObject piece in craftingInventory.SpawnedPieces)
+            {
+                if (piece == null)
+                    continue;
+
+                PaintableObject paintable = piece.GetComponentInChildren<PaintableObject>();
+
+                if (paintable != null)
+                    found.Add(paintable);
+            }
+        }
+        else
+        {
+            found.AddRange(FindObjectsByType<PaintableObject>(FindObjectsSortMode.None));
+        }
+
+        paintableObjects = found.ToArray();
+
+        Debug.Log(
+            $"[PAINTING] Objetos encontrados: " +
+            $"{paintableObjects.Length}"
+        );
+    }
 
     private void BeginPainting()
     {
@@ -175,37 +218,15 @@ public class PaintingManager : MonoBehaviour
 
         currentObject = bestObject;
 
-
         if (currentObject != null)
         {
-
-
             currentObject.SetPaintColor(
                 selectedColor
             );
 
-
             currentObject.FillWithPaint();
         }
     }
-
-
-    private void DiscoverObjects()
-    {
-        if (!discoverPaintableObjects)
-            return;
-
-        paintableObjects =
-            FindObjectsByType<PaintableObject>(
-                FindObjectsSortMode.None
-            );
-
-        Debug.Log(
-            $"[PAINTING] Objetos encontrados: " +
-            $"{paintableObjects.Length}"
-        );
-    }
-
 
     public void SelectColor0()
     {
@@ -248,7 +269,6 @@ public class PaintingManager : MonoBehaviour
             return;
         }
 
-
         selectedColor =
             palette[index];
 
@@ -257,7 +277,6 @@ public class PaintingManager : MonoBehaviour
             $"{selectedColor}"
         );
     }
-
 
     public void ConfirmPainting()
     {
@@ -268,11 +287,14 @@ public class PaintingManager : MonoBehaviour
         paintingEnabled = false;
         currentObject = null;
 
-        foreach (PaintableObject paintable in paintableObjects)
+        if (paintableObjects != null)
         {
-            if (paintable != null)
+            foreach (PaintableObject paintable in paintableObjects)
             {
-                paintable.SetInteractionEnabled(false);
+                if (paintable != null)
+                {
+                    paintable.SetInteractionEnabled(false);
+                }
             }
         }
 

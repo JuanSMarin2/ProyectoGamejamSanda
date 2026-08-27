@@ -735,11 +735,7 @@ GameObject:
   m_Component:
   - component: {fileID: 317667397}
   - component: {fileID: 317667396}
-  - component: {fileID: 317667395}
-  - component: {fileID: 317667394}
   - component: {fileID: 317667398}
-  - component: {fileID: 317667399}
-  - component: {fileID: 317667400}
   m_Layer: 0
   m_Name: Small 3
   m_TagString: Untagged
@@ -747,37 +743,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &317667394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 317667392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d32b957c7def604eb3a22f754bc785d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PieceObjectData
-  data: {fileID: 11400000, guid: 9c30368465a52f748831c07222b17062, type: 2}
-  isSelected: 0
---- !u!114 &317667395
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 317667392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 234db9adad13c6742a3d4543bd08bb83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CleaningObject
-  cleaningMask: {fileID: 8400000, guid: 5405a164572d25549a8b9e5faf89abe6, type: 2}
-  cleaningMaskPropertyName: _Cleaning_Mask
-  brushTexture: {fileID: 2800000, guid: 911ef64defa9a8d488575ac3cb13ebe7, type: 3}
-  brushSize: 0.5
-  cleaningPercentageThreshold: 80
 --- !u!212 &317667396
 SpriteRenderer:
   serializedVersion: 2
@@ -786,7 +751,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 317667392}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -864,75 +829,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a50eefb147b1fa541907772e8cd410b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeldedAssembly
---- !u!114 &317667399
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 317667392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed2b1b3330d8918428705faf036c5621, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PaintableObject
-  spriteRenderer: {fileID: 317667396}
-  paintAmount: 0
---- !u!60 &317667400
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 317667392}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.5, y: 0.5}
-    newSize: {x: 1.875, y: 1.875}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.1282017, y: 0.24475776}
-      - {x: -0.1245828, y: 0.24664727}
-      - {x: -0.24539496, y: 0.13716441}
-      - {x: -0.24539454, y: -0.13946714}
-      - {x: -0.11824578, y: -0.25201142}
-      - {x: 0.134862, y: -0.25}
-      - {x: 0.24453552, y: -0.12566537}
-      - {x: 0.24769706, y: 0.12795335}
-  m_UseDelaunayMesh: 1
 --- !u!1 &322116276
 GameObject:
   m_ObjectHideFlags: 0
@@ -1335,7 +1231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25feb9950641b0449968d013d02d8adc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CuttingController
-  baseCleaningObject: {fileID: 757927096}
+  baseCleaningObject: {fileID: 0}
   triangleCutMask: {fileID: 21300000, guid: c5e4b896c88f0b343951872a9d7e9e0b, type: 3}
   squareCutMask: {fileID: 21300000, guid: 97563f78a64bbf14a9abe3fb5154b598, type: 3}
   circleCutMask: {fileID: 21300000, guid: b078691b3dc79174b80c874f45779980, type: 3}
@@ -2042,11 +1938,7 @@ GameObject:
   m_Component:
   - component: {fileID: 544134151}
   - component: {fileID: 544134150}
-  - component: {fileID: 544134149}
-  - component: {fileID: 544134152}
   - component: {fileID: 544134154}
-  - component: {fileID: 544134155}
-  - component: {fileID: 544134156}
   m_Layer: 0
   m_Name: Small 2
   m_TagString: Untagged
@@ -2054,23 +1946,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &544134149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 544134148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 234db9adad13c6742a3d4543bd08bb83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CleaningObject
-  cleaningMask: {fileID: 8400000, guid: 5405a164572d25549a8b9e5faf89abe6, type: 2}
-  cleaningMaskPropertyName: _Cleaning_Mask
-  brushTexture: {fileID: 2800000, guid: 911ef64defa9a8d488575ac3cb13ebe7, type: 3}
-  brushSize: 0.5
-  cleaningPercentageThreshold: 80
 --- !u!212 &544134150
 SpriteRenderer:
   serializedVersion: 2
@@ -2079,7 +1954,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 544134148}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -2145,20 +2020,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &544134152
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 544134148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d32b957c7def604eb3a22f754bc785d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PieceObjectData
-  data: {fileID: 11400000, guid: 953e39887e0b2fc4dba7bfee78f853d1, type: 2}
-  isSelected: 0
 --- !u!114 &544134154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2171,75 +2032,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a50eefb147b1fa541907772e8cd410b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeldedAssembly
---- !u!114 &544134155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 544134148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed2b1b3330d8918428705faf036c5621, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PaintableObject
-  spriteRenderer: {fileID: 544134150}
-  paintAmount: 0
---- !u!60 &544134156
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 544134148}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.5, y: 0.5}
-    newSize: {x: 1.875, y: 1.875}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.1282017, y: 0.24475776}
-      - {x: -0.1245828, y: 0.24664727}
-      - {x: -0.24539496, y: 0.13716441}
-      - {x: -0.24539454, y: -0.13946714}
-      - {x: -0.11824578, y: -0.25201142}
-      - {x: 0.134862, y: -0.25}
-      - {x: 0.24453552, y: -0.12566537}
-      - {x: 0.24769706, y: 0.12795335}
-  m_UseDelaunayMesh: 1
 --- !u!1 &600365547
 GameObject:
   m_ObjectHideFlags: 0
@@ -2252,7 +2044,7 @@ GameObject:
   - component: {fileID: 600365548}
   m_Layer: 0
   m_Name: CraftingInventoryManager
-  m_TagString: Untagged
+  m_TagString: RoundData
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2269,14 +2061,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93df3d13d60130542869aef65c101ca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CraftingInventoryManager
-  basePiece: {fileID: 757927097}
-  largePieces:
-  - {fileID: 681751757}
-  - {fileID: 1529080485}
-  smallPieces:
-  - {fileID: 2134283141}
-  - {fileID: 544134152}
-  - {fileID: 317667394}
+  baseAnchor: {fileID: 757927094}
+  largeAnchors:
+  - {fileID: 681751756}
+  - {fileID: 1529080484}
+  smallAnchors:
+  - {fileID: 2134283140}
+  - {fileID: 544134151}
+  - {fileID: 317667397}
+  prefabSetup: {fileID: 829322590}
   gameFlowManager: {fileID: 840620389}
   craftingManager: {fileID: 1181266394}
   placedTag: ItemDraggablePlaced
@@ -2312,11 +2105,7 @@ GameObject:
   m_Component:
   - component: {fileID: 681751756}
   - component: {fileID: 681751755}
-  - component: {fileID: 681751754}
-  - component: {fileID: 681751757}
   - component: {fileID: 681751759}
-  - component: {fileID: 681751760}
-  - component: {fileID: 681751761}
   m_Layer: 0
   m_Name: Large 1
   m_TagString: Untagged
@@ -2324,23 +2113,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &681751754
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 681751753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 234db9adad13c6742a3d4543bd08bb83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CleaningObject
-  cleaningMask: {fileID: 8400000, guid: 5405a164572d25549a8b9e5faf89abe6, type: 2}
-  cleaningMaskPropertyName: _Cleaning_Mask
-  brushTexture: {fileID: 2800000, guid: 911ef64defa9a8d488575ac3cb13ebe7, type: 3}
-  brushSize: 0.4
-  cleaningPercentageThreshold: 90
 --- !u!212 &681751755
 SpriteRenderer:
   serializedVersion: 2
@@ -2349,7 +2121,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 681751753}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -2415,20 +2187,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &681751757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 681751753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d32b957c7def604eb3a22f754bc785d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PieceObjectData
-  data: {fileID: 11400000, guid: 46c5fdf1d7feeba46ab8b41686742dbe, type: 2}
-  isSelected: 0
 --- !u!114 &681751759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2441,79 +2199,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a50eefb147b1fa541907772e8cd410b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeldedAssembly
---- !u!114 &681751760
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 681751753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed2b1b3330d8918428705faf036c5621, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PaintableObject
-  spriteRenderer: {fileID: 681751755}
-  paintAmount: 0
---- !u!60 &681751761
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 681751753}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.875, y: 1}
-    newSize: {x: 1.875, y: 1.875}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.055429853, y: 0.50288886}
-      - {x: -0.05673687, y: 0.5036175}
-      - {x: -0.3067657, y: 0.37310657}
-      - {x: -0.43727577, y: 0.25260887}
-      - {x: -0.44380724, y: -0.24929324}
-      - {x: -0.31645876, y: -0.39061803}
-      - {x: -0.06658587, y: -0.5011096}
-      - {x: 0.061277516, y: -0.5034231}
-      - {x: 0.31629235, y: -0.3746465}
-      - {x: 0.44321072, y: -0.24753368}
-      - {x: 0.4424425, y: 0.2491611}
-      - {x: 0.322776, y: 0.37896898}
-  m_UseDelaunayMesh: 1
 --- !u!1 &748925048
 GameObject:
   m_ObjectHideFlags: 0
@@ -2662,10 +2347,6 @@ GameObject:
   - component: {fileID: 757927094}
   - component: {fileID: 757927093}
   - component: {fileID: 757927095}
-  - component: {fileID: 757927096}
-  - component: {fileID: 757927097}
-  - component: {fileID: 757927099}
-  - component: {fileID: 757927100}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -2681,7 +2362,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 757927092}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -2759,102 +2440,88 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a00f94c72386b04a9df60c90734a906, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CleanableObject
---- !u!114 &757927096
+--- !u!1 &829322589
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 829322591}
+  - component: {fileID: 829322590}
+  m_Layer: 0
+  m_Name: PrefabItemSetup
+  m_TagString: RoundData
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &829322590
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 757927092}
+  m_GameObject: {fileID: 829322589}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 234db9adad13c6742a3d4543bd08bb83, type: 3}
+  m_Script: {fileID: 11500000, guid: c243e6d0c6562b048a40d83d80858eb5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CleaningObject
-  cleaningMask: {fileID: 8400000, guid: 5405a164572d25549a8b9e5faf89abe6, type: 2}
-  cleaningMaskPropertyName: _Cleaning_Mask
-  brushTexture: {fileID: 2800000, guid: 911ef64defa9a8d488575ac3cb13ebe7, type: 3}
-  brushSize: 0.5
-  cleaningPercentageThreshold: 95
---- !u!114 &757927097
-MonoBehaviour:
+  m_EditorClassIdentifier: Assembly-CSharp::PrefabItemSetup
+  basePrefabs:
+  - itemId: 1
+    prefab: {fileID: 7553565434904406702, guid: eaae351f84817d94a908ee9d0f1b4818, type: 3}
+  - itemId: 2
+    prefab: {fileID: 7365562501505350338, guid: f328c6ff2dae04743b742e95dc9ef355, type: 3}
+  - itemId: 3
+    prefab: {fileID: 6983252090764006983, guid: 4654fd16a98bf614d8ea20641a21bba9, type: 3}
+  - itemId: 3
+    prefab: {fileID: 5019125395874826524, guid: 969c344acc96c20458d38489cb5e1933, type: 3}
+  defaultBasePrefab: {fileID: 7553565434904406702, guid: eaae351f84817d94a908ee9d0f1b4818, type: 3}
+  largePrefabs:
+  - itemId: 100
+    prefab: {fileID: 7199344178538995551, guid: 7bd624956a1c98a47953fa9e881d846e, type: 3}
+  - itemId: 101
+    prefab: {fileID: 4293700188265238341, guid: b1920af9e76e8ae4a8b5838fabf7c8d2, type: 3}
+  - itemId: 102
+    prefab: {fileID: 6110920299951339039, guid: 46619b5b731cf4e4880948d1374385b6, type: 3}
+  - itemId: 103
+    prefab: {fileID: 7068895561674807159, guid: 81ef3ba998e84d44a87ae81e5d95198c, type: 3}
+  - itemId: 104
+    prefab: {fileID: 8784635952039341101, guid: a93e7c4f28dbef04abe48eae122ef997, type: 3}
+  - itemId: 105
+    prefab: {fileID: 1874212812969913417, guid: ba78f64563b3b9c47b1f4a9a1f5e7f80, type: 3}
+  - itemId: 106
+    prefab: {fileID: 8161819732897736236, guid: bbb3ac96168c670488f4153b18cbc17c, type: 3}
+  - itemId: 107
+    prefab: {fileID: 5523574111528731789, guid: 707eb0eb77b60e4449c0728f260e130f, type: 3}
+  - itemId: 108
+    prefab: {fileID: 4792225323773110453, guid: 0aeb832ae50a79c47816e5bef0d5b19a, type: 3}
+  defaultLargePrefab: {fileID: 7068895561674807159, guid: 81ef3ba998e84d44a87ae81e5d95198c, type: 3}
+  smallPrefabs:
+  - itemId: 200
+    prefab: {fileID: 4007314201585530926, guid: 22e5f8b0601dd6543b0a3ada5546e6bc, type: 3}
+  - itemId: 201
+    prefab: {fileID: 4420464027225905597, guid: f7faf3744e149344cb40b15d6667928c, type: 3}
+  - itemId: 202
+    prefab: {fileID: 2836115509742387493, guid: aa51252b88971234cb90980af8688232, type: 3}
+  defaultSmallPrefab: {fileID: 4420464027225905597, guid: f7faf3744e149344cb40b15d6667928c, type: 3}
+--- !u!4 &829322591
+Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 757927092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d32b957c7def604eb3a22f754bc785d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PieceObjectData
-  data: {fileID: 11400000, guid: f9e402f9ddf59bf488afacd120b27e04, type: 2}
-  isSelected: 0
---- !u!114 &757927099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 757927092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed2b1b3330d8918428705faf036c5621, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PaintableObject
-  spriteRenderer: {fileID: 757927093}
-  paintAmount: 0
---- !u!60 &757927100
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 757927092}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.75, y: 3.75}
-    newSize: {x: 2.75, y: 3.75}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -1.375, y: 1.875}
-      - {x: -1.375, y: -1.875}
-      - {x: 1.375, y: -1.875}
-      - {x: 1.375, y: 1.875}
-  m_UseDelaunayMesh: 1
+  m_GameObject: {fileID: 829322589}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &840620384
 GameObject:
   m_ObjectHideFlags: 0
@@ -2903,14 +2570,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82d61adf877591f45956a35f4927c874, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CleaningManager
-  discoverActiveObjects: 0
-  phaseObjects:
-  - {fileID: 757927096}
-  - {fileID: 2134283138}
-  - {fileID: 544134149}
-  - {fileID: 681751754}
-  - {fileID: 1529080482}
-  - {fileID: 317667395}
 --- !u!114 &840620388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2924,13 +2583,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PieceSelectionManager
   discoverSceneObjects: 1
-  selectablePieces:
-  - {fileID: 1529080485}
-  - {fileID: 2134283141}
-  - {fileID: 544134152}
-  - {fileID: 757927097}
-  - {fileID: 681751757}
-  - {fileID: 317667394}
+  selectablePieces: []
   boardSlots:
   - {fileID: 890237090}
   - {fileID: 1689422707}
@@ -2971,11 +2624,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeldingManager
   discoverSelectedObjects: 1
   weldableObjects:
-  - {fileID: 681751757}
-  - {fileID: 1529080485}
-  - {fileID: 2134283141}
-  - {fileID: 544134152}
-  - {fileID: 317667394}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   assemblyParent: {fileID: 235305274}
 --- !u!114 &840620391
 MonoBehaviour:
@@ -2996,14 +2649,6 @@ MonoBehaviour:
   - {r: 0.75294125, g: 0.8000001, b: 0.36862746, a: 0}
   - {r: 0.8000001, g: 0.8000001, b: 0.8000001, a: 0}
   - {r: 0, g: 0.58431375, b: 0.8000001, a: 0}
-  discoverPaintableObjects: 1
-  paintableObjects:
-  - {fileID: 757927099}
-  - {fileID: 681751760}
-  - {fileID: 1529080488}
-  - {fileID: 2134283144}
-  - {fileID: 544134155}
-  - {fileID: 317667399}
 --- !u!1 &861330862
 GameObject:
   m_ObjectHideFlags: 0
@@ -3346,7 +2991,7 @@ GameObject:
   - component: {fileID: 1006986749}
   m_Layer: 0
   m_Name: CraftingStatus UI
-  m_TagString: Untagged
+  m_TagString: RoundData
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3862,7 +3507,7 @@ GameObject:
   - component: {fileID: 1181266394}
   m_Layer: 0
   m_Name: CraftingManager
-  m_TagString: Untagged
+  m_TagString: RoundData
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4691,11 +4336,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1529080484}
   - component: {fileID: 1529080483}
-  - component: {fileID: 1529080482}
-  - component: {fileID: 1529080485}
   - component: {fileID: 1529080487}
-  - component: {fileID: 1529080488}
-  - component: {fileID: 1529080489}
   m_Layer: 0
   m_Name: Large 2
   m_TagString: Untagged
@@ -4703,23 +4344,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1529080482
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1529080481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 234db9adad13c6742a3d4543bd08bb83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CleaningObject
-  cleaningMask: {fileID: 8400000, guid: 5405a164572d25549a8b9e5faf89abe6, type: 2}
-  cleaningMaskPropertyName: _Cleaning_Mask
-  brushTexture: {fileID: 2800000, guid: 911ef64defa9a8d488575ac3cb13ebe7, type: 3}
-  brushSize: 0.4
-  cleaningPercentageThreshold: 90
 --- !u!212 &1529080483
 SpriteRenderer:
   serializedVersion: 2
@@ -4728,7 +4352,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1529080481}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -4794,20 +4418,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1529080485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1529080481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d32b957c7def604eb3a22f754bc785d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PieceObjectData
-  data: {fileID: 11400000, guid: 69f7a898a3cdb174ea39a30b61e9f0cf, type: 2}
-  isSelected: 0
 --- !u!114 &1529080487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4820,80 +4430,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a50eefb147b1fa541907772e8cd410b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeldedAssembly
---- !u!114 &1529080488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1529080481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed2b1b3330d8918428705faf036c5621, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PaintableObject
-  spriteRenderer: {fileID: 1529080483}
-  paintAmount: 0
---- !u!60 &1529080489
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1529080481}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.875, y: 1.875}
-    newSize: {x: 1.875, y: 1.875}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.25255066, y: 0.9409686}
-      - {x: -0.25396907, y: 0.9435334}
-      - {x: -0.82674974, y: 0.8171189}
-      - {x: -0.9436396, y: 0.26559615}
-      - {x: -0.9482741, y: -0.24155475}
-      - {x: -0.83156455, y: -0.8267492}
-      - {x: -0.25313386, y: -0.93159956}
-      - {x: 0.27365315, y: -0.92705774}
-      - {x: 0.8159522, y: -0.8074884}
-      - {x: 0.9375, y: -0.9375}
-      - {x: 0.9374999, y: -0.24991798}
-      - {x: 0.9366227, y: 0.24551672}
-      - {x: 0.8123032, y: 0.8074882}
-  m_UseDelaunayMesh: 1
 --- !u!1 &1634839010
 GameObject:
   m_ObjectHideFlags: 0
@@ -6097,11 +5633,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2134283140}
   - component: {fileID: 2134283139}
-  - component: {fileID: 2134283138}
-  - component: {fileID: 2134283141}
   - component: {fileID: 2134283143}
-  - component: {fileID: 2134283144}
-  - component: {fileID: 2134283145}
   m_Layer: 0
   m_Name: Small 1
   m_TagString: Untagged
@@ -6109,23 +5641,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2134283138
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2134283137}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 234db9adad13c6742a3d4543bd08bb83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CleaningObject
-  cleaningMask: {fileID: 8400000, guid: 5405a164572d25549a8b9e5faf89abe6, type: 2}
-  cleaningMaskPropertyName: _Cleaning_Mask
-  brushTexture: {fileID: 2800000, guid: 911ef64defa9a8d488575ac3cb13ebe7, type: 3}
-  brushSize: 0.5
-  cleaningPercentageThreshold: 80
 --- !u!212 &2134283139
 SpriteRenderer:
   serializedVersion: 2
@@ -6134,7 +5649,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2134283137}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -6200,20 +5715,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2134283141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2134283137}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d32b957c7def604eb3a22f754bc785d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PieceObjectData
-  data: {fileID: 11400000, guid: 953e39887e0b2fc4dba7bfee78f853d1, type: 2}
-  isSelected: 0
 --- !u!114 &2134283143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6226,75 +5727,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a50eefb147b1fa541907772e8cd410b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeldedAssembly
---- !u!114 &2134283144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2134283137}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed2b1b3330d8918428705faf036c5621, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PaintableObject
-  spriteRenderer: {fileID: 2134283139}
-  paintAmount: 0
---- !u!60 &2134283145
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2134283137}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.5, y: 0.5}
-    newSize: {x: 1.875, y: 1.875}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.1282017, y: 0.24475776}
-      - {x: -0.1245828, y: 0.24664727}
-      - {x: -0.24539496, y: 0.13716441}
-      - {x: -0.24539454, y: -0.13946714}
-      - {x: -0.11824578, y: -0.25201142}
-      - {x: 0.134862, y: -0.25}
-      - {x: 0.24453552, y: -0.12566537}
-      - {x: 0.24769706, y: 0.12795335}
-  m_UseDelaunayMesh: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -6319,3 +5751,4 @@ SceneRoots:
   - {fileID: 1634839014}
   - {fileID: 2023368175}
   - {fileID: 1006986750}
+  - {fileID: 829322591}

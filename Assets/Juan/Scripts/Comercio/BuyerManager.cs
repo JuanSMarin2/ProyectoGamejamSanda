@@ -7,7 +7,7 @@ public class BuyerManager : MonoBehaviour
 {
     [SerializeField] private List<GameObject> buyerPrefabs = new();
 
-    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private Transform[] spawnPoints;
 
     [SerializeField] private PlayerMovement playerMovement;
 
@@ -19,9 +19,25 @@ public class BuyerManager : MonoBehaviour
 
     [SerializeField] private string buyerCountParameterName = "TouristCount";
 
+    [Header("Crowd")]
+    [SerializeField] private int maxBuyersInShop = 10;
+    [SerializeField] private int maxQueueSize = 3;
+    [SerializeField] private Vector3 queueOffset = new Vector3(1f, 0f, 0f);
 
-    private Buyer currentBuyer;
+    [Header("Browsing")]
+    [SerializeField] private Transform[] browseAnchors;
+
+
+    private class ArtworkQueue
+    {
+        public ArtworkData artwork;
+        public readonly List<Buyer> buyers = new List<Buyer>();
+    }
+
     private readonly HashSet<Buyer> activeBuyers = new();
+    private readonly List<ArtworkQueue> artworkQueues = new();
+    private readonly Dictionary<Transform, Buyer> anchorOccupants = new Dictionary<Transform, Buyer>();
+
     private bool hasResolvedMuseumAmbienceState;
     private bool isMuseumAmbienceScene;
 
@@ -36,29 +52,18 @@ public class BuyerManager : MonoBehaviour
 
     private void Update()
     {
-        if (currentBuyer != null)
+        if (activeBuyers.Count >= maxBuyersInShop)
             return;
-
-        if (ArtworkDisplayData.Instance == null)
-            return;
-
-        if (ArtworkDisplayData.Instance.Artworks.Count == 0)
-            return;
-
 
         timer += Time.deltaTime;
-
 
         if (timer < spawnInterval)
             return;
 
-
         timer = 0f;
-
 
         if (Random.Range(0f, 100f) > spawnProbability)
             return;
-
 
         SpawnBuyer();
     }
@@ -66,12 +71,14 @@ public class BuyerManager : MonoBehaviour
 
     private void SpawnBuyer()
     {
-        if (buyerPrefabs.Count == 0)
+        if (buyerPrefabs.Count == 0 || spawnPoints == null || spawnPoints.Length == 0)
             return;
 
-
         int randomIndex = Random.Range(0, buyerPrefabs.Count);
+        Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
 
+        if (spawnPoint == null)
+            return;
 
         GameObject buyerObject = Instantiate(
             buyerPrefabs[randomIndex],
@@ -79,19 +86,165 @@ public class BuyerManager : MonoBehaviour
             Quaternion.identity
         );
 
+        Buyer buyer = buyerObject.GetComponent<Buyer>();
 
-        currentBuyer = buyerObject.GetComponent<Buyer>();
-
-
-        if (currentBuyer != null)
+        if (buyer != null)
         {
-            currentBuyer.Initialize(spawnPoint, this);
-            if (activeBuyers.Add(currentBuyer))
+            buyer.Initialize(spawnPoint, this);
+
+            if (activeBuyers.Add(buyer))
                 UpdateBuyerCountParameter();
         }
         else
         {
             Destroy(buyerObject);
+        }
+    }
+
+
+    public Transform RequestBrowseAnchor(Buyer buyer, Transform excludeAnchor)
+    {
+        if (browseAnchors == null || browseAnchors.Length == 0)
+            return null;
+
+        List<Transform> freeAnchors = null;
+
+        foreach (Transform anchor in browseAnchors)
+        {
+            if (anchor == null || anchor == excludeAnchor)
+                continue;
+
+            if (anchorOccupants.ContainsKey(anchor))
+                continue;
+
+            if (freeAnchors == null)
+                freeAnchors = new List<Transform>();
+
+            freeAnchors.Add(anchor);
+        }
+
+        if (freeAnchors == null || freeAnchors.Count == 0)
+            return null;
+
+        Transform chosen = freeAnchors[Random.Range(0, freeAnchors.Count)];
+        anchorOccupants[chosen] = buyer;
+        return chosen;
+    }
+
+
+    public void ReleaseBrowseAnchor(Transform anchor)
+    {
+        if (anchor != null)
+            anchorOccupants.Remove(anchor);
+    }
+
+
+    public void ReleaseBrowseAnchorsOf(Buyer buyer)
+    {
+        if (buyer == null)
+            return;
+
+        List<Transform> toRemove = null;
+
+        foreach (KeyValuePair<Transform, Buyer> pair in anchorOccupants)
+        {
+            if (pair.Value == buyer)
+            {
+                if (toRemove == null)
+                    toRemove = new List<Transform>();
+
+                toRemove.Add(pair.Key);
+            }
+        }
+
+        if (toRemove == null)
+            return;
+
+        foreach (Transform anchor in toRemove)
+            anchorOccupants.Remove(anchor);
+    }
+
+
+    public int TryJoinQueue(ArtworkData artwork, Buyer buyer)
+    {
+        if (artwork == null || buyer == null)
+            return -1;
+
+        ArtworkQueue queue = GetOrCreateQueue(artwork);
+
+        if (queue.buyers.Count >= maxQueueSize)
+            return -1;
+
+        queue.buyers.Add(buyer);
+        return queue.buyers.Count - 1;
+    }
+
+
+    public Vector3? GetQueuePosition(ArtworkData artwork, int queueIndex, Vector3 shelfOffset)
+    {
+        Transform shelf = FindShelf(artwork);
+
+        if (shelf == null)
+            return null;
+
+        return shelf.position + shelfOffset + queueOffset * queueIndex;
+    }
+
+
+    public bool IsArtworkOnDisplay(ArtworkData artwork)
+    {
+        return artwork != null && IndexOfArtwork(artwork) >= 0;
+    }
+
+
+    public void LeaveQueue(Buyer buyer)
+    {
+        if (buyer == null)
+            return;
+
+        for (int q = artworkQueues.Count - 1; q >= 0; q--)
+        {
+            ArtworkQueue queue = artworkQueues[q];
+
+            int index = queue.buyers.IndexOf(buyer);
+
+            if (index < 0)
+                continue;
+
+            queue.buyers.RemoveAt(index);
+
+            for (int i = 0; i < queue.buyers.Count; i++)
+                queue.buyers[i].SetQueueIndex(i);
+
+            if (queue.buyers.Count == 0)
+                artworkQueues.RemoveAt(q);
+
+            return;
+        }
+    }
+
+
+    public void OnArtworkSold(ArtworkData artwork, Buyer sellingBuyer)
+    {
+        for (int q = artworkQueues.Count - 1; q >= 0; q--)
+        {
+            ArtworkQueue queue = artworkQueues[q];
+
+            if (queue.artwork != artwork)
+                continue;
+
+            queue.buyers.Remove(sellingBuyer);
+
+            List<Buyer> remaining = new List<Buyer>(queue.buyers);
+            artworkQueues.RemoveAt(q);
+
+            foreach (Buyer buyer in remaining)
+            {
+                if (buyer != null)
+                    buyer.OnTargetArtworkGone();
+            }
+
+            return;
         }
     }
 
@@ -105,12 +258,58 @@ public class BuyerManager : MonoBehaviour
 
     public void BuyerFinished(Buyer buyer)
     {
-        if (currentBuyer == buyer)
-            currentBuyer = null;
+        LeaveQueue(buyer);
+        ReleaseBrowseAnchorsOf(buyer);
 
         if (buyer != null && activeBuyers.Remove(buyer))
             UpdateBuyerCountParameter();
     }
+
+
+    private ArtworkQueue GetOrCreateQueue(ArtworkData artwork)
+    {
+        foreach (ArtworkQueue queue in artworkQueues)
+        {
+            if (queue.artwork == artwork)
+                return queue;
+        }
+
+        ArtworkQueue newQueue = new ArtworkQueue { artwork = artwork };
+        artworkQueues.Add(newQueue);
+        return newQueue;
+    }
+
+
+    private Transform FindShelf(ArtworkData artwork)
+    {
+        if (ArtworkDisplayVisual.Instance == null)
+            return null;
+
+        int index = IndexOfArtwork(artwork);
+
+        if (index < 0)
+            return null;
+
+        return ArtworkDisplayVisual.Instance.GetShelf(index);
+    }
+
+
+    private int IndexOfArtwork(ArtworkData artwork)
+    {
+        if (artwork == null || ArtworkDisplayData.Instance == null)
+            return -1;
+
+        IReadOnlyList<ArtworkData> artworks = ArtworkDisplayData.Instance.Artworks;
+
+        for (int i = 0; i < artworks.Count; i++)
+        {
+            if (artworks[i] == artwork)
+                return i;
+        }
+
+        return -1;
+    }
+
 
     private bool TryResolveMuseumAmbienceState()
     {
@@ -127,6 +326,7 @@ public class BuyerManager : MonoBehaviour
         hasResolvedMuseumAmbienceState = true;
         return true;
     }
+
 
     private void UpdateBuyerCountParameter()
     {

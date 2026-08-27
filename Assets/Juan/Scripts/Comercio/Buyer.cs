@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,9 +12,17 @@ public class Buyer : MonoBehaviour
     [SerializeField] private float weightPreference = 50f;
 
 
+    [Header("Interest")]
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float maxInterestDistance = 0.6f;
+
+
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private Vector3 shelfOffset = new Vector3(1f, 0f, 0f);
+    [SerializeField] private float minBrowseDuration = 2f;
+    [SerializeField] private float maxBrowseDuration = 5f;
 
 
     [Header("Interaction")]
@@ -32,21 +41,31 @@ public class Buyer : MonoBehaviour
     [SerializeField] private Button rejectButton;
 
 
+    private enum BuyerState
+    {
+        Browsing,
+        MovingToQueueSpot,
+        WaitingInQueue,
+        ReadyToInteract,
+        InTransaction,
+        Leaving
+    }
+
     private BuyerManager buyerManager;
     private NpcAnimatorController npcAnimator;
 
-
     private Transform spawnPoint;
-    private Transform targetShelf;
-
-    private int targetArtworkIndex = -1;
     private ArtworkData targetArtwork;
+    private int queueIndex = -1;
+
+    private BuyerState state = BuyerState.Browsing;
+
+    private Transform currentBrowseAnchor;
+    private bool browseArrived;
+    private float browseTimer;
+    private float currentBrowseDuration;
 
     private Color originalColor;
-
-    private bool movingToArtwork;
-    private bool waitingForInteraction;
-    private bool returning;
 
     private float offer;
 
@@ -85,142 +104,233 @@ public class Buyer : MonoBehaviour
 
         transform.position = spawnPoint.position;
 
-        ChooseArtwork();
+        Decide();
     }
 
 
     private void Update()
     {
-        if (movingToArtwork)
+        switch (state)
         {
-            MoveToArtwork();
-        }
-        else if (returning)
-        {
-            MoveToSpawn();
+            case BuyerState.Browsing:
+                UpdateBrowsing();
+                break;
+            case BuyerState.MovingToQueueSpot:
+                UpdateMovingToQueueSpot();
+                break;
+            case BuyerState.Leaving:
+                UpdateLeaving();
+                break;
         }
     }
 
 
-    private void ChooseArtwork()
+    private void Decide()
     {
-        if (ArtworkDisplayData.Instance == null)
-            return;
+        targetArtwork = null;
+        queueIndex = -1;
 
-        if (ArtworkDisplayData.Instance.Artworks.Count == 0)
-            return;
-
-
-        float bestDistance = float.MaxValue;
-        int bestIndex = -1;
-
-
-        for (int i = 0; i < ArtworkDisplayData.Instance.Artworks.Count; i++)
+        if (buyerManager == null ||
+            ArtworkDisplayData.Instance == null ||
+            ArtworkDisplayData.Instance.Artworks.Count == 0)
         {
-            ArtworkData artwork = ArtworkDisplayData.Instance.Artworks[i];
-
-            float distance = GetArtworkDistance(artwork);
-
-
-            if (distance < bestDistance)
-            {
-                bestDistance = distance;
-                bestIndex = i;
-            }
+            StartBrowsing();
+            return;
         }
 
 
-        if (bestIndex == -1)
-            return;
+        List<ArtworkData> candidates = new List<ArtworkData>(ArtworkDisplayData.Instance.Artworks);
+        candidates.Sort((a, b) => GetArtworkDistance(a).CompareTo(GetArtworkDistance(b)));
 
-
-        targetArtworkIndex = bestIndex;
-        targetArtwork = ArtworkDisplayData.Instance.Artworks[bestIndex];
-
-
-        if (ArtworkDisplayVisual.Instance != null)
+        foreach (ArtworkData artwork in candidates)
         {
-            targetShelf = ArtworkDisplayVisual.Instance.GetShelf(bestIndex);
+            if (GetArtworkDistance(artwork) > maxInterestDistance)
+                break;
+
+            int newIndex = buyerManager.TryJoinQueue(artwork, this);
+
+            if (newIndex < 0)
+                continue;
+
+            targetArtwork = artwork;
+            queueIndex = newIndex;
+            state = BuyerState.MovingToQueueSpot;
+
+            if (npcAnimator != null)
+                npcAnimator.PlayUp();
+
+            return;
         }
 
+        StartBrowsing();
+    }
 
-        if (targetShelf == null)
+
+    private void StartBrowsing()
+    {
+        ReleaseCurrentAnchor();
+
+        if (buyerManager == null)
+        {
+            StartLeaving();
             return;
+        }
 
+        currentBrowseAnchor = buyerManager.RequestBrowseAnchor(this, null);
 
-        transform.position = spawnPoint.position;
+        if (currentBrowseAnchor == null)
+        {
+            StartLeaving();
+            return;
+        }
 
-        movingToArtwork = true;
+        browseArrived = false;
+        browseTimer = 0f;
+        currentBrowseDuration = Random.Range(minBrowseDuration, maxBrowseDuration);
+        state = BuyerState.Browsing;
 
         if (npcAnimator != null)
             npcAnimator.PlayUp();
     }
 
 
-    private float GetArtworkDistance(ArtworkData artwork)
+    private void UpdateBrowsing()
     {
-        float rustDifference =
-            Mathf.Abs(artwork.rust - rustPreference) / 100f;
+        if (currentBrowseAnchor == null)
+        {
+            StartLeaving();
+            return;
+        }
 
-        float shineDifference =
-            Mathf.Abs(artwork.shine - shinePreference) / 100f;
+        if (!browseArrived)
+        {
+            if (MoveTo(currentBrowseAnchor.position))
+            {
+                browseArrived = true;
 
-        float weightDifference =
-            Mathf.Abs(artwork.weight - weightPreference) / 100f;
+                if (npcAnimator != null)
+                    npcAnimator.PlayIdle();
+            }
 
+            return;
+        }
 
-        return (
-            rustDifference +
-            shineDifference +
-            weightDifference
-        ) / 3f;
+        browseTimer += Time.deltaTime;
+
+        if (browseTimer >= currentBrowseDuration)
+            StartLeaving();
     }
 
 
-    private void MoveToArtwork()
+    private void ReleaseCurrentAnchor()
     {
-        if (targetShelf == null)
+        if (currentBrowseAnchor != null && buyerManager != null)
+            buyerManager.ReleaseBrowseAnchor(currentBrowseAnchor);
+
+        currentBrowseAnchor = null;
+    }
+
+
+    private void UpdateMovingToQueueSpot()
+    {
+        if (buyerManager == null || targetArtwork == null || queueIndex < 0)
+        {
+            StartLeaving();
+            return;
+        }
+
+        if (!buyerManager.IsArtworkOnDisplay(targetArtwork))
+        {
+            OnTargetArtworkGone();
+            return;
+        }
+
+        Vector3? targetPosition = buyerManager.GetQueuePosition(targetArtwork, queueIndex, shelfOffset);
+
+        if (!targetPosition.HasValue)
+        {
+            OnTargetArtworkGone();
+            return;
+        }
+
+        if (!MoveTo(targetPosition.Value))
             return;
 
-
-        Vector3 targetPosition = targetShelf.position + shelfOffset;
-
-
-        transform.position = Vector3.MoveTowards(
-            transform.position,
-            targetPosition,
-            moveSpeed * Time.deltaTime
-        );
-
-
-        if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
+        if (queueIndex == 0)
         {
-            transform.position = targetPosition;
-
-            movingToArtwork = false;
-            waitingForInteraction = true;
+            BecomeFront();
+        }
+        else
+        {
+            state = BuyerState.WaitingInQueue;
 
             if (npcAnimator != null)
                 npcAnimator.PlayIdle();
-
-            if (spriteRenderer != null)
-                spriteRenderer.color = interactColor;
-
-
-            if (interactable != null)
-                interactable.SetInteractionEnabled(true);
         }
+    }
+
+
+    private void BecomeFront()
+    {
+        state = BuyerState.ReadyToInteract;
+
+        if (npcAnimator != null)
+            npcAnimator.PlayIdle();
+
+        if (spriteRenderer != null)
+            spriteRenderer.color = interactColor;
+
+        if (interactable != null)
+            interactable.SetInteractionEnabled(true);
+    }
+
+
+    public void SetQueueIndex(int newIndex)
+    {
+        queueIndex = newIndex;
+
+        if (state == BuyerState.ReadyToInteract ||
+            state == BuyerState.InTransaction ||
+            state == BuyerState.Leaving)
+            return;
+
+        state = BuyerState.MovingToQueueSpot;
+
+        if (npcAnimator != null)
+            npcAnimator.PlayUp();
+
+        if (spriteRenderer != null)
+            spriteRenderer.color = originalColor;
+
+        if (interactable != null)
+            interactable.SetInteractionEnabled(false);
+    }
+
+
+    public void OnTargetArtworkGone()
+    {
+        targetArtwork = null;
+        queueIndex = -1;
+
+        if (state == BuyerState.InTransaction || state == BuyerState.Leaving)
+            return;
+
+        if (interactable != null)
+            interactable.SetInteractionEnabled(false);
+
+        if (spriteRenderer != null)
+            spriteRenderer.color = originalColor;
+
+        Decide();
     }
 
 
     public void OpenOffer()
     {
-        if (!waitingForInteraction)
+        if (state != BuyerState.ReadyToInteract)
             return;
 
-
-        waitingForInteraction = false;
-
+        state = BuyerState.InTransaction;
 
         if (interactable != null)
             interactable.SetInteractionEnabled(false);
@@ -228,13 +338,10 @@ public class Buyer : MonoBehaviour
         if (buyerManager != null)
             buyerManager.SetPlayerMovement(false);
 
-
         offer = CalculateOffer();
-
 
         if (offerPanel != null)
             offerPanel.SetActive(true);
-
 
         if (offerText != null)
         {
@@ -251,13 +358,11 @@ public class Buyer : MonoBehaviour
         if (targetArtwork == null)
             return 0f;
 
-
         float distance = GetArtworkDistance(targetArtwork);
 
         float compatibility = 1f - distance;
 
         compatibility = Mathf.Clamp01(compatibility);
-
 
         float multiplier = Mathf.Lerp(
             1f,
@@ -265,26 +370,48 @@ public class Buyer : MonoBehaviour
             compatibility
         );
 
-
         return targetArtwork.baseValue * multiplier;
     }
 
 
     private void ConfirmOffer()
     {
-        if (targetArtworkIndex < 0)
+        if (targetArtwork == null || ArtworkDisplayData.Instance == null)
+        {
+            FinishTransaction();
             return;
+        }
 
+        int artworkIndex = -1;
 
-        MoneyData.Instance.AddMoney(
-            Mathf.RoundToInt(offer)
-        );
+        IReadOnlyList<ArtworkData> artworks = ArtworkDisplayData.Instance.Artworks;
 
+        for (int i = 0; i < artworks.Count; i++)
+        {
+            if (artworks[i] == targetArtwork)
+            {
+                artworkIndex = i;
+                break;
+            }
+        }
 
-        ArtworkDisplayData.Instance.RemoveArtwork(
-            targetArtworkIndex
-        );
+        ArtworkData soldArtwork = targetArtwork;
 
+        if (artworkIndex >= 0)
+        {
+            MoneyData.Instance.AddMoney(
+                Mathf.RoundToInt(offer)
+            );
+
+            ArtworkDisplayData.Instance.RemoveArtwork(
+                artworkIndex
+            );
+        }
+
+        targetArtwork = null;
+
+        if (buyerManager != null)
+            buyerManager.OnArtworkSold(soldArtwork, this);
 
         FinishTransaction();
     }
@@ -295,63 +422,101 @@ public class Buyer : MonoBehaviour
         if (offerPanel != null && !offerPanel.activeSelf)
             return;
 
-
         FinishTransaction();
     }
 
 
     private void FinishTransaction()
     {
-        waitingForInteraction = false;
-        movingToArtwork = false;
-
-
         if (offerPanel != null)
             offerPanel.SetActive(false);
-
 
         if (interactable != null)
             interactable.SetInteractionEnabled(false);
 
-
         if (buyerManager != null)
+        {
             buyerManager.SetPlayerMovement(true);
-
+            buyerManager.LeaveQueue(this);
+        }
 
         if (spriteRenderer != null)
             spriteRenderer.color = originalColor;
 
+        StartLeaving();
+    }
 
-        returning = true;
+
+    private void StartLeaving()
+    {
+        ReleaseCurrentAnchor();
+
+        targetArtwork = null;
+        queueIndex = -1;
+        state = BuyerState.Leaving;
+
+        if (interactable != null)
+            interactable.SetInteractionEnabled(false);
+
+        if (spriteRenderer != null)
+            spriteRenderer.color = originalColor;
 
         if (npcAnimator != null)
             npcAnimator.PlayDown();
     }
 
 
-    private void MoveToSpawn()
+    private void UpdateLeaving()
     {
         if (spawnPoint == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        if (!MoveTo(spawnPoint.position))
             return;
 
+        if (buyerManager != null)
+            buyerManager.BuyerFinished(this);
 
+        Destroy(gameObject);
+    }
+
+
+    private bool MoveTo(Vector3 targetPosition)
+    {
         transform.position = Vector3.MoveTowards(
             transform.position,
-            spawnPoint.position,
+            targetPosition,
             moveSpeed * Time.deltaTime
         );
 
-
-        if (Vector3.Distance(transform.position, spawnPoint.position) < 0.01f)
+        if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
         {
-            transform.position = spawnPoint.position;
-
-            returning = false;
-
-            if (buyerManager != null)
-                buyerManager.BuyerFinished(this);
-
-            Destroy(gameObject);
+            transform.position = targetPosition;
+            return true;
         }
+
+        return false;
+    }
+
+
+    private float GetArtworkDistance(ArtworkData artwork)
+    {
+        float rustDifference =
+            Mathf.Abs(artwork.rust - rustPreference) / 100f;
+
+        float shineDifference =
+            Mathf.Abs(artwork.shine - shinePreference) / 100f;
+
+        float weightDifference =
+            Mathf.Abs(artwork.weight - weightPreference) / 100f;
+
+        return (
+            rustDifference +
+            shineDifference +
+            weightDifference
+        ) / 3f;
     }
 }

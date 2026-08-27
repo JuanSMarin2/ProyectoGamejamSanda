@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,10 +7,13 @@ using UnityEngine.UI;
 
 public class CraftingInventoryManager : MonoBehaviour
 {
-    [Header("Crafting Pieces")]
-    [SerializeField] private PieceObjectData basePiece;
-    [SerializeField] private PieceObjectData[] largePieces = new PieceObjectData[2];
-    [SerializeField] private PieceObjectData[] smallPieces = new PieceObjectData[3];
+    [Header("Spawn Anchors")]
+    [SerializeField] private Transform baseAnchor;
+    [SerializeField] private Transform[] largeAnchors = new Transform[2];
+    [SerializeField] private Transform[] smallAnchors = new Transform[3];
+
+    [Header("Prefabs")]
+    [SerializeField] private PrefabItemSetup prefabSetup;
 
     [Header("Flow")]
     [SerializeField] private GameFlowManager gameFlowManager;
@@ -25,6 +29,14 @@ public class CraftingInventoryManager : MonoBehaviour
     [SerializeField] private float resultsPanelDuration = 3f;
     [SerializeField] private string shopSceneName = "Tienda";
 
+    private PieceObjectData basePiece;
+    private PieceObjectData[] largePieces = new PieceObjectData[2];
+    private PieceObjectData[] smallPieces = new PieceObjectData[3];
+
+    private readonly List<GameObject> spawnedPieces = new List<GameObject>();
+
+    public IReadOnlyList<GameObject> SpawnedPieces => spawnedPieces;
+
     private bool flowFinished;
 
     private float lastElegancePercent;
@@ -39,13 +51,13 @@ public class CraftingInventoryManager : MonoBehaviour
         if (craftingManager == null)
             craftingManager = FindFirstObjectByType<CraftingManager>();
 
+        if (prefabSetup == null)
+            prefabSetup = FindFirstObjectByType<PrefabItemSetup>();
+
         if (resultsPanel != null)
             resultsPanel.SetActive(false);
-    }
 
-    private void Start()
-    {
-        AssignInventoryPieces();
+        SpawnInventoryPieces();
     }
 
     private void OnEnable()
@@ -60,7 +72,7 @@ public class CraftingInventoryManager : MonoBehaviour
             gameFlowManager.OnPhaseCompleted -= HandleFlowCompleted;
     }
 
-    public void AssignInventoryPieces()
+    private void SpawnInventoryPieces()
     {
         if (InventoryData.Instance == null)
         {
@@ -68,39 +80,85 @@ public class CraftingInventoryManager : MonoBehaviour
             return;
         }
 
-        Debug.Log($"[CRAFTING] Items en inventario: {InventoryData.Instance.Items.Count}");
+        if (prefabSetup == null)
+        {
+            Debug.LogWarning("[CRAFTING] No hay PrefabItemSetup en la escena.");
+            return;
+        }
 
-        AssignCategory(PieceCategory.Base, new[] { basePiece });
-        AssignCategory(PieceCategory.LargeAccessory, largePieces);
-        AssignCategory(PieceCategory.SmallAccessory, smallPieces);
+        basePiece = SpawnCategory(PieceCategory.Base, new[] { baseAnchor }) is { } spawnedBase
+            ? spawnedBase[0]
+            : null;
+
+        PieceObjectData[] spawnedLarge = SpawnCategory(PieceCategory.LargeAccessory, largeAnchors);
+        PieceObjectData[] spawnedSmall = SpawnCategory(PieceCategory.SmallAccessory, smallAnchors);
+
+        for (int i = 0; i < largePieces.Length && i < spawnedLarge.Length; i++)
+            largePieces[i] = spawnedLarge[i];
+
+        for (int i = 0; i < smallPieces.Length && i < spawnedSmall.Length; i++)
+            smallPieces[i] = spawnedSmall[i];
     }
 
-    private void AssignCategory(PieceCategory category, PieceObjectData[] slots)
+    private PieceObjectData[] SpawnCategory(PieceCategory category, Transform[] anchors)
     {
-        if (slots == null)
-            return;
+        if (anchors == null)
+            return new PieceObjectData[0];
 
-        int slotIndex = 0;
+        PieceObjectData[] spawned = new PieceObjectData[anchors.Length];
+
+        int anchorIndex = 0;
 
         foreach (ObjectData item in InventoryData.Instance.Items)
         {
             if (item == null || item.Category != category)
                 continue;
 
-            if (slotIndex >= slots.Length)
+            if (anchorIndex >= anchors.Length)
                 break;
 
-            if (slots[slotIndex] != null)
+            Transform anchor = anchors[anchorIndex];
+
+            if (anchor == null)
             {
-                slots[slotIndex].SetData(item);
-                Debug.Log($"[CRAFTING] '{slots[slotIndex].name}' recibió el SO '{item.itemName}' (id {item.id}).");
+                Debug.LogWarning($"[CRAFTING] El ancla {anchorIndex} de {category} no está asignada.");
+                anchorIndex++;
+                continue;
             }
 
-            slotIndex++;
+            GameObject prefab = prefabSetup.GetPrefab(category, item.id);
+
+            if (prefab == null)
+            {
+                anchorIndex++;
+                continue;
+            }
+
+            GameObject instance = Instantiate(prefab, anchor);
+            instance.transform.localPosition = Vector3.zero;
+
+            spawnedPieces.Add(instance);
+
+            PieceObjectData piece = instance.GetComponentInChildren<PieceObjectData>();
+
+            if (piece != null)
+            {
+                piece.SetData(item);
+                spawned[anchorIndex] = piece;
+                Debug.Log($"[CRAFTING] Instanciado '{prefab.name}' para '{item.itemName}' (id {item.id}) en '{anchor.name}'.");
+            }
+            else
+            {
+                Debug.LogWarning($"[CRAFTING] El prefab '{prefab.name}' no tiene PieceObjectData.");
+            }
+
+            anchorIndex++;
         }
 
-        if (slotIndex == 0)
+        if (anchorIndex == 0)
             Debug.LogWarning($"[CRAFTING] No hay ningún item de categoría {category} en el inventario.");
+
+        return spawned;
     }
 
     private void HandleFlowCompleted()

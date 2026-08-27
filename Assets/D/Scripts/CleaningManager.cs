@@ -1,26 +1,64 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CleaningManager : MonoBehaviour
 {
-    [SerializeField] private bool discoverActiveObjects = true;
-    [SerializeField] private CleaningObject[] phaseObjects;
-
     public bool IsPhaseCompleted { get; private set; }
+
     public event Action PhaseCompleted;
 
-    private void Start()
-    {
-        if (discoverActiveObjects)
-            phaseObjects = FindObjectsByType<CleaningObject>(FindObjectsSortMode.None);
+    private CleaningObject[] phaseObjects;
 
+    private void OnEnable()
+    {
+        IsPhaseCompleted = false;
+
+        TryPopulatePhaseObjects();
         CheckPhaseCompletion();
     }
 
     private void Update()
     {
-        if (!IsPhaseCompleted)
-            CheckPhaseCompletion();
+        if (IsPhaseCompleted)
+            return;
+
+        if (phaseObjects == null || phaseObjects.Length == 0)
+            TryPopulatePhaseObjects();
+
+        CheckPhaseCompletion();
+    }
+
+    private void TryPopulatePhaseObjects()
+    {
+        CraftingInventoryManager craftingInventory = FindFirstObjectByType<CraftingInventoryManager>();
+
+        List<CleaningObject> found = new List<CleaningObject>();
+
+        if (craftingInventory != null)
+        {
+            if (craftingInventory.SpawnedPieces.Count == 0)
+                return;
+
+            foreach (GameObject piece in craftingInventory.SpawnedPieces)
+            {
+                if (piece == null)
+                    continue;
+
+                CleaningObject cleaningObject = piece.GetComponentInChildren<CleaningObject>();
+
+                if (cleaningObject != null)
+                    found.Add(cleaningObject);
+            }
+        }
+        else
+        {
+            found.AddRange(FindObjectsByType<CleaningObject>(FindObjectsSortMode.None));
+        }
+
+        phaseObjects = found.ToArray();
+
+        Debug.Log($"[CLEANING] Objetos a limpiar: {phaseObjects.Length}");
     }
 
     public void CheckPhaseCompletion()
@@ -30,10 +68,11 @@ public class CleaningManager : MonoBehaviour
 
         foreach (CleaningObject cleaningObject in phaseObjects)
         {
-            if (cleaningObject == null || !cleaningObject.IsFullyCleaned)
-            {
+            if (cleaningObject == null)
+                continue;
+
+            if (!cleaningObject.IsFullyCleaned)
                 return;
-            }
         }
 
         IsPhaseCompleted = true;

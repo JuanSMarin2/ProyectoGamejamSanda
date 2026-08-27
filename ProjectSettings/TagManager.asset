@@ -10,6 +10,7 @@ TagManager:
   - Madera
   - Pasto
   - Metal
+  - RoundData
   layers:
   - Default
   - TransparentFX

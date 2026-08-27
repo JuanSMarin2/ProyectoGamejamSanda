@@ -24,16 +24,71 @@ public class TrashCan : MonoBehaviour
     [Range(0f, 100f)]
     private float coinProbability = 50f;
 
+    [SerializeField] private InteractableObject interactable;
+
+    [SerializeField] private float restockInterval = 60f;
+
 
     private static Dictionary<int, ObjectData> itemCache;
 
     private bool itemsCollected = false;
     private bool coinsCollected = false;
+    private float restockTimer;
 
 
     private readonly HashSet<int> consumedBaseEntries = new();
     private readonly HashSet<int> consumedLargeEntries = new();
     private readonly HashSet<int> consumedSmallEntries = new();
+
+
+    private void Awake()
+    {
+        if (interactable == null)
+            interactable = GetComponent<InteractableObject>();
+    }
+
+
+    private void Start()
+    {
+        UpdateNewIndicator();
+    }
+
+
+    private void Update()
+    {
+        restockTimer += Time.deltaTime;
+
+        if (restockTimer < restockInterval)
+            return;
+
+        restockTimer = 0f;
+
+        Restock();
+    }
+
+
+    private void Restock()
+    {
+        bool hadConsumedStock =
+            consumedBaseEntries.Count > 0 ||
+            consumedLargeEntries.Count > 0 ||
+            consumedSmallEntries.Count > 0 ||
+            coinsCollected;
+
+        if (!hadConsumedStock)
+            return;
+
+        consumedBaseEntries.Clear();
+        consumedLargeEntries.Clear();
+        consumedSmallEntries.Clear();
+
+        itemsCollected = false;
+        coinsCollected = false;
+
+        UpdateNewIndicator();
+
+        Debug.Log($"[TRASH] '{name}' ha restaurado su stock.");
+    }
 
 
     public void Interact()
@@ -65,14 +120,15 @@ public class TrashCan : MonoBehaviour
         {
             PoliceOfficer.ReportCrime();
 
-            Debug.Log("[TRASH] Un policía te ha visto: no consigues objetos de la caneca.");
+            Debug.Log("[TRASH] Un policía te ha visto rebuscando: viene a por ti.");
         }
-        else
-        {
-            obtainedItems = TryGiveItems();
 
-            itemsCollected = !CanGiveAnything();
-        }
+        obtainedItems = TryGiveItems();
+
+        itemsCollected = !CanGiveAnything();
+
+
+        UpdateNewIndicator();
 
 
         if (TrashFeedback.Instance != null)
@@ -272,6 +328,17 @@ public class TrashCan : MonoBehaviour
         }
 
         AudioManager.instance.PlayOneShot(eventReference, transform.position);
+    }
+
+
+    private void UpdateNewIndicator()
+    {
+        if (interactable == null)
+            return;
+
+        interactable.SetNewIndicatorEnabled(
+            !itemsCollected && CanGiveAnything()
+        );
     }
 
 

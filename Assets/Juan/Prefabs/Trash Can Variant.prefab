@@ -110,12 +110,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrashCan
   baseItems:
+  - itemId: 3
+    probability: 75.2
   - itemId: 1
+    probability: 72.3
+  - itemId: 2
     probability: 100
   largeAccessoryItems:
   - itemId: 100
+    probability: 71.9
+  - itemId: 101
     probability: 100
+  - itemId: 102
+    probability: 76.6
   smallAccessoryItems:
   - itemId: 200
-    probability: 100
+    probability: 53.1
+  - itemId: 201
+    probability: 52.1
   coinProbability: 90
+  interactable: {fileID: 0}

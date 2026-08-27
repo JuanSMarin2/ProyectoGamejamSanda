@@ -5,14 +5,20 @@ using UnityEngine.Events;
 public class InteractableObject : MonoBehaviour
 {
     [SerializeField] private GameObject interactableFeedback;
+    [SerializeField] private Sprite newInteractionSprite;
     [SerializeField] private float fadeSpeed = 5f;
     [SerializeField] private UnityEvent onInteract;
 
     private bool playerInside = false;
     private bool interactionEnabled = true;
+    private bool newIndicatorEnabled = true;
 
     private PlayerInputActions inputActions;
     private SpriteRenderer feedbackRenderer;
+
+    private Sprite feedbackSprite;
+    private Sprite currentSprite;
+    private float currentAlpha;
 
 
     private void Awake()
@@ -25,6 +31,10 @@ public class InteractableObject : MonoBehaviour
 
             if (feedbackRenderer != null)
             {
+                feedbackSprite = feedbackRenderer.sprite;
+                currentSprite = feedbackSprite;
+                currentAlpha = 0f;
+
                 Color color = feedbackRenderer.color;
                 color.a = 0f;
                 feedbackRenderer.color = color;
@@ -49,10 +59,10 @@ public class InteractableObject : MonoBehaviour
 
     private void Update()
     {
-        if (!interactionEnabled)
+        if (!interactionEnabled || feedbackRenderer == null)
         {
             playerInside = false;
-            HideFeedback();
+            FadeTo(0f);
             return;
         }
 
@@ -63,29 +73,56 @@ public class InteractableObject : MonoBehaviour
         }
 
 
-        if (feedbackRenderer == null)
-            return;
-
-
-        Color color = feedbackRenderer.color;
+        Sprite desiredSprite;
+        float targetAlpha;
 
         if (playerInside)
         {
-            color.a = Mathf.MoveTowards(
-                color.a,
-                1f,
-                fadeSpeed * Time.deltaTime
-            );
+            desiredSprite = feedbackSprite;
+            targetAlpha = 1f;
+        }
+        else if (newIndicatorEnabled && newInteractionSprite != null)
+        {
+            desiredSprite = newInteractionSprite;
+            targetAlpha = 1f;
         }
         else
         {
-            color.a = Mathf.MoveTowards(
-                color.a,
-                0f,
-                fadeSpeed * Time.deltaTime
-            );
+            desiredSprite = currentSprite;
+            targetAlpha = 0f;
         }
 
+
+        if (desiredSprite != currentSprite)
+        {
+            FadeTo(0f);
+
+            if (currentAlpha <= 0.001f)
+            {
+                currentSprite = desiredSprite;
+                feedbackRenderer.sprite = currentSprite;
+            }
+        }
+        else
+        {
+            FadeTo(targetAlpha);
+        }
+    }
+
+
+    private void FadeTo(float targetAlpha)
+    {
+        if (feedbackRenderer == null)
+            return;
+
+        currentAlpha = Mathf.MoveTowards(
+            currentAlpha,
+            targetAlpha,
+            fadeSpeed * Time.deltaTime
+        );
+
+        Color color = feedbackRenderer.color;
+        color.a = currentAlpha;
         feedbackRenderer.color = color;
     }
 
@@ -118,18 +155,12 @@ public class InteractableObject : MonoBehaviour
         if (!enabled)
         {
             playerInside = false;
-            HideFeedback();
         }
     }
 
 
-    private void HideFeedback()
+    public void SetNewIndicatorEnabled(bool enabled)
     {
-        if (feedbackRenderer == null)
-            return;
-
-        Color color = feedbackRenderer.color;
-        color.a = 0f;
-        feedbackRenderer.color = color;
+        newIndicatorEnabled = enabled;
     }
 }

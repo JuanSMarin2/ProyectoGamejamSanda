@@ -143,6 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
   interactableFeedback: {fileID: 8643668130366564934}
+  newInteractionSprite: {fileID: 21300000, guid: af1aa79878ce21643be56955bcd1afbb, type: 3}
   fadeSpeed: 5
   onInteract:
     m_PersistentCalls:

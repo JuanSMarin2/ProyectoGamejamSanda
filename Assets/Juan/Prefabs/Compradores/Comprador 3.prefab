@@ -955,7 +955,7 @@ GameObject:
   - component: {fileID: 6161759893865250120}
   - component: {fileID: 5633440942554020114}
   m_Layer: 0
-  m_Name: Comprador
+  m_Name: Comprador 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1065,9 +1065,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 071c1b9a2d1924d439f4799202418429, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Buyer
-  rustPreference: 100
-  shinePreference: 0
-  weightPreference: 15
+  rustPreference: 25
+  shinePreference: 15
+  weightPreference: 50
   moveSpeed: 3
   shelfOffset: {x: 0, y: -2.5, z: 0}
   interactable: {fileID: 8241542491146265237}
