@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 public class PauseManager : MonoBehaviour
 {
     private bool isPaused = false;
@@ -10,7 +10,7 @@ public class PauseManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) TogglePause();
+        if (Keyboard.current.escapeKey.wasPressedThisFrame) TogglePause();
     }
 
     public void TogglePause()
