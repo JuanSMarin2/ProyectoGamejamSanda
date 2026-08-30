@@ -64387,9 +64387,9 @@ RectTransform:
   - {fileID: 1848237139}
   m_Father: {fileID: 1875021258}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 120.26855, y: -233.69055}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 240.5371, y: 39.7472}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &918114444
@@ -71800,7 +71800,7 @@ RectTransform:
   m_Father: {fileID: 810883369}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -78847,7 +78847,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1038ca447e30d724a815d6e75e798c07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VolumeSlider
-  volumeType: 1
+  volumeType: 3
 --- !u!114 &1848237141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79497,7 +79497,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3206247798584783592, guid: 1f2018eb1806a144c884bb0a3286e689, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -191.76468
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3518561794168209845, guid: 1f2018eb1806a144c884bb0a3286e689, type: 3}
       propertyPath: m_AnchorMax.y
@@ -79517,7 +79517,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3602433255982948235, guid: 1f2018eb1806a144c884bb0a3286e689, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -107.91293
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3638770198041462132, guid: 1f2018eb1806a144c884bb0a3286e689, type: 3}
       propertyPath: m_text
@@ -79613,7 +79613,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5256699346271981978, guid: 1f2018eb1806a144c884bb0a3286e689, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6717897327385405667, guid: 1f2018eb1806a144c884bb0a3286e689, type: 3}
       propertyPath: m_text
@@ -79637,7 +79637,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8263549091413628660, guid: 1f2018eb1806a144c884bb0a3286e689, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -149.8388
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8334816722542979148, guid: 1f2018eb1806a144c884bb0a3286e689, type: 3}
       propertyPath: m_AnchorMax.y
@@ -83041,7 +83041,7 @@ RectTransform:
   m_Father: {fileID: 4098421}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
