@@ -43,6 +43,7 @@ public class AudioManager : MonoBehaviour
         masterBus = RuntimeManager.GetBus("bus:/");
         musicBus = RuntimeManager.GetBus("bus:/Music");
         sfxBus = RuntimeManager.GetBus("bus:/SFX");
+        ambienceBus = RuntimeManager.GetBus("bus:/Ambience");
     }
 
     private void Start()
@@ -85,12 +86,20 @@ public class AudioManager : MonoBehaviour
     {
         ambienceEventInstance.setParameterByName(parameterName, parameterValue);
     }
+    public void SetAmbienceArea(AmbienceZone AmbienceZone)
+     {
+         ambienceEventInstance.setParameterByName("ZonaAmbientes", (float) AmbienceZone);
+     }
 
-//    // public void SetMusicArea(MusicArea area)
-//     {
-//         musicEventInstance.setParameterByName("area", (float) area);
-//     }
+    public void SetMusicArea(MusicZone zone)
+     {
+         musicEventInstance.setParameterByName("Zona", (float) zone);
+     }
 
+    public void SetMusicParameter(string parameterName, float parameterValue)
+    {
+        musicEventInstance.setParameterByName(parameterName, parameterValue);
+    }
     public void PlayOneShot(EventReference sound, Vector3 worldPos)
     {
         RuntimeManager.PlayOneShot(sound, worldPos);

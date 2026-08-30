@@ -10,18 +10,23 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference moverPilaChatarra { get; private set; }
     [field: SerializeField] public EventReference abrirCaneca { get; private set; }
     [field: SerializeField] public EventReference cerrarCaneca { get; private set; }
+
+    [field: SerializeField] public EventReference abrirPuerta { get; private set; }
+
+    [field: SerializeField] public EventReference abrirPuertaTienda { get; private set; }
     [field: SerializeField] public EventReference pasosPersonaje { get; private set; }
     [field: SerializeField] public EventReference recolectarDinero { get; private set; }
     [field: SerializeField] public EventReference abrirInventario { get; private set; }
     [field: SerializeField] public EventReference abrirTaller { get; private set; }
 
-    [field: Header("Mejora")]
+    [field: Header("Mejora/Herramientas")]
     [field: SerializeField] public EventReference construccionMejora { get; private set; }
     [field: SerializeField] public EventReference cachingComprar { get; private set; }
     [field: SerializeField] public EventReference martilloContrayunque { get; private set; }
     [field: SerializeField] public EventReference lijar { get; private set; }
     [field: SerializeField] public EventReference martillo { get; private set; }
     [field: SerializeField] public EventReference soldar { get; private set; }
+    [field: SerializeField] public EventReference sierraElectrica { get; private set; }
     [field: SerializeField] public EventReference serrucho { get; private set; }
     [field: SerializeField] public EventReference feedbackMegafono { get; private set; }
 
@@ -51,11 +56,17 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference metalesGrandes { get; private set; }
 
     [field: Header("Ambientes")]
+
+    [field: SerializeField] public EventReference AmbienteGeneral { get; private set; }
     [field: SerializeField] public EventReference ciudad { get; private set; }
     [field: SerializeField] public EventReference museo { get; private set; }
     [field: SerializeField] public EventReference taller { get; private set; }
+    [field: SerializeField] public EventReference parque { get; private set; }
+    [field: SerializeField] public EventReference ScatterHerramientas { get; private set; } 
 
     [field: Header("Music")]
+
+    [field: SerializeField] public EventReference MusicaGeneral { get; private set; }
     [field: SerializeField] public EventReference vals { get; private set; }
     [field: SerializeField] public EventReference reggae { get; private set; }
     [field: SerializeField] public EventReference funk { get; private set; }
