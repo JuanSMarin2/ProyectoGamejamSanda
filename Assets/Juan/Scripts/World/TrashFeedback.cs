@@ -15,12 +15,21 @@ public class TrashFeedback : MonoBehaviour
     [SerializeField] private List<Image> itemImages = new();
     [SerializeField] private List<TMP_Text> itemNames = new();
 
+    [Header("Item Spaces")]
+    [SerializeField] private GameObject itemSpace1;
+    [SerializeField] private GameObject itemSpace2;
+    [SerializeField] private GameObject itemSpace3;
+
+    [Header("Coin")]
+    [SerializeField] private GameObject coinSpace;
     [SerializeField] private TMP_Text coinsGainText;
 
     [SerializeField] private float scaleInDuration = 0.2f;
     [SerializeField] private float scaleOutDuration = 0.2f;
     [SerializeField] private float displayDuration = 3f;
 
+
+    private readonly List<GameObject> itemSpaces = new();
 
     private Vector3 originalScale;
     private Coroutine feedbackCoroutine;
@@ -47,6 +56,13 @@ public class TrashFeedback : MonoBehaviour
 
         originalScale = feedbackPanel.transform.localScale;
 
+        RegisterSpace(itemSpace1);
+        RegisterSpace(itemSpace2);
+        RegisterSpace(itemSpace3);
+
+        if (coinSpace != null)
+            coinSpace.SetActive(false);
+
         feedbackPanel.SetActive(false);
     }
 
@@ -55,6 +71,16 @@ public class TrashFeedback : MonoBehaviour
     {
         if (Instance == this)
             Instance = null;
+    }
+
+
+    private void RegisterSpace(GameObject space)
+    {
+        if (space == null)
+            return;
+
+        itemSpaces.Add(space);
+        space.SetActive(false);
     }
 
 
@@ -72,34 +98,42 @@ public class TrashFeedback : MonoBehaviour
 
     private void UpdateFeedback(List<ObjectData> items, int coins, bool inventoryFull)
     {
-        int slotCount = Mathf.Min(itemImages.Count, itemNames.Count);
+        int slotCount = itemSpaces.Count;
+        slotCount = Mathf.Min(slotCount, itemImages.Count);
+        slotCount = Mathf.Min(slotCount, itemNames.Count);
 
         for (int i = 0; i < slotCount; i++)
         {
-            bool hasItem = i < items.Count;
+            bool hasItem = items != null && i < items.Count && items[i] != null;
 
-            itemImages[i].gameObject.SetActive(hasItem);
-            itemNames[i].gameObject.SetActive(hasItem);
+            itemSpaces[i].SetActive(hasItem);
 
-            if (hasItem)
-            {
+            if (!hasItem)
+                continue;
+
+            if (itemImages[i] != null)
                 itemImages[i].sprite = items[i].sprite;
+
+            if (itemNames[i] != null)
                 itemNames[i].text = items[i].itemName;
-            }
         }
 
 
-        if (inventoryFull && itemNames.Count > 0)
+        if (inventoryFull && itemSpaces.Count > 0 && itemNames.Count > 0)
         {
-            itemNames[0].gameObject.SetActive(true);
-            itemNames[0].text = "Inventario lleno";
+            itemSpaces[0].SetActive(true);
+
+            if (itemNames[0] != null)
+                itemNames[0].text = "Inventario lleno";
         }
 
 
-        if (coinsGainText != null)
+        if (coinSpace != null)
         {
-            coinsGainText.gameObject.SetActive(true);
-            coinsGainText.text = "x" + coins;
+            coinSpace.SetActive(coins > 0);
+
+            if (coins > 0 && coinsGainText != null)
+                coinsGainText.text = "x" + coins;
         }
     }
 

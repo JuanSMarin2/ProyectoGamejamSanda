@@ -14,15 +14,24 @@ public class InventoryData : MonoBehaviour
     public static InventoryData Instance { get; private set; }
 
     [SerializeField] private int maxSlots = 6;
-    [SerializeField] private List<ObjectData> items = new();
-
 
     public event Action OnInventoryChanged;
     public event Action OnSlotsChanged;
 
 
     public int MaxSlots => maxSlots;
-    public IReadOnlyList<ObjectData> Items => items;
+
+    public ObjectData BaseItem => baseItem;
+    public IReadOnlyList<ObjectData> SmallItems => smallItems;
+    public IReadOnlyList<ObjectData> LargeItems => largeItems;
+    public IReadOnlyList<ObjectData> Items => combinedItems;
+    public int ItemCount => combinedItems.Count;
+
+
+    private ObjectData baseItem;
+    private readonly List<ObjectData> smallItems = new();
+    private readonly List<ObjectData> largeItems = new();
+    private readonly List<ObjectData> combinedItems = new();
 
 
     private void Awake()
@@ -58,11 +67,25 @@ public class InventoryData : MonoBehaviour
 
     public bool AddItem(ObjectData item)
     {
-        if (item == null || items.Count >= maxSlots || !CanAddCategory(item.Category))
+        if (item == null || IsFull() || !CanAddCategory(item.Category))
             return false;
 
-        items.Add(item);
+        switch (item.Category)
+        {
+            case PieceCategory.Base:
+                baseItem = item;
+                break;
+            case PieceCategory.SmallAccessory:
+                smallItems.Add(item);
+                break;
+            case PieceCategory.LargeAccessory:
+                largeItems.Add(item);
+                break;
+            default:
+                return false;
+        }
 
+        RebuildCombinedItems();
         OnInventoryChanged?.Invoke();
 
         return true;
@@ -71,11 +94,38 @@ public class InventoryData : MonoBehaviour
 
     public bool RemoveItem(int index)
     {
-        if (index < 0 || index >= items.Count)
+        if (index < 0 || index >= combinedItems.Count)
             return false;
 
-        items.RemoveAt(index);
+        return RemoveItem(combinedItems[index]);
+    }
 
+
+    public bool RemoveItem(ObjectData item)
+    {
+        if (item == null)
+            return false;
+
+        bool removed = false;
+
+        if (baseItem == item)
+        {
+            baseItem = null;
+            removed = true;
+        }
+        else if (smallItems.Remove(item))
+        {
+            removed = true;
+        }
+        else if (largeItems.Remove(item))
+        {
+            removed = true;
+        }
+
+        if (!removed)
+            return false;
+
+        RebuildCombinedItems();
         OnInventoryChanged?.Invoke();
 
         return true;
@@ -84,20 +134,24 @@ public class InventoryData : MonoBehaviour
 
     public void ClearInventory()
     {
-        if (items.Count == 0)
+        if (ItemCount == 0)
             return;
 
-        items.Clear();
+        baseItem = null;
+        smallItems.Clear();
+        largeItems.Clear();
+
+        RebuildCombinedItems();
         OnInventoryChanged?.Invoke();
     }
 
 
     public ObjectData GetItem(int index)
     {
-        if (index < 0 || index >= items.Count)
+        if (index < 0 || index >= combinedItems.Count)
             return null;
 
-        return items[index];
+        return combinedItems[index];
     }
 
 
@@ -115,26 +169,40 @@ public class InventoryData : MonoBehaviour
 
     public bool IsFull()
     {
-        return items.Count >= maxSlots;
+        return ItemCount >= maxSlots;
     }
 
 
     public int CountByCategory(PieceCategory category)
     {
-        int count = 0;
-
-        foreach (ObjectData item in items)
+        switch (category)
         {
-            if (item != null && item.Category == category)
-                count++;
+            case PieceCategory.Base:
+                return baseItem != null ? 1 : 0;
+            case PieceCategory.LargeAccessory:
+                return largeItems.Count;
+            case PieceCategory.SmallAccessory:
+                return smallItems.Count;
+            default:
+                return 0;
         }
-
-        return count;
     }
 
 
     private bool CanAddCategory(PieceCategory category)
     {
         return CountByCategory(category) < GetCategoryLimit(category);
+    }
+
+
+    private void RebuildCombinedItems()
+    {
+        combinedItems.Clear();
+
+        if (baseItem != null)
+            combinedItems.Add(baseItem);
+
+        combinedItems.AddRange(smallItems);
+        combinedItems.AddRange(largeItems);
     }
 }

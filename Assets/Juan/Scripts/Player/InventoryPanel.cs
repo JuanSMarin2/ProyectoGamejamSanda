@@ -1,23 +1,47 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
 
 
 public class InventoryPanel : MonoBehaviour
 {
     [SerializeField] private GameObject inventoryPanel;
 
-    [SerializeField] private List<Image> itemImages = new();
-    [SerializeField] private List<Button> itemButtons = new();
-    [SerializeField] private List<Button> discardButtons = new();
+    [Header("Slots")]
+    [SerializeField] private InventoryItemButton itemButtonPrefab;
+    [SerializeField] private Transform baseGrid;
+    [SerializeField] private Transform smallGrid;
+    [SerializeField] private Transform largeGrid;
+    [SerializeField] private int baseSlots = 1;
+    [SerializeField] private int smallSlots = 3;
+    [SerializeField] private int largeSlots = 2;
+
+    [Header("Selected Panel")]
+    [SerializeField] private GameObject selectedPanelObject;
+    [SerializeField] private Button backButton;
+    [SerializeField] private TMP_Text itemNameText;
+    [SerializeField] private TMP_Text stat1Text;
+    [SerializeField] private TMP_Text stat2Text;
+    [SerializeField] private TMP_Text stat3Text;
+    [SerializeField] private Image itemImage;
+    [SerializeField] private Button discardButton;
+
+    [Header("Space Texts")]
+    [SerializeField] private TMP_Text baseItemSpaceText;
+    [SerializeField] private TMP_Text largeItemSpaceText;
+    [SerializeField] private TMP_Text smallItemSpaceText;
 
     [SerializeField] private PlayerMovement playerMovement;
 
 
+    private readonly List<InventoryItemButton> baseSlotList = new();
+    private readonly List<InventoryItemButton> smallSlotList = new();
+    private readonly List<InventoryItemButton> largeSlotList = new();
+
     private PlayerInputActions inputActions;
 
-    private int selectedIndex = -1;
+    private ObjectData selectedItem;
 
 
     private static Dictionary<int, Sprite> spriteCache;
@@ -29,22 +53,18 @@ public class InventoryPanel : MonoBehaviour
 
         EnsureSpriteCacheLoaded();
 
-        for (int i = 0; i < itemButtons.Count; i++)
-        {
-            int index = i;
+        if (backButton != null)
+            backButton.onClick.AddListener(CloseSelectedPanel);
 
-            itemButtons[i].onClick.AddListener(() => SelectItem(index));
-        }
+        if (discardButton != null)
+            discardButton.onClick.AddListener(DiscardSelectedItem);
 
+        if (selectedPanelObject != null)
+            selectedPanelObject.SetActive(false);
 
-        for (int i = 0; i < discardButtons.Count; i++)
-        {
-            int index = i;
-
-            discardButtons[i].onClick.AddListener(() => DiscardItem(index));
-
-            discardButtons[i].gameObject.SetActive(false);
-        }
+        CreateZoneSlots(baseGrid, baseSlots, InventorySection.Base, baseSlotList);
+        CreateZoneSlots(smallGrid, smallSlots, InventorySection.Small, smallSlotList);
+        CreateZoneSlots(largeGrid, largeSlots, InventorySection.Large, largeSlotList);
     }
 
 
@@ -64,36 +84,29 @@ public class InventoryPanel : MonoBehaviour
     {
         UpdateVisual();
 
-
         if (inputActions.Player.Inventory.WasPressedThisFrame())
         {
             ToggleInventory();
         }
+    }
 
 
-        if (selectedIndex != -1 &&
-            selectedIndex < itemButtons.Count &&
-            selectedIndex < discardButtons.Count &&
-            Mouse.current != null &&
-            Mouse.current.leftButton.wasPressedThisFrame)
+    private void CreateZoneSlots(
+        Transform grid,
+        int slotCount,
+        InventorySection section,
+        List<InventoryItemButton> slotList)
+    {
+        if (grid == null || itemButtonPrefab == null)
+            return;
+
+        for (int i = 0; i < slotCount; i++)
         {
-            Vector2 mousePosition = Mouse.current.position.ReadValue();
+            InventoryItemButton slot = Instantiate(itemButtonPrefab, grid);
 
-            bool clickedItem = RectTransformUtility.RectangleContainsScreenPoint(
-                itemButtons[selectedIndex].GetComponent<RectTransform>(),
-                mousePosition
-            );
+            slot.Setup(section, i, this);
 
-            bool clickedDiscard = RectTransformUtility.RectangleContainsScreenPoint(
-                discardButtons[selectedIndex].GetComponent<RectTransform>(),
-                mousePosition
-            );
-
-
-            if (!clickedItem && !clickedDiscard)
-            {
-                CloseDiscardButton();
-            }
+            slotList.Add(slot);
         }
     }
 
@@ -134,7 +147,7 @@ public class InventoryPanel : MonoBehaviour
 
     public void CloseInventory()
     {
-        CloseDiscardButton();
+        CloseSelectedPanel();
 
         inventoryPanel.SetActive(false);
 
@@ -143,55 +156,89 @@ public class InventoryPanel : MonoBehaviour
     }
 
 
-    private void SelectItem(int index)
+    public void OnSlotClicked(InventorySection section, int localIndex)
+    {
+        ObjectData item = GetSectionItem(section, localIndex);
+
+        if (item == null)
+            return;
+
+        selectedItem = item;
+
+        UpdateSelectedPanel(item);
+
+        if (selectedPanelObject != null)
+            selectedPanelObject.SetActive(true);
+    }
+
+
+    private ObjectData GetSectionItem(InventorySection section, int localIndex)
+    {
+        if (InventoryData.Instance == null || localIndex < 0)
+            return null;
+
+        switch (section)
+        {
+            case InventorySection.Base:
+                return localIndex == 0 ? InventoryData.Instance.BaseItem : null;
+            case InventorySection.Small:
+                return localIndex < InventoryData.Instance.SmallItems.Count
+                    ? InventoryData.Instance.SmallItems[localIndex]
+                    : null;
+            case InventorySection.Large:
+                return localIndex < InventoryData.Instance.LargeItems.Count
+                    ? InventoryData.Instance.LargeItems[localIndex]
+                    : null;
+            default:
+                return null;
+        }
+    }
+
+
+    private void UpdateSelectedPanel(ObjectData item)
+    {
+        if (itemNameText != null)
+            itemNameText.text = item.itemName;
+
+        if (stat1Text != null)
+            stat1Text.text = $"Elegancia: {(int)item.Elegance}";
+
+        if (stat2Text != null)
+            stat2Text.text = $"Robustez: {(int)item.Robustness}";
+
+        if (stat3Text != null)
+            stat3Text.text = $"Brillo: {(int)item.Brightness}";
+
+        if (itemImage != null)
+            itemImage.sprite = GetSpriteByID(item.id, item.sprite);
+    }
+
+
+    public void CloseSelectedPanel()
+    {
+        if (selectedPanelObject != null)
+            selectedPanelObject.SetActive(false);
+
+        selectedItem = null;
+    }
+
+
+    private void DiscardSelectedItem()
     {
         if (InventoryData.Instance == null)
             return;
 
-        if (index >= InventoryData.Instance.Items.Count)
-            return;
-
-        if (index >= discardButtons.Count)
-            return;
-
-
-        if (selectedIndex == index)
+        if (selectedItem == null)
         {
-            CloseDiscardButton();
+            CloseSelectedPanel();
             return;
         }
 
+        InventoryData.Instance.RemoveItem(selectedItem);
 
-        CloseDiscardButton();
+        UpdateVisual();
 
-        selectedIndex = index;
-
-        discardButtons[index].gameObject.SetActive(true);
-    }
-
-
-    private void DiscardItem(int index)
-    {
-        if (InventoryData.Instance == null)
-            return;
-
-        InventoryData.Instance.RemoveItem(index);
-
-        CloseDiscardButton();
-    }
-
-
-    private void CloseDiscardButton()
-    {
-        if (selectedIndex == -1)
-            return;
-
-
-        if (selectedIndex < discardButtons.Count)
-            discardButtons[selectedIndex].gameObject.SetActive(false);
-
-
-        selectedIndex = -1;
+        CloseSelectedPanel();
     }
 
 
@@ -200,35 +247,77 @@ public class InventoryPanel : MonoBehaviour
         if (InventoryData.Instance == null)
             return;
 
+        UpdateZone(baseSlotList, InventorySection.Base);
+        UpdateZone(smallSlotList, InventorySection.Small);
+        UpdateZone(largeSlotList, InventorySection.Large);
 
-        for (int i = 0; i < itemButtons.Count; i++)
+        UpdateSpaceTexts();
+    }
+
+
+    private void UpdateSpaceTexts()
+    {
+        if (baseItemSpaceText != null)
+            baseItemSpaceText.text = GetSpaceText(PieceCategory.Base);
+
+        if (largeItemSpaceText != null)
+            largeItemSpaceText.text = GetSpaceText(PieceCategory.LargeAccessory);
+
+        if (smallItemSpaceText != null)
+            smallItemSpaceText.text = GetSpaceText(PieceCategory.SmallAccessory);
+    }
+
+
+    private string GetSpaceText(PieceCategory category)
+    {
+        int current = InventoryData.Instance.CountByCategory(category);
+        int limit = InventoryData.GetCategoryLimit(category);
+
+        return $"Espacio {current}/{limit}";
+    }
+
+
+    private void UpdateZone(List<InventoryItemButton> slotList, InventorySection section)
+    {
+        PieceCategory category = PieceCategory.Base;
+
+        switch (section)
         {
-            bool slotBought = i < InventoryData.Instance.MaxSlots;
-            bool hasItem = i < InventoryData.Instance.Items.Count;
-
-
-            itemButtons[i].gameObject.SetActive(slotBought);
-
-
-            if (slotBought && hasItem)
-            {
-                ObjectData item = InventoryData.Instance.Items[i];
-
-                itemImages[i].gameObject.SetActive(true);
-                itemImages[i].sprite = GetSpriteByID(item.id, item.sprite);
-            }
-            else
-            {
-                itemImages[i].gameObject.SetActive(false);
-                itemImages[i].sprite = null;
-            }
-
-
-            if (!slotBought && i < discardButtons.Count)
-            {
-                discardButtons[i].gameObject.SetActive(false);
-            }
+            case InventorySection.Base:
+                category = PieceCategory.Base;
+                break;
+            case InventorySection.Small:
+                category = PieceCategory.SmallAccessory;
+                break;
+            case InventorySection.Large:
+                category = PieceCategory.LargeAccessory;
+                break;
         }
+
+        int categoryLimit = InventoryData.GetCategoryLimit(category);
+
+        for (int i = 0; i < slotList.Count; i++)
+        {
+            bool slotVisible = i < categoryLimit;
+
+            slotList[i].gameObject.SetActive(slotVisible);
+
+            if (!slotVisible)
+                continue;
+
+            ObjectData item = GetSectionItem(section, i);
+
+            SetSlotSprite(slotList[i], item);
+        }
+    }
+
+
+    private void SetSlotSprite(InventoryItemButton slot, ObjectData item)
+    {
+        if (item != null)
+            slot.SetSprite(GetSpriteByID(item.id, item.sprite));
+        else
+            slot.SetSprite(null);
     }
 
 
