@@ -1,44 +1,59 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-
 
 public class CraftSceneChanger : MonoBehaviour
 {
     [SerializeField] private GameObject notEnoughItemsPanel;
-    [SerializeField] private GameObject fullShelfs;
+    [SerializeField] private InventoryPanel inventoryPanel;
     [SerializeField] private float panelDuration = 2f;
 
     private Coroutine panelCoroutine;
-
 
     private void Awake()
     {
         if (notEnoughItemsPanel != null)
             notEnoughItemsPanel.SetActive(false);
 
-        if (fullShelfs != null)
-            fullShelfs.SetActive(false);
+        if (inventoryPanel == null)
+            inventoryPanel = FindFirstObjectByType<InventoryPanel>();
     }
-
 
     public void CheckInventoryAndWarp(string sceneName)
     {
-        if (InventoryData.Instance != null && InventoryData.Instance.IsFull())
+        if (CanSelectRequiredItems())
         {
-            if (ArtworkDisplayData.Instance != null && ArtworkDisplayData.Instance.Artworks.Count > 3)
+            if (inventoryPanel != null)
             {
-                ShowFullShelfs();
+                inventoryPanel.EnterSelectionMode(sceneName);
                 return;
             }
 
-            SceneManager.LoadScene(sceneName);
+            Debug.LogError("[CRAFT CHANGER] No hay InventoryPanel en la escena.");
             return;
         }
 
         ShowNotEnoughItemsPanel();
     }
 
+    private bool CanSelectRequiredItems()
+    {
+        if (InventoryData.Instance == null)
+            return false;
+
+        bool hasBase =
+            InventoryData.Instance.CountByCategory(PieceCategory.Base) >=
+            SelectedItemsData.RequiredBase;
+
+        bool hasLarge =
+            InventoryData.Instance.CountByCategory(PieceCategory.LargeAccessory) >=
+            SelectedItemsData.RequiredLarge;
+
+        bool hasSmall =
+            InventoryData.Instance.CountByCategory(PieceCategory.SmallAccessory) >=
+            SelectedItemsData.RequiredSmall;
+
+        return hasBase && hasLarge && hasSmall;
+    }
 
     private void ShowNotEnoughItemsPanel()
     {
@@ -48,29 +63,16 @@ public class CraftSceneChanger : MonoBehaviour
         if (panelCoroutine != null)
             StopCoroutine(panelCoroutine);
 
-        panelCoroutine = StartCoroutine(ShowPanelRoutine(notEnoughItemsPanel));
+        panelCoroutine = StartCoroutine(ShowPanelRoutine());
     }
 
-
-    private void ShowFullShelfs()
+    private IEnumerator ShowPanelRoutine()
     {
-        if (fullShelfs == null)
-            return;
-
-        if (panelCoroutine != null)
-            StopCoroutine(panelCoroutine);
-
-        panelCoroutine = StartCoroutine(ShowPanelRoutine(fullShelfs));
-    }
-
-
-    private IEnumerator ShowPanelRoutine(GameObject panel)
-    {
-        panel.SetActive(true);
+        notEnoughItemsPanel.SetActive(true);
 
         yield return new WaitForSeconds(panelDuration);
 
-        panel.SetActive(false);
+        notEnoughItemsPanel.SetActive(false);
 
         panelCoroutine = null;
     }

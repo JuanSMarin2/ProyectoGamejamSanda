@@ -74,9 +74,10 @@ public class CraftingInventoryManager : MonoBehaviour
 
     private void SpawnInventoryPieces()
     {
-        if (InventoryData.Instance == null)
+        if (SelectedItemsData.Instance == null ||
+            SelectedItemsData.Instance.SelectedItems.Count == 0)
         {
-            Debug.LogWarning("[CRAFTING] InventoryData.Instance es null.");
+            Debug.LogWarning("[CRAFTING] No hay items seleccionados para craftear.");
             return;
         }
 
@@ -86,12 +87,14 @@ public class CraftingInventoryManager : MonoBehaviour
             return;
         }
 
-        basePiece = SpawnCategory(PieceCategory.Base, new[] { baseAnchor }) is { } spawnedBase
+        IReadOnlyList<ObjectData> sourceItems = SelectedItemsData.Instance.SelectedItems;
+
+        basePiece = SpawnCategory(sourceItems, PieceCategory.Base, new[] { baseAnchor }) is { } spawnedBase
             ? spawnedBase[0]
             : null;
 
-        PieceObjectData[] spawnedLarge = SpawnCategory(PieceCategory.LargeAccessory, largeAnchors);
-        PieceObjectData[] spawnedSmall = SpawnCategory(PieceCategory.SmallAccessory, smallAnchors);
+        PieceObjectData[] spawnedLarge = SpawnCategory(sourceItems, PieceCategory.LargeAccessory, largeAnchors);
+        PieceObjectData[] spawnedSmall = SpawnCategory(sourceItems, PieceCategory.SmallAccessory, smallAnchors);
 
         for (int i = 0; i < largePieces.Length && i < spawnedLarge.Length; i++)
             largePieces[i] = spawnedLarge[i];
@@ -100,7 +103,10 @@ public class CraftingInventoryManager : MonoBehaviour
             smallPieces[i] = spawnedSmall[i];
     }
 
-    private PieceObjectData[] SpawnCategory(PieceCategory category, Transform[] anchors)
+    private PieceObjectData[] SpawnCategory(
+        IReadOnlyList<ObjectData> sourceItems,
+        PieceCategory category,
+        Transform[] anchors)
     {
         if (anchors == null)
             return new PieceObjectData[0];
@@ -109,7 +115,7 @@ public class CraftingInventoryManager : MonoBehaviour
 
         int anchorIndex = 0;
 
-        foreach (ObjectData item in InventoryData.Instance.Items)
+        foreach (ObjectData item in sourceItems)
         {
             if (item == null || item.Category != category)
                 continue;
@@ -273,6 +279,9 @@ public class CraftingInventoryManager : MonoBehaviour
 
         if (resultsPanel != null)
             resultsPanel.SetActive(false);
+
+        if (SelectedItemsData.Instance != null)
+            SelectedItemsData.Instance.ConsumeSelectedFromInventory();
 
         SceneManager.LoadScene(shopSceneName);
     }

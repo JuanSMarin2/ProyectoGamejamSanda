@@ -34,6 +34,7 @@ public class PoliceOfficer : MonoBehaviour
     private bool playerInVision;
     private bool chasing;
     private bool punishing;
+    private int thievesInVision;
 
     private void Awake()
     {
@@ -76,6 +77,22 @@ public class PoliceOfficer : MonoBehaviour
 
         if (chasing && player != null)
         {
+            if (thievesInVision > 0)
+            {
+                StopChase();
+                Debug.Log("[POLICE] El policía vio a un ladrón y te dejó de perseguir.");
+
+                return;
+            }
+
+            if (!playerInVision)
+            {
+                StopChase();
+                Debug.Log("[POLICE] Saliste de su visión: el policía te dejó de perseguir.");
+
+                return;
+            }
+
             MoveTowards(player.position, chaseSpeed);
 
             if (npcAnimator != null)
@@ -132,12 +149,18 @@ public class PoliceOfficer : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
             playerInVision = true;
+
+        if (collision.GetComponentInParent<Thief>() != null)
+            thievesInVision++;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
             playerInVision = false;
+
+        if (collision.GetComponentInParent<Thief>() != null)
+            thievesInVision = Mathf.Max(0, thievesInVision - 1);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -147,7 +170,7 @@ public class PoliceOfficer : MonoBehaviour
 
         if (!collision.collider.CompareTag("Player"))
             return;
-        //Policia atrapa al jugador
+
         AudioManager.instance.PlayOneShot(FMODEvents.instance.error, transform.position);
         StartCoroutine(PunishRoutine());
     }
@@ -172,6 +195,11 @@ public class PoliceOfficer : MonoBehaviour
         chasing = true;
         AudioManager.instance.PlayOneShot(FMODEvents.instance.sirenaPolicia, transform.position);
         Debug.Log("[POLICE] Te han visto rebuscando. El policía va a por ti.");
+    }
+
+    private void StopChase()
+    {
+        chasing = false;
     }
 
     private IEnumerator PunishRoutine()

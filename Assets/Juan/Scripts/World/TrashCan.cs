@@ -28,6 +28,8 @@ public class TrashCan : MonoBehaviour
 
     [SerializeField] private float restockInterval = 60f;
 
+    [SerializeField] private int maxItemsPerInteract = 3;
+
 
     private static Dictionary<int, ObjectData> itemCache;
 
@@ -205,6 +207,9 @@ public class TrashCan : MonoBehaviour
     {
 
 
+        if (obtainedItems.Count >= maxItemsPerInteract)
+            return;
+
         if (InventoryData.Instance.CountByCategory(category) >=
             InventoryData.GetCategoryLimit(category))
         {
@@ -213,6 +218,9 @@ public class TrashCan : MonoBehaviour
 
         for (int i = 0; i < pool.Count; i++)
         {
+
+            if (obtainedItems.Count >= maxItemsPerInteract)
+                return;
 
             if (consumedEntries.Contains(i))
                 continue;

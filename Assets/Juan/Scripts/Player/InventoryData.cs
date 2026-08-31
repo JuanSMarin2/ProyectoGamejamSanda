@@ -7,28 +7,36 @@ public class InventoryData : MonoBehaviour
 {
 
 
-    private const int MaxBaseItems = 1;
-    private const int MaxLargeAccessories = 2;
-    private const int MaxSmallAccessories = 3;
+    private const int InitialBaseLimit = 2;
+    private const int InitialLargeLimit = 3;
+    private const int InitialSmallLimit = 4;
+
+    private const int MaxBaseLimit = 5;
+    private const int MaxLargeLimit = 5;
+    private const int MaxSmallLimit = 5;
 
     public static InventoryData Instance { get; private set; }
 
-    [SerializeField] private int maxSlots = 6;
+    [SerializeField] private int maxBaseItems = InitialBaseLimit;
+    [SerializeField] private int maxLargeItems = InitialLargeLimit;
+    [SerializeField] private int maxSmallItems = InitialSmallLimit;
 
     public event Action OnInventoryChanged;
     public event Action OnSlotsChanged;
 
 
-    public int MaxSlots => maxSlots;
+    public int MaxSlots => maxBaseItems + maxLargeItems + maxSmallItems;
 
-    public ObjectData BaseItem => baseItem;
+
+    public ObjectData BaseItem => baseItems.Count > 0 ? baseItems[0] : null;
+    public IReadOnlyList<ObjectData> BaseItems => baseItems;
     public IReadOnlyList<ObjectData> SmallItems => smallItems;
     public IReadOnlyList<ObjectData> LargeItems => largeItems;
     public IReadOnlyList<ObjectData> Items => combinedItems;
     public int ItemCount => combinedItems.Count;
 
 
-    private ObjectData baseItem;
+    private readonly List<ObjectData> baseItems = new();
     private readonly List<ObjectData> smallItems = new();
     private readonly List<ObjectData> largeItems = new();
     private readonly List<ObjectData> combinedItems = new();
@@ -45,20 +53,37 @@ public class InventoryData : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        maxSlots = Mathf.Clamp(maxSlots, 6, 9);
+        maxBaseItems = Mathf.Clamp(maxBaseItems, InitialBaseLimit, MaxBaseLimit);
+        maxLargeItems = Mathf.Clamp(maxLargeItems, InitialLargeLimit, MaxLargeLimit);
+        maxSmallItems = Mathf.Clamp(maxSmallItems, InitialSmallLimit, MaxSmallLimit);
     }
 
 
     public static int GetCategoryLimit(PieceCategory category)
     {
+        if (Instance == null)
+        {
+            switch (category)
+            {
+                case PieceCategory.Base:
+                    return InitialBaseLimit;
+                case PieceCategory.LargeAccessory:
+                    return InitialLargeLimit;
+                case PieceCategory.SmallAccessory:
+                    return InitialSmallLimit;
+                default:
+                    return 0;
+            }
+        }
+
         switch (category)
         {
             case PieceCategory.Base:
-                return MaxBaseItems;
+                return Instance.maxBaseItems;
             case PieceCategory.LargeAccessory:
-                return MaxLargeAccessories;
+                return Instance.maxLargeItems;
             case PieceCategory.SmallAccessory:
-                return MaxSmallAccessories;
+                return Instance.maxSmallItems;
             default:
                 return 0;
         }
@@ -73,7 +98,7 @@ public class InventoryData : MonoBehaviour
         switch (item.Category)
         {
             case PieceCategory.Base:
-                baseItem = item;
+                baseItems.Add(item);
                 break;
             case PieceCategory.SmallAccessory:
                 smallItems.Add(item);
@@ -108,9 +133,8 @@ public class InventoryData : MonoBehaviour
 
         bool removed = false;
 
-        if (baseItem == item)
+        if (baseItems.Remove(item))
         {
-            baseItem = null;
             removed = true;
         }
         else if (smallItems.Remove(item))
@@ -137,7 +161,7 @@ public class InventoryData : MonoBehaviour
         if (ItemCount == 0)
             return;
 
-        baseItem = null;
+        baseItems.Clear();
         smallItems.Clear();
         largeItems.Clear();
 
@@ -155,12 +179,16 @@ public class InventoryData : MonoBehaviour
     }
 
 
-    public void BuySlot()
+    public void IncreaseInventory()
     {
-        if (maxSlots >= 9)
+        if (maxBaseItems >= MaxBaseLimit &&
+            maxLargeItems >= MaxLargeLimit &&
+            maxSmallItems >= MaxSmallLimit)
             return;
 
-        maxSlots++;
+        maxBaseItems = Mathf.Min(maxBaseItems + 1, MaxBaseLimit);
+        maxLargeItems = Mathf.Min(maxLargeItems + 1, MaxLargeLimit);
+        maxSmallItems = Mathf.Min(maxSmallItems + 1, MaxSmallLimit);
 
         OnSlotsChanged?.Invoke();
         OnInventoryChanged?.Invoke();
@@ -169,7 +197,7 @@ public class InventoryData : MonoBehaviour
 
     public bool IsFull()
     {
-        return ItemCount >= maxSlots;
+        return ItemCount >= MaxSlots;
     }
 
 
@@ -178,7 +206,7 @@ public class InventoryData : MonoBehaviour
         switch (category)
         {
             case PieceCategory.Base:
-                return baseItem != null ? 1 : 0;
+                return baseItems.Count;
             case PieceCategory.LargeAccessory:
                 return largeItems.Count;
             case PieceCategory.SmallAccessory:
@@ -199,9 +227,7 @@ public class InventoryData : MonoBehaviour
     {
         combinedItems.Clear();
 
-        if (baseItem != null)
-            combinedItems.Add(baseItem);
-
+        combinedItems.AddRange(baseItems);
         combinedItems.AddRange(smallItems);
         combinedItems.AddRange(largeItems);
     }
