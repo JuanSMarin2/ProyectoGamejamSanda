@@ -8,43 +8,45 @@ using UnityEngine.Events;
 public class DialogueManager : MonoBehaviour
 {
     [Header("Dialogue")]
-    [SerializeField] private List<string> dialogues;
-    [SerializeField] private TextMeshProUGUI dialogueText;
-    [SerializeField] private float typingSpeed = 0.03f;
-    [SerializeField] private bool isInteractable = true;
+    [SerializeField] protected List<string> dialogues;
+    [SerializeField] protected TextMeshProUGUI dialogueText;
+    [SerializeField] protected float typingSpeed = 0.03f;
+    [SerializeField] protected bool isInteractable = true;
 
     [Header("Dialogue Space")]
-    [SerializeField] private GameObject dialogueSpace;
-    [SerializeField] private float scaleInDuration = 0.2f;
-    [SerializeField] private float scaleOutDuration = 0.15f;
+    [SerializeField] protected GameObject dialogueSpace;
+    [SerializeField] protected float scaleInDuration = 0.2f;
+    [SerializeField] protected float scaleOutDuration = 0.15f;
 
     [Header("Interaction")]
-    [SerializeField] private GameObject interactableFeedback;
-    [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] protected GameObject interactableFeedback;
+    [SerializeField] protected PlayerMovement playerMovement;
 
     [System.Serializable]
-    private class DialogueEvent
+    protected class DialogueEvent
     {
         public int dialogueIndex;
         public UnityEvent onDialogueReached;
     }
 
     [Header("Events")]
-    [SerializeField] private List<DialogueEvent> dialogueEvents;
-    [SerializeField] private UnityEvent onDialogueEnd;
+    [SerializeField] protected List<DialogueEvent> dialogueEvents;
+    [SerializeField] protected UnityEvent onDialogueEnd;
 
-    private int currentIndex = -1;
-    private Coroutine typingCoroutine;
+    protected int currentIndex = -1;
+    protected Coroutine typingCoroutine;
 
-    private bool isTyping;
-    private bool dialogueActive;
+    protected bool isTyping;
+    protected bool dialogueActive;
 
-    private Vector3 dialogueSpaceScale;
+    protected Vector3 dialogueSpaceScale;
 
-    private PlayerInputActions inputActions;
+    protected PlayerInputActions inputActions;
+
+    protected virtual int EndLimit => dialogues.Count;
 
 
-    private void Awake()
+    protected virtual void Awake()
     {
         inputActions = new PlayerInputActions();
     }
@@ -89,7 +91,7 @@ public class DialogueManager : MonoBehaviour
     }
 
 
-    public void StartDialogue()
+    public virtual void StartDialogue()
     {
         if (dialogueActive)
             return;
@@ -113,7 +115,7 @@ public class DialogueManager : MonoBehaviour
     }
 
 
-    public void NextDialogue()
+    public virtual void NextDialogue()
     {
         if (!dialogueActive)
             return;
@@ -126,7 +128,7 @@ public class DialogueManager : MonoBehaviour
 
         currentIndex++;
 
-        if (currentIndex >= dialogues.Count)
+        if (currentIndex >= EndLimit)
         {
             EndText();
             return;
@@ -160,6 +162,15 @@ public class DialogueManager : MonoBehaviour
             StopCoroutine(typingCoroutine);
 
         dialogueText.text = dialogues[currentIndex];
+        isTyping = false;
+    }
+
+
+    protected void ForceCompleteTyping()
+    {
+        if (typingCoroutine != null)
+            StopCoroutine(typingCoroutine);
+
         isTyping = false;
     }
 
@@ -231,7 +242,7 @@ public class DialogueManager : MonoBehaviour
     }
 
 
-    private void EndText()
+    protected virtual void EndText()
     {
         dialogueActive = false;
         isTyping = false;
