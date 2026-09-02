@@ -15,7 +15,7 @@ MonoBehaviour:
   pieceId: 105
   category: 1
   elegance: 0
-  robustness: 2
+  robustness: 4
   brightness: 1
   id: 105
   itemName: TornilloGrande

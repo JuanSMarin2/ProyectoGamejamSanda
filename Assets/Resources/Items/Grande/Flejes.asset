@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ObjectData
   pieceId: 107
   category: 1
-  elegance: 0
+  elegance: 4
   robustness: 2
   brightness: 1
   id: 107

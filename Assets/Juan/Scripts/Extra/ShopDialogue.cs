@@ -8,6 +8,8 @@ public class ShopDialogue : DialogueManager
     [Header("Shop")]
     [SerializeField] private int decisionDialogueIndex;
     [SerializeField] private int price;
+    [SerializeField] private bool isItemSeller;
+    [SerializeField] private ItemSeller itemSeller;
     [SerializeField] private GameObject decisionButtons;
     [SerializeField] private Button acceptButton;
     [SerializeField] private Button rejectButton;
@@ -15,6 +17,7 @@ public class ShopDialogue : DialogueManager
 
     private bool waitingDecision;
     private bool purchaseCompleted;
+    private bool sellerSoldOut;
 
     protected override int EndLimit =>
         purchaseCompleted ? dialogues.Count - 2 : dialogues.Count;
@@ -23,6 +26,9 @@ public class ShopDialogue : DialogueManager
     protected override void Awake()
     {
         base.Awake();
+
+        if (itemSeller == null)
+            itemSeller = GetComponent<ItemSeller>();
 
         if (acceptButton != null)
             acceptButton.onClick.AddListener(AcceptOffer);
@@ -43,6 +49,11 @@ public class ShopDialogue : DialogueManager
         purchaseCompleted = false;
         waitingDecision = false;
 
+        sellerSoldOut =
+            isItemSeller &&
+            itemSeller != null &&
+            itemSeller.HasBoughtToday();
+
         HideButtons();
 
         base.StartDialogue();
@@ -54,9 +65,12 @@ public class ShopDialogue : DialogueManager
         if (waitingDecision)
             return;
 
+        if (sellerSoldOut && currentIndex < 0)
+            currentIndex = dialogues.Count - 2;
+
         base.NextDialogue();
 
-        if (dialogueActive && currentIndex == decisionDialogueIndex)
+        if (!sellerSoldOut && dialogueActive && currentIndex == decisionDialogueIndex)
         {
             waitingDecision = true;
 
@@ -75,11 +89,22 @@ public class ShopDialogue : DialogueManager
         HideButtons();
         ForceCompleteTyping();
 
-        if (MoneyData.Instance != null && MoneyData.Instance.CanAfford(price))
+        bool canPay =
+            MoneyData.Instance != null && MoneyData.Instance.CanAfford(price);
+
+        bool canReceiveItem =
+            !isItemSeller ||
+            itemSeller == null ||
+            itemSeller.HasSpaceForAnyItem();
+
+        if (canPay && canReceiveItem)
         {
             MoneyData.Instance.RemoveMoney(price);
             purchaseCompleted = true;
-            AudioManager.instance.PlayOneShot(FMODEvents.instance.cachingComprar, transform.position);
+
+            if (isItemSeller && itemSeller != null)
+                itemSeller.BuyItem();
+
             onBuy?.Invoke();
         }
         else
@@ -99,7 +124,7 @@ public class ShopDialogue : DialogueManager
         waitingDecision = false;
         HideButtons();
         ForceCompleteTyping();
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.error, transform.position);
+
         currentIndex = dialogues.Count - 2;
 
         base.NextDialogue();

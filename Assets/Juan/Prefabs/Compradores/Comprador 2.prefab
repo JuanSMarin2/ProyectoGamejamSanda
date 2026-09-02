@@ -1027,7 +1027,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: b3c9cbf05e7abf2438ea50397aa7e97c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9da6af80dfec39a41bc2625d0fd618b9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1071,8 +1071,8 @@ MonoBehaviour:
   maxInterestDistance: 0.6
   moveSpeed: 3
   shelfOffset: {x: 0, y: -2.5, z: 0}
-  browseOffset: {x: 0, y: -2.5, z: 0}
-  browseDuration: 2
+  minBrowseDuration: 2
+  maxBrowseDuration: 5
   interactable: {fileID: 8241542491146265237}
   spriteRenderer: {fileID: 8618501955617430471}
   interactColor: {r: 0.9622642, g: 0.94916195, b: 0.8033998, a: 1}
@@ -1093,6 +1093,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
   interactableFeedback: {fileID: 3313761297139551351}
+  newInteractionSprite: {fileID: 0}
   fadeSpeed: 5
   onInteract:
     m_PersistentCalls:
@@ -1155,7 +1156,7 @@ Animator:
   m_GameObject: {fileID: 9086861635559571119}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6a51efe9098fe3f49b559f5edba7deba, type: 2}
+  m_Controller: {fileID: 9100000, guid: 4cd17aa409b29f5418b82c5249f82175, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

@@ -1065,11 +1065,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 071c1b9a2d1924d439f4799202418429, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Buyer
-  rustPreference: 100
+  rustPreference: 0
   shinePreference: 0
   weightPreference: 15
+  maxInterestDistance: 0.6
   moveSpeed: 3
   shelfOffset: {x: 0, y: -2.5, z: 0}
+  minBrowseDuration: 2
+  maxBrowseDuration: 5
   interactable: {fileID: 8241542491146265237}
   spriteRenderer: {fileID: 8618501955617430471}
   interactColor: {r: 0.9622642, g: 0.94916195, b: 0.8033998, a: 1}
@@ -1090,6 +1093,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
   interactableFeedback: {fileID: 3313761297139551351}
+  newInteractionSprite: {fileID: 0}
   fadeSpeed: 5
   onInteract:
     m_PersistentCalls:

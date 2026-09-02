@@ -14,7 +14,11 @@ public enum FeatureRating
     [InspectorName("2 estrellas")]
     TwoStars = 2,
     [InspectorName("3 estrellas")]
-    ThreeStars = 3
+    ThreeStars = 3,
+    [InspectorName("4 estrellas")]
+    FourStars = 4,
+    [InspectorName("5 estrellas")]
+    FiveStars = 5
 }
 
 [CreateAssetMenu(fileName = "ObjectData", menuName = "Game/Object Data")]

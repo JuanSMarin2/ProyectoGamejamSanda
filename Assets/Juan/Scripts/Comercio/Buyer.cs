@@ -1,15 +1,19 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 
 public class Buyer : MonoBehaviour
 {
     [Header("Preferences")]
-    [SerializeField] private float rustPreference = 50f;
-    [SerializeField] private float shinePreference = 50f;
-    [SerializeField] private float weightPreference = 50f;
+    [FormerlySerializedAs("rustPreference")]
+    [SerializeField] private float elegancePreference = 50f;
+    [FormerlySerializedAs("weightPreference")]
+    [SerializeField] private float robustnessPreference = 50f;
+    [FormerlySerializedAs("shinePreference")]
+    [SerializeField] private float brightnessPreference = 50f;
 
 
     [Header("Interest")]
@@ -35,6 +39,7 @@ public class Buyer : MonoBehaviour
 
 
     [Header("Offer")]
+    [SerializeField] private float maxOfferMultiplier = 4f;
     [SerializeField] private GameObject offerPanel;
     [SerializeField] private TMP_Text offerText;
     [SerializeField] private Button confirmButton;
@@ -366,7 +371,7 @@ public class Buyer : MonoBehaviour
 
         float multiplier = Mathf.Lerp(
             1f,
-            2f,
+            maxOfferMultiplier,
             compatibility
         );
 
@@ -504,19 +509,19 @@ public class Buyer : MonoBehaviour
 
     private float GetArtworkDistance(ArtworkData artwork)
     {
-        float rustDifference =
-            Mathf.Abs(artwork.rust - rustPreference) / 100f;
+        float eleganceDifference =
+            Mathf.Abs(artwork.rust - elegancePreference) / 100f;
 
-        float shineDifference =
-            Mathf.Abs(artwork.shine - shinePreference) / 100f;
+        float robustnessDifference =
+            Mathf.Abs(artwork.weight - robustnessPreference) / 100f;
 
-        float weightDifference =
-            Mathf.Abs(artwork.weight - weightPreference) / 100f;
+        float brightnessDifference =
+            Mathf.Abs(artwork.shine - brightnessPreference) / 100f;
 
         return (
-            rustDifference +
-            shineDifference +
-            weightDifference
+            eleganceDifference +
+            robustnessDifference +
+            brightnessDifference
         ) / 3f;
     }
 }

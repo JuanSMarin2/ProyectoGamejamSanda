@@ -39,6 +39,7 @@ public class InventoryPanel : MonoBehaviour
     [SerializeField] private GameObject selectedObjectFeedbackPrefab;
 
     [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private ArtworksPanel artworksPanel;
 
 
     private readonly List<InventoryItemButton> baseSlotList = new();
@@ -64,6 +65,9 @@ public class InventoryPanel : MonoBehaviour
     private void Awake()
     {
         inputActions = new PlayerInputActions();
+
+        if (artworksPanel == null)
+            artworksPanel = FindFirstObjectByType<ArtworksPanel>(FindObjectsInactive.Include);
 
         EnsureSpriteCacheLoaded();
 
@@ -179,6 +183,9 @@ public class InventoryPanel : MonoBehaviour
 
     public void CloseInventory()
     {
+        if (artworksPanel != null)
+            artworksPanel.ClosePanel();
+
         ExitSelectionMode();
 
         CloseSelectedPanel();
@@ -479,16 +486,36 @@ public class InventoryPanel : MonoBehaviour
             itemNameText.text = item.itemName;
 
         if (stat1Text != null)
-            stat1Text.text = $"Elegancia: {(int)item.Elegance}";
+            stat1Text.text =
+                $"{GetStatName(item.Elegance, "Elegancia", "Extremadamente Elegante", "Majestuoso")}: {(int)item.Elegance}";
 
         if (stat2Text != null)
-            stat2Text.text = $"Robustez: {(int)item.Robustness}";
+            stat2Text.text =
+                $"{GetStatName(item.Robustness, "Robustez", "Extremadamente Robusto", "Indestructible")}: {(int)item.Robustness}";
 
         if (stat3Text != null)
-            stat3Text.text = $"Brillo: {(int)item.Brightness}";
+            stat3Text.text =
+                $"{GetStatName(item.Brightness, "Brillo", "Extremadamente Brillante", "Radiante")}: {(int)item.Brightness}";
 
         if (itemImage != null)
             itemImage.sprite = GetSpriteByID(item.id, item.sprite);
+    }
+
+    private string GetStatName(
+        FeatureRating rating,
+        string normalName,
+        string fourStarName,
+        string fiveStarName)
+    {
+        switch (rating)
+        {
+            case FeatureRating.FourStars:
+                return fourStarName;
+            case FeatureRating.FiveStars:
+                return fiveStarName;
+            default:
+                return normalName;
+        }
     }
 
 

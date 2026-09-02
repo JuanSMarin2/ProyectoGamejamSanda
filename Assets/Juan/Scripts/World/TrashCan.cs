@@ -72,6 +72,7 @@ public class TrashCan : MonoBehaviour
     private void Restock()
     {
         bool hadConsumedStock =
+            itemsCollected ||
             consumedBaseEntries.Count > 0 ||
             consumedLargeEntries.Count > 0 ||
             consumedSmallEntries.Count > 0 ||
@@ -127,7 +128,7 @@ public class TrashCan : MonoBehaviour
 
         obtainedItems = TryGiveItems();
 
-        itemsCollected = !CanGiveAnything();
+        itemsCollected = true;
 
 
         UpdateNewIndicator();

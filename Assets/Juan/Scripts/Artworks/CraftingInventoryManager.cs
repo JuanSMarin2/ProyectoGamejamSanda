@@ -213,15 +213,24 @@ public class CraftingInventoryManager : MonoBehaviour
         float totalElegance = 0f;
         float totalRobustness = 0f;
         float totalBrightness = 0f;
+        int fourStarEleganceCount = 0;
+        int fourStarRobustnessCount = 0;
+        int fourStarBrightnessCount = 0;
         int pieceCount = 0;
 
-        AccumulatePiece(basePiece, ref totalElegance, ref totalRobustness, ref totalBrightness, ref pieceCount);
+        AccumulatePiece(basePiece, ref totalElegance, ref totalRobustness, ref totalBrightness,
+            ref fourStarEleganceCount, ref fourStarRobustnessCount, ref fourStarBrightnessCount,
+            ref pieceCount);
 
         foreach (PieceObjectData piece in largePieces)
-            AccumulatePiece(piece, ref totalElegance, ref totalRobustness, ref totalBrightness, ref pieceCount);
+            AccumulatePiece(piece, ref totalElegance, ref totalRobustness, ref totalBrightness,
+                ref fourStarEleganceCount, ref fourStarRobustnessCount, ref fourStarBrightnessCount,
+                ref pieceCount);
 
         foreach (PieceObjectData piece in smallPieces)
-            AccumulatePiece(piece, ref totalElegance, ref totalRobustness, ref totalBrightness, ref pieceCount);
+            AccumulatePiece(piece, ref totalElegance, ref totalRobustness, ref totalBrightness,
+                ref fourStarEleganceCount, ref fourStarRobustnessCount, ref fourStarBrightnessCount,
+                ref pieceCount);
 
         if (pieceCount == 0)
         {
@@ -233,16 +242,23 @@ public class CraftingInventoryManager : MonoBehaviour
         float avgRobustness = totalRobustness / pieceCount;
         float avgBrightness = totalBrightness / pieceCount;
 
-        lastElegancePercent = avgElegance / 3f * 100f;
-        lastRobustnessPercent = avgRobustness / 3f * 100f;
-        lastBrightnessPercent = avgBrightness / 3f * 100f;
+        float elegancePercent = GetArtworkPercent(totalElegance, fourStarEleganceCount, pieceCount);
+        float robustnessPercent = GetArtworkPercent(totalRobustness, fourStarRobustnessCount, pieceCount);
+        float brightnessPercent = GetArtworkPercent(totalBrightness, fourStarBrightnessCount, pieceCount);
+
+        lastElegancePercent = Mathf.Min(elegancePercent, 100f);
+        lastRobustnessPercent = Mathf.Min(robustnessPercent, 100f);
+        lastBrightnessPercent = Mathf.Min(brightnessPercent, 100f);
 
         ArtworkData artwork = CurrentArtworkData.Instance.Artwork;
 
         artwork.rust = lastElegancePercent;
         artwork.weight = lastRobustnessPercent;
         artwork.shine = lastBrightnessPercent;
-        artwork.baseValue = Mathf.RoundToInt((avgElegance + avgRobustness + avgBrightness) * 15f);
+        int baseValue = Mathf.RoundToInt((avgElegance + avgRobustness + avgBrightness) * 15f);
+        artwork.baseValue = baseValue + GetOverflowPrice(elegancePercent)
+            + GetOverflowPrice(robustnessPercent)
+            + GetOverflowPrice(brightnessPercent);
 
         Debug.Log($"[CRAFTING] Stats finales -> Elegancia: {lastElegancePercent:F1}% | Robustez: {lastRobustnessPercent:F1}% | Brillo: {lastBrightnessPercent:F1}% | Valor: ${artwork.baseValue}");
     }
@@ -252,15 +268,53 @@ public class CraftingInventoryManager : MonoBehaviour
         ref float totalElegance,
         ref float totalRobustness,
         ref float totalBrightness,
+        ref int fourStarEleganceCount,
+        ref int fourStarRobustnessCount,
+        ref int fourStarBrightnessCount,
         ref int pieceCount)
     {
         if (piece == null || piece.Data == null)
             return;
 
-        totalElegance += (int)piece.Data.Elegance;
-        totalRobustness += (int)piece.Data.Robustness;
-        totalBrightness += (int)piece.Data.Brightness;
+        totalElegance += GetBaseRatingValue(piece.Data.Elegance);
+        totalRobustness += GetBaseRatingValue(piece.Data.Robustness);
+        totalBrightness += GetBaseRatingValue(piece.Data.Brightness);
+
+        if (piece.Data.Elegance == FeatureRating.FourStars)
+            fourStarEleganceCount++;
+
+        if (piece.Data.Robustness == FeatureRating.FourStars)
+            fourStarRobustnessCount++;
+
+        if (piece.Data.Brightness == FeatureRating.FourStars)
+            fourStarBrightnessCount++;
+
         pieceCount++;
+    }
+
+    private float GetArtworkPercent(float totalRating, int fourStarCount, int pieceCount)
+    {
+        float basePercent = totalRating / pieceCount / 3f * 100f;
+        float fourStarBonus = fourStarCount / (float)pieceCount * 10f;
+
+        return basePercent + fourStarBonus;
+    }
+
+    private float GetBaseRatingValue(FeatureRating rating)
+    {
+        switch (rating)
+        {
+            case FeatureRating.FourStars:
+            case FeatureRating.FiveStars:
+                return 3f;
+            default:
+                return (int)rating;
+        }
+    }
+
+    private int GetOverflowPrice(float percent)
+    {
+        return Mathf.FloorToInt(Mathf.Max(0f, percent - 100f) / 10f) * 10;
     }
 
     private IEnumerator ShowResultsAndLoadShop()

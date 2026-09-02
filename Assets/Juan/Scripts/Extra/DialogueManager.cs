@@ -141,6 +141,7 @@ public class DialogueManager : MonoBehaviour
         typingCoroutine = StartCoroutine(TypeText(dialogues[currentIndex]));
     }
 
+
     private void PlayDialogueSound()
     {
         if (AudioManager.instance != null && FMODEvents.instance != null && !FMODEvents.instance.uiBotonClick.IsNull)
@@ -151,16 +152,58 @@ public class DialogueManager : MonoBehaviour
     private IEnumerator TypeText(string text)
     {
         isTyping = true;
-        dialogueText.text = "";
 
-        foreach (char letter in text)
+        // Ponemos todo el texto desde el principio.
+        // Así TMP calcula el Auto Size y los saltos de línea
+        // usando el texto completo.
+        dialogueText.text = text;
+        dialogueText.ForceMeshUpdate();
+
+        TMP_TextInfo textInfo = dialogueText.textInfo;
+
+        // Ocultamos todos los caracteres visibles.
+        for (int i = 0; i < textInfo.characterCount; i++)
         {
-            dialogueText.text += letter;
+            TMP_CharacterInfo characterInfo = textInfo.characterInfo[i];
+
+            if (!characterInfo.isVisible)
+                continue;
+
+            SetCharacterAlpha(characterInfo, 0);
+        }
+
+        dialogueText.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+
+        // Vamos mostrando los caracteres uno por uno.
+        for (int i = 0; i < textInfo.characterCount; i++)
+        {
+            TMP_CharacterInfo characterInfo = textInfo.characterInfo[i];
+
+            if (!characterInfo.isVisible)
+                continue;
+
+            SetCharacterAlpha(characterInfo, 255);
+
+            dialogueText.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
 
             yield return new WaitForSeconds(typingSpeed);
         }
 
         isTyping = false;
+    }
+
+
+    private void SetCharacterAlpha(TMP_CharacterInfo characterInfo, byte alpha)
+    {
+        int materialIndex = characterInfo.materialReferenceIndex;
+        int vertexIndex = characterInfo.vertexIndex;
+
+        Color32[] vertexColors = dialogueText.textInfo.meshInfo[materialIndex].colors32;
+
+        vertexColors[vertexIndex + 0].a = alpha;
+        vertexColors[vertexIndex + 1].a = alpha;
+        vertexColors[vertexIndex + 2].a = alpha;
+        vertexColors[vertexIndex + 3].a = alpha;
     }
 
 
@@ -170,6 +213,23 @@ public class DialogueManager : MonoBehaviour
             StopCoroutine(typingCoroutine);
 
         dialogueText.text = dialogues[currentIndex];
+        dialogueText.ForceMeshUpdate();
+
+        TMP_TextInfo textInfo = dialogueText.textInfo;
+
+        // Hacemos visibles todos los caracteres.
+        for (int i = 0; i < textInfo.characterCount; i++)
+        {
+            TMP_CharacterInfo characterInfo = textInfo.characterInfo[i];
+
+            if (!characterInfo.isVisible)
+                continue;
+
+            SetCharacterAlpha(characterInfo, 255);
+        }
+
+        dialogueText.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+
         isTyping = false;
     }
 
@@ -178,6 +238,23 @@ public class DialogueManager : MonoBehaviour
     {
         if (typingCoroutine != null)
             StopCoroutine(typingCoroutine);
+
+        dialogueText.text = dialogues[currentIndex];
+        dialogueText.ForceMeshUpdate();
+
+        TMP_TextInfo textInfo = dialogueText.textInfo;
+
+        for (int i = 0; i < textInfo.characterCount; i++)
+        {
+            TMP_CharacterInfo characterInfo = textInfo.characterInfo[i];
+
+            if (!characterInfo.isVisible)
+                continue;
+
+            SetCharacterAlpha(characterInfo, 255);
+        }
+
+        dialogueText.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
 
         isTyping = false;
     }
@@ -270,3 +347,4 @@ public class DialogueManager : MonoBehaviour
         onDialogueEnd?.Invoke();
     }
 }
+

@@ -18,5 +18,5 @@ MonoBehaviour:
   robustness: 0
   brightness: 1
   id: 202
-  itemName: TorniPeq2
+  itemName: "Tornillo Peque\xF1o 2"
   sprite: {fileID: 1784638643, guid: eb87f4c24d54d394ea15ff82d2565120, type: 3}

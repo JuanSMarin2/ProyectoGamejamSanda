@@ -15,8 +15,8 @@ MonoBehaviour:
   pieceId: 108
   category: 1
   elegance: 1
-  robustness: 0
-  brightness: 2
+  robustness: 1
+  brightness: 3
   id: 108
   itemName: Platina
   sprite: {fileID: -2048461771, guid: eb87f4c24d54d394ea15ff82d2565120, type: 3}

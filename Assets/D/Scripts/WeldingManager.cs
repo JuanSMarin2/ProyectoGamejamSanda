@@ -117,14 +117,8 @@ public class WeldingManager : MonoBehaviour
 
         worldPosition.z = 0f;
 
-        Collider2D hit =
-            Physics2D.OverlapPoint(worldPosition);
-
-        if (hit == null)
-            return;
-
         PieceObjectData objectData =
-            hit.GetComponentInParent<PieceObjectData>();
+            GetTopPieceAt(worldPosition);
 
         if (objectData == null)
             return;
@@ -142,6 +136,42 @@ public class WeldingManager : MonoBehaviour
             worldPosition;
 
         isDragging = true;
+    }
+
+
+    private PieceObjectData GetTopPieceAt(Vector2 worldPosition)
+    {
+        Collider2D[] hits = Physics2D.OverlapPointAll(worldPosition);
+
+        PieceObjectData topPiece = null;
+        int topOrder = int.MinValue;
+
+        foreach (Collider2D hit in hits)
+        {
+            if (hit == null)
+                continue;
+
+            PieceObjectData candidate =
+                hit.GetComponentInParent<PieceObjectData>();
+
+            if (candidate == null)
+                continue;
+
+            SpriteRenderer renderer =
+                candidate.GetComponentInChildren<SpriteRenderer>();
+
+            int order = renderer != null
+                ? renderer.sortingOrder
+                : int.MinValue;
+
+            if (topPiece == null || order > topOrder)
+            {
+                topPiece = candidate;
+                topOrder = order;
+            }
+        }
+
+        return topPiece;
     }
 
     private void DragCurrentObject()

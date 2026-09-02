@@ -84,6 +84,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: fbfd81d30543911428eccc2605d9a453, type: 3}
+    - target: {fileID: 7816176289262086719, guid: f13ff09f3bda2324ab0c3ebe26307c41, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 8326136029670626105, guid: f13ff09f3bda2324ab0c3ebe26307c41, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -132,7 +136,18 @@ MonoBehaviour:
     probability: 53.1
   - itemId: 201
     probability: 52.1
-  coinProbability: 90
-  interactable: {fileID: 0}
-  restockInterval: 60
-  maxItemsPerInteract: 3
+  coinProbability: 30
+  interactable: {fileID: 8568597901169658509}
+  restockInterval: 30
+  maxItemsPerInteract: 2
+--- !u!114 &8568597901169658509 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6486823236305667007, guid: f13ff09f3bda2324ab0c3ebe26307c41, type: 3}
+  m_PrefabInstance: {fileID: 3236985570670397746}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7263478413373352651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e65711e7c7c81648b4e995cbdbe555a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableObject

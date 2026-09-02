@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ObjectData
   pieceId: 106
   category: 1
-  elegance: 0
+  elegance: 2
   robustness: 2
-  brightness: 1
+  brightness: 2
   id: 106
-  itemName: 106
+  itemName: Tubo
   sprite: {fileID: 1160909520, guid: eb87f4c24d54d394ea15ff82d2565120, type: 3}

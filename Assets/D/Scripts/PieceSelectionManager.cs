@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using FMODUnity;
 
 public class PieceSelectionManager : MonoBehaviour
 {
@@ -23,9 +22,6 @@ public class PieceSelectionManager : MonoBehaviour
     private void Start()
     {
         mainCamera = Camera.main;
-
-        if (mainCamera == null)
-            mainCamera = FindFirstObjectByType<Camera>();
 
         if (discoverSceneObjects)
         {
@@ -56,17 +52,44 @@ public class PieceSelectionManager : MonoBehaviour
             return false;
 
         Vector3 worldPosition = mainCamera.ScreenToWorldPoint(screenPosition);
-        Collider2D[] hitColliders = Physics2D.OverlapPointAll(worldPosition);
+        PieceObjectData piece = GetTopPieceAt(worldPosition);
+        return TrySelectPiece(piece);
+    }
 
-        foreach (Collider2D hitCollider in hitColliders)
+
+    private PieceObjectData GetTopPieceAt(Vector2 worldPosition)
+    {
+        Collider2D[] hits = Physics2D.OverlapPointAll(worldPosition);
+
+        PieceObjectData topPiece = null;
+        int topOrder = int.MinValue;
+
+        foreach (Collider2D hit in hits)
         {
-            PieceObjectData piece = hitCollider.GetComponentInParent<PieceObjectData>();
+            if (hit == null)
+                continue;
 
-            if (TrySelectPiece(piece))
-                return true;
+            PieceObjectData candidate =
+                hit.GetComponentInParent<PieceObjectData>();
+
+            if (candidate == null)
+                continue;
+
+            SpriteRenderer renderer =
+                candidate.GetComponentInChildren<SpriteRenderer>();
+
+            int order = renderer != null
+                ? renderer.sortingOrder
+                : int.MinValue;
+
+            if (topPiece == null || order > topOrder)
+            {
+                topPiece = candidate;
+                topOrder = order;
+            }
         }
 
-        return false;
+        return topPiece;
     }
 
     public bool TrySelectPiece(PieceObjectData piece)
@@ -88,8 +111,6 @@ public class PieceSelectionManager : MonoBehaviour
         slot.SetOccupied(true);
         piece.SetSelected(true);
         selectedPieces.Add(piece);
-
-        PlayPlacementSound(piece.Category, slot.Position);
 
         CheckSelectionPhaseCompletion();
         return true;
@@ -162,37 +183,6 @@ public class PieceSelectionManager : MonoBehaviour
         {
             IsSelectionPhaseCompleted = true;
             OnSelectionPhaseCompleted?.Invoke();
-        }
-    }
-
-    private void PlayPlacementSound(PieceCategory category, Vector3 worldPosition)
-    {
-        if (AudioManager.instance == null || FMODEvents.instance == null)
-            return;
-
-        EventReference eventReference = GetPlacementSoundForCategory(category);
-
-        if (eventReference.IsNull)
-            return;
-
-        AudioManager.instance.PlayOneShot(eventReference, worldPosition);
-    }
-
-    private EventReference GetPlacementSoundForCategory(PieceCategory category)
-    {
-        if (FMODEvents.instance == null)
-            return default;
-
-        switch (category)
-        {
-            case PieceCategory.Base:
-                return FMODEvents.instance.metalesGrandes;
-            case PieceCategory.LargeAccessory:
-                return FMODEvents.instance.metalesMedianos;
-            case PieceCategory.SmallAccessory:
-                return FMODEvents.instance.metalesPequenos;
-            default:
-                return default;
         }
     }
 }

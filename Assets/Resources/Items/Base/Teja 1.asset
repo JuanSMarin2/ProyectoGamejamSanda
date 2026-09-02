@@ -15,7 +15,7 @@ MonoBehaviour:
   pieceId: 1
   category: 0
   elegance: 1
-  robustness: 2
+  robustness: 3
   brightness: 1
   id: 1
   itemName: Teja
