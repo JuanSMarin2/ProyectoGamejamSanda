@@ -79,6 +79,7 @@ public class ShopDialogue : DialogueManager
         {
             MoneyData.Instance.RemoveMoney(price);
             purchaseCompleted = true;
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.cachingComprar, transform.position);
             onBuy?.Invoke();
         }
         else
@@ -98,7 +99,7 @@ public class ShopDialogue : DialogueManager
         waitingDecision = false;
         HideButtons();
         ForceCompleteTyping();
-
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.error, transform.position);
         currentIndex = dialogues.Count - 2;
 
         base.NextDialogue();

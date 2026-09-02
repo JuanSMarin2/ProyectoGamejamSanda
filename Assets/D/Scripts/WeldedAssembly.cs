@@ -6,6 +6,7 @@ public class WeldedAssembly : MonoBehaviour
 
     public void CompleteWelding()
     {
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.soldar, transform.position);
         IsWelded = true;
 
         Debug.Log("[WELDING] Ensamblaje bloqueado.");

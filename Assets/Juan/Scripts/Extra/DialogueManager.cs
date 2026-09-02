@@ -120,6 +120,8 @@ public class DialogueManager : MonoBehaviour
         if (!dialogueActive)
             return;
 
+        PlayDialogueSound();
+
         if (isTyping)
         {
             CompleteTextInstantly();
@@ -137,6 +139,12 @@ public class DialogueManager : MonoBehaviour
         TriggerDialogueEvent(currentIndex);
 
         typingCoroutine = StartCoroutine(TypeText(dialogues[currentIndex]));
+    }
+
+    private void PlayDialogueSound()
+    {
+        if (AudioManager.instance != null && FMODEvents.instance != null && !FMODEvents.instance.uiBotonClick.IsNull)
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.uiBotonClick, transform.position);
     }
 
 

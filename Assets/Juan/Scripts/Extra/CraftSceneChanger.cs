@@ -31,7 +31,8 @@ public class CraftSceneChanger : MonoBehaviour
             Debug.LogError("[CRAFT CHANGER] No hay InventoryPanel en la escena.");
             return;
         }
-
+        //En caso de no tener los objetos.
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.error, transform.position);
         ShowNotEnoughItemsPanel();
     }
 

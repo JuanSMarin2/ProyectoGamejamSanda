@@ -10,11 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 350417464049091892, guid: f13ff09f3bda2324ab0c3ebe26307c41, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.63
+      value: 12.6
       objectReference: {fileID: 0}
     - target: {fileID: 350417464049091892, guid: f13ff09f3bda2324ab0c3ebe26307c41, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.08
+      value: 37.76
       objectReference: {fileID: 0}
     - target: {fileID: 350417464049091892, guid: f13ff09f3bda2324ab0c3ebe26307c41, type: 3}
       propertyPath: m_LocalPosition.z
@@ -80,10 +80,14 @@ PrefabInstance:
       propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 7816176289262086719, guid: f13ff09f3bda2324ab0c3ebe26307c41, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fbfd81d30543911428eccc2605d9a453, type: 3}
     - target: {fileID: 8326136029670626105, guid: f13ff09f3bda2324ab0c3ebe26307c41, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d34d79c48a3c2ba4f915fbf582fc4a24, type: 3}
+      objectReference: {fileID: 21300000, guid: ea5174c9f8cf9454abc3279b7bf9990a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -115,8 +119,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialogueManager
   dialogues:
-  - Hola
-  - Adiosssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+  - "Qu\xE9 tristeza, eres muy pobre."
+  - "Estoy seguro de que si empiezas a vender obras hechas con basura, vender\xEDas
+    mucho m\xE1s."
+  - "Al menos por fin estar\xEDas trabajando con materiales acordes a tu nivel."
+  - Puedes construir obras interactuando con E en tu taller si tienes el inventario
+    lleno.
+  - Seguro que alguien entra a comprar.
   dialogueText: {fileID: 0}
   typingSpeed: 0.03
   isInteractable: 1

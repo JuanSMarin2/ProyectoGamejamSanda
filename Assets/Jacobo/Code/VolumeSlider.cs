@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using UnityEngine.EventSystems;
 
-public class VolumeSlider : MonoBehaviour
+public class VolumeSlider : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     private enum VolumeType {
         MASTER,
@@ -16,6 +18,9 @@ public class VolumeSlider : MonoBehaviour
     [SerializeField] private VolumeType volumeType;
 
     private Slider volumeSlider;
+    [Header("UI")]
+    [SerializeField] private TextMeshProUGUI percentText;
+    private bool valueChangedDuringDrag = false;
 
     private void Awake()
     {
@@ -42,6 +47,7 @@ public class VolumeSlider : MonoBehaviour
                 Debug.LogWarning("Volume Type not supported: " + volumeType);
                 break;
         }
+        UpdatePercentText();
     }
 
     public void OnSliderValueChanged()
@@ -64,5 +70,31 @@ public class VolumeSlider : MonoBehaviour
                 Debug.LogWarning("Volume Type not supported: " + volumeType);
                 break;
         }
+        UpdatePercentText();
+        valueChangedDuringDrag = true;
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        valueChangedDuringDrag = false;
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (volumeType == VolumeType.SFX && valueChangedDuringDrag)
+        {
+            if (FMODEvents.instance != null && !FMODEvents.instance.reactivarAudio.IsNull)
+            {
+                AudioManager.instance.PlayOneShot(FMODEvents.instance.reactivarAudio, transform.position);
+            }
+        }
+        valueChangedDuringDrag = false;
+    }
+
+    private void UpdatePercentText()
+    {
+        if (percentText == null || volumeSlider == null) return;
+        int percent = Mathf.RoundToInt(volumeSlider.value * 100f);
+        percentText.text = percent + "%";
     }
 }

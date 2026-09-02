@@ -166,7 +166,7 @@ public class CuttingController : MonoBehaviour
             
             polygonCollider.SetPath(0, colliderPoints);
         }
-
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.sierraElectrica, baseCleaningObject.transform.position);
         IsCuttingCompleted = true;
         shapeSelected = false;
 
