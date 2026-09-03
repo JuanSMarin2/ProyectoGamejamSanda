@@ -16,7 +16,7 @@ MonoBehaviour:
   category: 0
   elegance: 0
   robustness: 2
-  brightness: 2
+  brightness: 3
   id: 4
   itemName: Exosto
   sprite: {fileID: -112962561, guid: eb87f4c24d54d394ea15ff82d2565120, type: 3}
