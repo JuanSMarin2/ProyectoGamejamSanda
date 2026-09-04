@@ -224,7 +224,10 @@ public class PaintingManager : MonoBehaviour
                 selectedColor
             );
 
-            currentObject.FillWithPaint();
+            if (currentObject.FillWithPaint())
+            {
+                PlayApplyColorSound(currentObject.transform.position);
+            }
         }
     }
 
@@ -276,6 +279,8 @@ public class PaintingManager : MonoBehaviour
             $"[PAINTING] Color seleccionado: " +
             $"{selectedColor}"
         );
+
+        PlaySelectColorSound();
     }
 
     public void ConfirmPainting()
@@ -303,5 +308,35 @@ public class PaintingManager : MonoBehaviour
         );
 
         OnPaintingCompleted?.Invoke();
+    }
+
+    private void PlaySelectColorSound()
+    {
+        if (AudioManager.instance == null ||
+            FMODEvents.instance == null ||
+            FMODEvents.instance.SeleccionarColor.IsNull)
+        {
+            return;
+        }
+
+        AudioManager.instance.PlayOneShot(
+            FMODEvents.instance.SeleccionarColor,
+            transform.position
+        );
+    }
+
+    private void PlayApplyColorSound(Vector3 worldPosition)
+    {
+        if (AudioManager.instance == null ||
+            FMODEvents.instance == null ||
+            FMODEvents.instance.AplicarColor.IsNull)
+        {
+            return;
+        }
+
+        AudioManager.instance.PlayOneShot(
+            FMODEvents.instance.AplicarColor,
+            worldPosition
+        );
     }
 }

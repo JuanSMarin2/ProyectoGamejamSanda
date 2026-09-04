@@ -68,10 +68,13 @@ public class PaintableObject : MonoBehaviour
     // CUBETA
     // =========================================================
 
-    public void FillWithPaint()
+    public bool FillWithPaint()
     {
         if (!interactionEnabled)
-            return;
+            return false;
+
+        if (IsPainted())
+            return false;
 
         paintAmount = 1f;
 
@@ -80,6 +83,8 @@ public class PaintableObject : MonoBehaviour
         Debug.Log(
             $"[PAINTING] {name} pintado de {paintColor}"
         );
+
+        return true;
     }
 
     // =========================================================

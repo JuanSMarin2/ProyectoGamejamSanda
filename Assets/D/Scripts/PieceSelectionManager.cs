@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using FMODUnity;
+using FMOD.Studio;
 
 public class PieceSelectionManager : MonoBehaviour
 {
@@ -110,6 +112,7 @@ public class PieceSelectionManager : MonoBehaviour
         piece.transform.position = slot.Position;
         slot.SetOccupied(true);
         piece.SetSelected(true);
+        PlayPieceSelectionSound(piece);
         selectedPieces.Add(piece);
 
         CheckSelectionPhaseCompletion();
@@ -184,5 +187,40 @@ public class PieceSelectionManager : MonoBehaviour
             IsSelectionPhaseCompleted = true;
             OnSelectionPhaseCompleted?.Invoke();
         }
+    }
+
+    private void PlayPieceSelectionSound(PieceObjectData piece)
+    {
+        if (piece == null ||
+            AudioManager.instance == null ||
+            FMODEvents.instance == null)
+        {
+            return;
+        }
+
+        EventReference eventReference;
+
+        switch (piece.Category)
+        {
+            case PieceCategory.Base:
+                eventReference = FMODEvents.instance.metalesGrandes;
+                break;
+            case PieceCategory.LargeAccessory:
+                eventReference = FMODEvents.instance.metalesMedianos;
+                break;
+            case PieceCategory.SmallAccessory:
+                eventReference = FMODEvents.instance.metalesPequenos;
+                break;
+            default:
+                return;
+        }
+
+        if (eventReference.IsNull)
+            return;
+
+        AudioManager.instance.PlayOneShot(
+            eventReference,
+            piece.transform.position
+        );
     }
 }

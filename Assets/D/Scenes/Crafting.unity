@@ -405,8 +405,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Coloca las piezas como quieras y su\xE9ldalas entre s\xED"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9722de192885087468e62898668b9ab8, type: 2}
-  m_sharedMaterial: {fileID: 55834195639057726, guid: 9722de192885087468e62898668b9ab8, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2d781f278d6048e42b486b09592ccc59, type: 2}
+  m_sharedMaterial: {fileID: 3995689871056024750, guid: 2d781f278d6048e42b486b09592ccc59, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3571,8 +3571,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Limpia las piezas y qu\xEDtales el \xF3xido"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9722de192885087468e62898668b9ab8, type: 2}
-  m_sharedMaterial: {fileID: 55834195639057726, guid: 9722de192885087468e62898668b9ab8, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2d781f278d6048e42b486b09592ccc59, type: 2}
+  m_sharedMaterial: {fileID: 3995689871056024750, guid: 2d781f278d6048e42b486b09592ccc59, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4601,7 +4601,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Selecciona las piezas que quieres usar para construir tu obra
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9722de192885087468e62898668b9ab8, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2d781f278d6048e42b486b09592ccc59, type: 2}
   m_sharedMaterial: {fileID: 55834195639057726, guid: 9722de192885087468e62898668b9ab8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -4668,7 +4668,7 @@ MonoBehaviour:
   m_margin: {x: -650.2511, y: -197.20734, z: -748.85486, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1429726112
@@ -5495,8 +5495,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Elige la forma y corta la base
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9722de192885087468e62898668b9ab8, type: 2}
-  m_sharedMaterial: {fileID: 55834195639057726, guid: 9722de192885087468e62898668b9ab8, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2d781f278d6048e42b486b09592ccc59, type: 2}
+  m_sharedMaterial: {fileID: 3995689871056024750, guid: 2d781f278d6048e42b486b09592ccc59, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5649,6 +5649,421 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1797513183}
   m_CullTransparentMesh: 1
+--- !u!1 &1829109144
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1829109145}
+  - component: {fileID: 1829109146}
+  m_Layer: 0
+  m_Name: FMODevents
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1829109145
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829109144}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1090.9609, y: 21.91667, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2023368176}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1829109146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829109144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0661bd290dc7d354b91791b490fa9417, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FMODEvents
+  <agarrarObjeto>k__BackingField:
+    Guid:
+      Data1: 1885686804
+      Data2: 1309321224
+      Data3: -572633410
+      Data4: -89904997
+    Path: event:/Personaje/Agarrar Objeto
+  <moverPilaChatarra>k__BackingField:
+    Guid:
+      Data1: -1501116690
+      Data2: 1334207297
+      Data3: -237315913
+      Data4: 401845564
+    Path: event:/Personaje/Mover pila chatarra
+  <abrirCaneca>k__BackingField:
+    Guid:
+      Data1: -1517354147
+      Data2: 1301375043
+      Data3: 13664683
+      Data4: 2070729671
+    Path: event:/Personaje/AbrirCaneca
+  <cerrarCaneca>k__BackingField:
+    Guid:
+      Data1: 1053855742
+      Data2: 1133383799
+      Data3: 1121857968
+      Data4: 1285974003
+    Path: event:/Personaje/CerrarCaneca
+  <abrirPuerta>k__BackingField:
+    Guid:
+      Data1: -2029806300
+      Data2: 1333166576
+      Data3: 900641967
+      Data4: 1140897698
+    Path: event:/Personaje/AbrirPuertaGeneral
+  <abrirPuertaTienda>k__BackingField:
+    Guid:
+      Data1: 74651799
+      Data2: 1186025114
+      Data3: 2093733777
+      Data4: -216046449
+    Path: event:/Personaje/AbrirPuertaTienda
+  <pasosPersonaje>k__BackingField:
+    Guid:
+      Data1: 1226667
+      Data2: 1139280174
+      Data3: 1659932336
+      Data4: -2128773978
+    Path: event:/Personaje/PasosPersonaje
+  <recolectarDinero>k__BackingField:
+    Guid:
+      Data1: -1049297427
+      Data2: 1165991267
+      Data3: 2073772682
+      Data4: 1122801328
+    Path: event:/Personaje/RecolectarDinero
+  <abrirInventario>k__BackingField:
+    Guid:
+      Data1: 1973026470
+      Data2: 1291929030
+      Data3: 605882295
+      Data4: 716955871
+    Path: event:/Personaje/AbrirInventario
+  <abrirTaller>k__BackingField:
+    Guid:
+      Data1: -1110554720
+      Data2: 1317513502
+      Data3: -1043447900
+      Data4: 587414771
+    Path: event:/Personaje/AbrirTaller
+  <construccionMejora>k__BackingField:
+    Guid:
+      Data1: 1689717564
+      Data2: 1213244782
+      Data3: -488362309
+      Data4: 1263304931
+    Path: event:/Mejoras/ConstruccionMejora
+  <cachingComprar>k__BackingField:
+    Guid:
+      Data1: -1733965500
+      Data2: 1309116860
+      Data3: -984336000
+      Data4: 1173533478
+    Path: event:/Mejoras/Caching Comprar
+  <martilloContrayunque>k__BackingField:
+    Guid:
+      Data1: 492775476
+      Data2: 1147843775
+      Data3: 1204112048
+      Data4: 2081117577
+    Path: event:/Mejoras/MartilloContrayunque
+  <lijar>k__BackingField:
+    Guid:
+      Data1: 593162737
+      Data2: 1194013718
+      Data3: 105369991
+      Data4: -1602073399
+    Path: event:/Mejoras/Lijar
+  <martillo>k__BackingField:
+    Guid:
+      Data1: -916420521
+      Data2: 1274008112
+      Data3: 1662808712
+      Data4: -313885951
+    Path: event:/Mejoras/Martillo
+  <soldar>k__BackingField:
+    Guid:
+      Data1: 1849360637
+      Data2: 1226681755
+      Data3: -1006937722
+      Data4: 993525464
+    Path: event:/Mejoras/Soldar
+  <sierraElectrica>k__BackingField:
+    Guid:
+      Data1: 414996766
+      Data2: 1336468923
+      Data3: 278420407
+      Data4: 368909607
+    Path: event:/Mejoras/Sierra
+  <serrucho>k__BackingField:
+    Guid:
+      Data1: 501511045
+      Data2: 1182430552
+      Data3: 1728887426
+      Data4: 1204779951
+    Path: event:/Mejoras/Serrucho
+  <feedbackMegafono>k__BackingField:
+    Guid:
+      Data1: -358228398
+      Data2: 1176238532
+      Data3: 1715499696
+      Data4: 1288569609
+    Path: event:/Mejoras/FeedbackMegafono
+  <sirenaPolicia>k__BackingField:
+    Guid:
+      Data1: -1718861018
+      Data2: 1312452226
+      Data3: 1001113000
+      Data4: -1708611039
+    Path: event:/Enemigos/Sirena de policia
+  <pasosEnemigo>k__BackingField:
+    Guid:
+      Data1: -262517549
+      Data2: 1102177087
+      Data3: -1673154388
+      Data4: -358467092
+    Path: event:/Personaje/PasosEnemigo
+  <risaVagabundo>k__BackingField:
+    Guid:
+      Data1: 796023247
+      Data2: 1116227756
+      Data3: 1737395080
+      Data4: -609136307
+    Path: event:/Enemigos/RisaVagabundo
+  <ajaVagabundo>k__BackingField:
+    Guid:
+      Data1: 1950307712
+      Data2: 1113793549
+      Data3: 1369224351
+      Data4: -92792854
+    Path: event:/Enemigos/AjaVagabundo
+  <slapRapar>k__BackingField:
+    Guid:
+      Data1: 349513802
+      Data2: 1232823419
+      Data3: 696791474
+      Data4: -993422142
+    Path: event:/Enemigos/SlapRapar
+  <layeringRobo>k__BackingField:
+    Guid:
+      Data1: 1823345295
+      Data2: 1274839744
+      Data3: 302834594
+      Data4: -1332101461
+    Path: event:/Enemigos/LayeringRobo
+  <pausa>k__BackingField:
+    Guid:
+      Data1: -297422057
+      Data2: 1289351344
+      Data3: 715286174
+      Data4: -869667804
+    Path: event:/UI/Pausa
+  <boton>k__BackingField:
+    Guid:
+      Data1: -513410950
+      Data2: 1324070155
+      Data3: -898947684
+      Data4: -729853238
+    Path: event:/UI/Boton
+  <uiBotonClick>k__BackingField:
+    Guid:
+      Data1: -513410950
+      Data2: 1324070155
+      Data3: -898947684
+      Data4: -729853238
+    Path: event:/UI/Boton
+  <beep>k__BackingField:
+    Guid:
+      Data1: 916112303
+      Data2: 1160558449
+      Data3: 2131587733
+      Data4: 802636061
+    Path: event:/UI/Boton 2
+  <reactivarAudio>k__BackingField:
+    Guid:
+      Data1: 531392276
+      Data2: 1265467656
+      Data3: 40252854
+      Data4: -1561922805
+    Path: event:/UI/ReactivarAudio
+  <victoria>k__BackingField:
+    Guid:
+      Data1: 1848104304
+      Data2: 1271972489
+      Data3: -1701372537
+      Data4: -1540847041
+    Path: event:/UI/Victoria
+  <derrota>k__BackingField:
+    Guid:
+      Data1: 985874470
+      Data2: 1138961789
+      Data3: -430451836
+      Data4: -1117715407
+    Path: event:/UI/Derrota
+  <error>k__BackingField:
+    Guid:
+      Data1: 1052186350
+      Data2: 1221359386
+      Data3: 1413352594
+      Data4: -1521628011
+    Path: event:/UI/Error
+  <positivo>k__BackingField:
+    Guid:
+      Data1: 288967810
+      Data2: 1200993186
+      Data3: 2010110349
+      Data4: 688769305
+    Path: event:/UI/Positivo
+  <calendarioAbierto>k__BackingField:
+    Guid:
+      Data1: -2058463045
+      Data2: 1268941756
+      Data3: 1068840893
+      Data4: -1909297515
+    Path: event:/UI/CalendarioAbierto
+  <aparicionDinero>k__BackingField:
+    Guid:
+      Data1: 1355295161
+      Data2: 1260668777
+      Data3: -184181119
+      Data4: 333051315
+    Path: event:/UI/AparicionDinero
+  <SeleccionarColor>k__BackingField:
+    Guid:
+      Data1: 1111697376
+      Data2: 1102233392
+      Data3: 141788604
+      Data4: -247039505
+    Path: event:/UI/SeleccionarColor
+  <WooshAgudo>k__BackingField:
+    Guid:
+      Data1: -138158306
+      Data2: 1238478184
+      Data3: 803079864
+      Data4: 1295008024
+    Path: event:/UI/WooshAgudo
+  <WooshGrave>k__BackingField:
+    Guid:
+      Data1: 1034545149
+      Data2: 1334370803
+      Data3: -686940787
+      Data4: -1340231442
+    Path: event:/UI/WooshGrave
+  <AplicarColor>k__BackingField:
+    Guid:
+      Data1: 162679182
+      Data2: 1098419794
+      Data3: 2094506929
+      Data4: 160497966
+    Path: event:/UI/AplicarColor
+  <metalesPequenos>k__BackingField:
+    Guid:
+      Data1: 169089694
+      Data2: 1230042962
+      Data3: -1988252008
+      Data4: -1119917144
+    Path: "event:/Objetos/Metales peque\xF1os"
+  <metalesMedianos>k__BackingField:
+    Guid:
+      Data1: -436199125
+      Data2: 1208869254
+      Data3: 1791827625
+      Data4: -632871644
+    Path: event:/Objetos/Metales Medianos
+  <metalesGrandes>k__BackingField:
+    Guid:
+      Data1: 1624330412
+      Data2: 1119804628
+      Data3: -1109860191
+      Data4: -880284384
+    Path: event:/Objetos/Metales Grandes
+  <AmbienteGeneral>k__BackingField:
+    Guid:
+      Data1: -1532570187
+      Data2: 1310107188
+      Data3: -1691116910
+      Data4: -1732080241
+    Path: event:/Ambientes/AmbienteGeneral
+  <ciudad>k__BackingField:
+    Guid:
+      Data1: -973375104
+      Data2: 1122287401
+      Data3: -2020023626
+      Data4: -667893039
+    Path: event:/Ambientes/Ciudad
+  <museo>k__BackingField:
+    Guid:
+      Data1: 1931165471
+      Data2: 1243517489
+      Data3: 1285963194
+      Data4: 1921454954
+    Path: event:/Ambientes/Museo
+  <taller>k__BackingField:
+    Guid:
+      Data1: -1250895336
+      Data2: 1187555430
+      Data3: -418147921
+      Data4: -1052740833
+    Path: event:/Ambientes/Taller
+  <parque>k__BackingField:
+    Guid:
+      Data1: 1252535143
+      Data2: 1129859105
+      Data3: -1707083112
+      Data4: -851064243
+    Path: event:/Ambientes/Parque
+  <ScatterHerramientas>k__BackingField:
+    Guid:
+      Data1: 1014208157
+      Data2: 1084090496
+      Data3: -880281446
+      Data4: -766413731
+    Path: event:/ScatterHerramientas
+  <MusicaGeneral>k__BackingField:
+    Guid:
+      Data1: 1713048214
+      Data2: 1129035132
+      Data3: -1089716829
+      Data4: 721581220
+    Path: event:/Music/MusicaGeneral
+  <vals>k__BackingField:
+    Guid:
+      Data1: -1646900895
+      Data2: 1127050741
+      Data3: 2028947134
+      Data4: 598502889
+    Path: event:/Music/Vals
+  <reggae>k__BackingField:
+    Guid:
+      Data1: -1053692542
+      Data2: 1302845053
+      Data3: -1690949995
+      Data4: 185294847
+    Path: event:/Music/Reggae
+  <funk>k__BackingField:
+    Guid:
+      Data1: 970427715
+      Data2: 1153870238
+      Data3: -1711208012
+      Data4: 189329526
+    Path: event:/Music/Funk
 --- !u!1 &1900931930
 GameObject:
   m_ObjectHideFlags: 0
@@ -5708,8 +6123,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Pinta las piezas para darle el acabado final
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9722de192885087468e62898668b9ab8, type: 2}
-  m_sharedMaterial: {fileID: 55834195639057726, guid: 9722de192885087468e62898668b9ab8, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2d781f278d6048e42b486b09592ccc59, type: 2}
+  m_sharedMaterial: {fileID: 3995689871056024750, guid: 2d781f278d6048e42b486b09592ccc59, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6205,10 +6620,19 @@ PrefabInstance:
       value: SoundManagers
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5858054643346434190, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 786004688318518928, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 1829109145}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
+--- !u!4 &2023368176 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 786004688318518928, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
+  m_PrefabInstance: {fileID: 2023368175}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2036741399
 GameObject:
   m_ObjectHideFlags: 0
