@@ -38,6 +38,9 @@ public class Buyer : MonoBehaviour
 
     [Header("Offer")]
     [SerializeField] private float maxOfferMultiplier = 4f;
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float offerRandomnessPercent = 0.15f;
     [SerializeField] private GameObject offerPanel;
     [SerializeField] private TMP_Text offerText;
     [SerializeField] private Button confirmButton;
@@ -407,6 +410,11 @@ public class Buyer : MonoBehaviour
         {
             finalOffer *= DayTendency.Instance.TendencyMultiplier;
         }
+
+        finalOffer *= Random.Range(
+            1f - offerRandomnessPercent,
+            1f + offerRandomnessPercent
+        );
 
         return finalOffer;
     }
