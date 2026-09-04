@@ -313,6 +313,7 @@ public class InventoryPanel : MonoBehaviour
 
             if (slot != null && selectedObjectFeedbackPrefab != null)
             {
+                AudioManager.instance.PlayOneShot(FMODEvents.instance.beep, transform.position);
                 GameObject feedback = Instantiate(
                     selectedObjectFeedbackPrefab,
                     slot.transform

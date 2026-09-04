@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private SpriteRenderer spriteRenderer;
 
-
+    private float movementMultiplier = 1f;
     private bool movementEnabled = true;
 
     private Rigidbody2D rb;
@@ -77,6 +77,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void SetMovementMultiplier(float multiplier)
+    {
+        movementMultiplier = Mathf.Max(1f, multiplier);
+    }
+
 
     private void Move()
     {
@@ -96,11 +101,13 @@ public class PlayerMovement : MonoBehaviour
 
         Vector2 direction = movementInput.normalized;
         float currentSpeed = rb.linearVelocity.magnitude;
+        float effectiveInitialSpeed = initialSpeed * movementMultiplier;
+        float effectiveMaxSpeed = maxSpeed * movementMultiplier;
 
 
         if (currentSpeed < 0.01f)
         {
-            currentSpeed = initialSpeed;
+            currentSpeed = effectiveInitialSpeed;
         }
         else if (Vector2.Dot(rb.linearVelocity.normalized, direction) < 0f)
         {
@@ -111,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
         {
             currentSpeed = Mathf.MoveTowards(
                 currentSpeed,
-                maxSpeed,
+                effectiveMaxSpeed,
                 acceleration * Time.fixedDeltaTime
             );
         }
