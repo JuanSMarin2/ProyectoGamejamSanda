@@ -178,7 +178,7 @@ public class DayUI : MonoBehaviour
 
 
         timeText.color = Color.Lerp(
-            Color.black,
+            Color.white,
             Color.red,
             pulse
         );

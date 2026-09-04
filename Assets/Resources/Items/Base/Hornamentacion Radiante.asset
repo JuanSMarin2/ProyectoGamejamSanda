@@ -18,5 +18,5 @@ MonoBehaviour:
   robustness: 1
   brightness: 5
   id: 8
-  itemName: Hornamentacion Radiante
+  itemName: "Hornamentaci\xF3n Radiante"
   sprite: {fileID: 684666033, guid: eb87f4c24d54d394ea15ff82d2565120, type: 3}

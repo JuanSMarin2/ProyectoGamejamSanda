@@ -10,6 +10,7 @@ public class ShopDialogue : DialogueManager
     [SerializeField] private int price;
     [SerializeField] private bool isItemSeller;
     [SerializeField] private ItemSeller itemSeller;
+    [SerializeField] private InventoryIncreaseSeller inventoryIncreaseSeller;
     [SerializeField] private GameObject decisionButtons;
     [SerializeField] private Button acceptButton;
     [SerializeField] private Button rejectButton;
@@ -29,6 +30,9 @@ public class ShopDialogue : DialogueManager
 
         if (itemSeller == null)
             itemSeller = GetComponent<ItemSeller>();
+
+        if (inventoryIncreaseSeller == null)
+            inventoryIncreaseSeller = GetComponent<InventoryIncreaseSeller>();
 
         if (acceptButton != null)
             acceptButton.onClick.AddListener(AcceptOffer);
@@ -51,8 +55,8 @@ public class ShopDialogue : DialogueManager
 
         sellerSoldOut =
             isItemSeller &&
-            itemSeller != null &&
-            itemSeller.HasBoughtToday();
+            ((itemSeller != null && itemSeller.HasBoughtToday()) ||
+             (inventoryIncreaseSeller != null && inventoryIncreaseSeller.HasBoughtToday()));
 
         HideButtons();
 
@@ -94,8 +98,9 @@ public class ShopDialogue : DialogueManager
 
         bool canReceiveItem =
             !isItemSeller ||
-            itemSeller == null ||
-            itemSeller.HasSpaceForAnyItem();
+            (itemSeller == null && inventoryIncreaseSeller == null) ||
+            (itemSeller != null && itemSeller.HasSpaceForAnyItem()) ||
+            (inventoryIncreaseSeller != null && inventoryIncreaseSeller.CanSellIncrease());
 
         if (canPay && canReceiveItem)
         {
@@ -104,6 +109,9 @@ public class ShopDialogue : DialogueManager
 
             if (isItemSeller && itemSeller != null)
                 itemSeller.BuyItem();
+
+            if (isItemSeller && inventoryIncreaseSeller != null)
+                inventoryIncreaseSeller.BuyIncrease();
 
             onBuy?.Invoke();
         }

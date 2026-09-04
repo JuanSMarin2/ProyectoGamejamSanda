@@ -18,5 +18,5 @@ MonoBehaviour:
   robustness: 5
   brightness: 5
   id: 11
-  itemName: Hornamentacion Suprema
+  itemName: "Hornamentaci\xF3n Suprema"
   sprite: {fileID: 684666033, guid: eb87f4c24d54d394ea15ff82d2565120, type: 3}
