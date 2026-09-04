@@ -11,7 +11,7 @@ public class VolumeSlider : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         MASTER,
         MUSIC,
         SFX,
-        Ambience
+       
     }
 
     [Header("Type")]
@@ -24,7 +24,7 @@ public class VolumeSlider : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     private void Awake()
     {
-        volumeSlider = this.GetComponentInChildren<Slider>();
+        volumeSlider = GetComponentInChildren<Slider>();
     }
 
     private void Update()
@@ -39,9 +39,6 @@ public class VolumeSlider : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
                 break;
             case VolumeType.SFX:
                 volumeSlider.value = AudioManager.instance.SFXVolume;
-                break;
-                case VolumeType.Ambience:
-                volumeSlider.value = AudioManager.instance.ambienceVolume;
                 break;
             default:
                 Debug.LogWarning("Volume Type not supported: " + volumeType);
@@ -63,9 +60,9 @@ public class VolumeSlider : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
             case VolumeType.SFX:
                 AudioManager.instance.SFXVolume = volumeSlider.value;
                 break;
-            case VolumeType.Ambience:
-            AudioManager.instance.ambienceVolume = volumeSlider.value;
-                break;
+            // case VolumeType.Ambience:
+            // AudioManager.instance.ambienceVolume = volumeSlider.value;
+                
             default:
                 Debug.LogWarning("Volume Type not supported: " + volumeType);
                 break;
