@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemData
   itemId: 0
   itemName: Botas
-  description: Los negros Aumentan tu velocidad en 10%
+  description: Aumentan tu velocidad en 10%
   icon: {fileID: 21300000, guid: 3e30b42f888ca9446825959a62d276eb, type: 3}
   basePrice: 30
   maxLevel: 3
-  priceByLevel: 1e0000003200000064000000
+  priceByLevel: 32000000c8000000e8030000
