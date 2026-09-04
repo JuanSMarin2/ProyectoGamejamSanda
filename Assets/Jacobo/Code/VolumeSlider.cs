@@ -86,6 +86,7 @@ public class VolumeSlider : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
             if (FMODEvents.instance != null && !FMODEvents.instance.reactivarAudio.IsNull)
             {
                 AudioManager.instance.PlayOneShot(FMODEvents.instance.reactivarAudio, transform.position);
+                Debug.Log("Playing reactivarAudio sound effect");
             }
         }
         valueChangedDuringDrag = false;

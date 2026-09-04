@@ -3593,6 +3593,10 @@ PrefabInstance:
       value: event:/Music/Reggae
       objectReference: {fileID: 0}
     - target: {fileID: 3445095302981711515, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
+      propertyPath: <sceneAmbience>k__BackingField.Path
+      value: event:/ScatterHerramientas
+      objectReference: {fileID: 0}
+    - target: {fileID: 3445095302981711515, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
       propertyPath: <sceneMusic>k__BackingField.Guid.Data1
       value: -1053692542
       objectReference: {fileID: 0}
@@ -3608,9 +3612,61 @@ PrefabInstance:
       propertyPath: <sceneMusic>k__BackingField.Guid.Data4
       value: 185294847
       objectReference: {fileID: 0}
+    - target: {fileID: 3445095302981711515, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
+      propertyPath: <sceneAmbience>k__BackingField.Guid.Data1
+      value: 1014208157
+      objectReference: {fileID: 0}
+    - target: {fileID: 3445095302981711515, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
+      propertyPath: <sceneAmbience>k__BackingField.Guid.Data2
+      value: 1084090496
+      objectReference: {fileID: 0}
+    - target: {fileID: 3445095302981711515, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
+      propertyPath: <sceneAmbience>k__BackingField.Guid.Data3
+      value: -880281446
+      objectReference: {fileID: 0}
+    - target: {fileID: 3445095302981711515, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
+      propertyPath: <sceneAmbience>k__BackingField.Guid.Data4
+      value: -766413731
+      objectReference: {fileID: 0}
+    - target: {fileID: 4944038423966083397, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
+      propertyPath: <ScatterHerramientas>k__BackingField.Path
+      value: event:/ScatterHerramientas
+      objectReference: {fileID: 0}
+    - target: {fileID: 4944038423966083397, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
+      propertyPath: <ScatterHerramientas>k__BackingField.Guid.Data1
+      value: 1014208157
+      objectReference: {fileID: 0}
+    - target: {fileID: 4944038423966083397, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
+      propertyPath: <ScatterHerramientas>k__BackingField.Guid.Data2
+      value: 1084090496
+      objectReference: {fileID: 0}
+    - target: {fileID: 4944038423966083397, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
+      propertyPath: <ScatterHerramientas>k__BackingField.Guid.Data3
+      value: -880281446
+      objectReference: {fileID: 0}
+    - target: {fileID: 4944038423966083397, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
+      propertyPath: <ScatterHerramientas>k__BackingField.Guid.Data4
+      value: -766413731
+      objectReference: {fileID: 0}
     - target: {fileID: 5152327709853532430, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
       propertyPath: m_Name
       value: SoundManagers
+      objectReference: {fileID: 0}
+    - target: {fileID: 6256484602951906354, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
+      propertyPath: SFXVolume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6256484602951906354, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
+      propertyPath: musicVolume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6256484602951906354, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
+      propertyPath: masterVolume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6256484602951906354, guid: 9795b2c35de26834cacb6fa7295fcb2a, type: 3}
+      propertyPath: ambienceVolume
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
