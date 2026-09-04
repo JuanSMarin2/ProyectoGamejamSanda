@@ -270,6 +270,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 52447473}
   m_CullTransparentMesh: 1
+--- !u!1 &60415563
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 60415565}
+  - component: {fileID: 60415564}
+  m_Layer: 0
+  m_Name: CURSORMANAGER
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &60415564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 60415563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5eb673be11db514dbda1419b6f33c96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CursorManager
+  placementCursor:
+    texture: {fileID: 0}
+    hotspot: {x: 0, y: 0}
+    mode: 1
+  cleaningCursor:
+    texture: {fileID: 2800000, guid: d1237c60e05fe734d95e32dfc1f096ef, type: 3}
+    hotspot: {x: 0, y: 0}
+    mode: 1
+  cuttingCursor:
+    texture: {fileID: 2800000, guid: 92b5fab8958bcf54ca0c1315add3015f, type: 3}
+    hotspot: {x: 0, y: 0}
+    mode: 1
+  weldingCursor:
+    texture: {fileID: 2800000, guid: dbf4cfecfa8bd7a4f9212232b68251f5, type: 3}
+    hotspot: {x: 0, y: 0}
+    mode: 1
+  paintingCursor:
+    texture: {fileID: 2800000, guid: 612db3ded0bab9b4abd06799e8a014e1, type: 3}
+    hotspot: {x: 0, y: 0}
+    mode: 1
+  completedCursor:
+    texture: {fileID: 0}
+    hotspot: {x: 0, y: 0}
+    mode: 1
+--- !u!4 &60415565
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 60415563}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -20.86492, y: 54.81497, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &103074170
 GameObject:
   m_ObjectHideFlags: 0
@@ -2897,6 +2965,7 @@ MonoBehaviour:
   cuttingController: {fileID: 439342945}
   weldingManager: {fileID: 840620390}
   paintingManager: {fileID: 840620391}
+  cursorManager: {fileID: 0}
   continueButton: {fileID: 396493513}
   continueButtonCanvasGroup: {fileID: 0}
   placementPanel: {fileID: 1797513184}
@@ -7310,3 +7379,4 @@ SceneRoots:
   - {fileID: 2023368175}
   - {fileID: 1006986750}
   - {fileID: 829322591}
+  - {fileID: 60415565}
