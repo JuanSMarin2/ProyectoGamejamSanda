@@ -11,9 +11,6 @@ public class InventoryData : MonoBehaviour
     private const int InitialLargeLimit = 3;
     private const int InitialSmallLimit = 4;
 
-    private const int MaxBaseLimit = 5;
-    private const int MaxLargeLimit = 5;
-    private const int MaxSmallLimit = 5;
 
     public static InventoryData Instance { get; private set; }
 
@@ -53,9 +50,9 @@ public class InventoryData : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        maxBaseItems = Mathf.Clamp(maxBaseItems, InitialBaseLimit, MaxBaseLimit);
-        maxLargeItems = Mathf.Clamp(maxLargeItems, InitialLargeLimit, MaxLargeLimit);
-        maxSmallItems = Mathf.Clamp(maxSmallItems, InitialSmallLimit, MaxSmallLimit);
+        maxBaseItems = Mathf.Max(maxBaseItems, InitialBaseLimit);
+        maxLargeItems = Mathf.Max(maxLargeItems, InitialLargeLimit);
+        maxSmallItems = Mathf.Max(maxSmallItems, InitialSmallLimit);
     }
 
 
@@ -198,22 +195,15 @@ public class InventoryData : MonoBehaviour
 
     public bool CanIncreaseInventory()
     {
-        return maxBaseItems < MaxBaseLimit ||
-               maxLargeItems < MaxLargeLimit ||
-               maxSmallItems < MaxSmallLimit;
+        return true;
     }
 
 
     public void IncreaseInventory()
     {
-        if (maxBaseItems >= MaxBaseLimit &&
-            maxLargeItems >= MaxLargeLimit &&
-            maxSmallItems >= MaxSmallLimit)
-            return;
-
-        maxBaseItems = Mathf.Min(maxBaseItems + 1, MaxBaseLimit);
-        maxLargeItems = Mathf.Min(maxLargeItems + 1, MaxLargeLimit);
-        maxSmallItems = Mathf.Min(maxSmallItems + 1, MaxSmallLimit);
+        maxBaseItems++;
+        maxLargeItems++;
+        maxSmallItems++;
 
         OnSlotsChanged?.Invoke();
         OnInventoryChanged?.Invoke();

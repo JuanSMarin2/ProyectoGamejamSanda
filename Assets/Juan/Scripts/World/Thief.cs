@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class Thief : MonoBehaviour
 {
-    [SerializeField] private List<Transform> waypoints = new();
+    [SerializeField] private int patrolPointCount = 3;
+    [SerializeField] private float patrolRadius = 2f;
     [SerializeField] private float patrolSpeed = 2f;
     [SerializeField] private float chaseSpeed = 6f;
     [SerializeField] private GameObject thiefPanel;
@@ -17,6 +18,7 @@ public class Thief : MonoBehaviour
     private Transform player;
     private NpcAnimatorController npcAnimator;
 
+    private readonly List<Vector3> patrolPoints = new();
     private int currentWaypointIndex;
     private bool playerInVision;
     private bool chasing;
@@ -28,6 +30,8 @@ public class Thief : MonoBehaviour
 
         if (thiefPanel != null)
             thiefPanel.SetActive(false);
+
+        GeneratePatrolPoints();
     }
 
     private void Start()
@@ -64,9 +68,29 @@ public class Thief : MonoBehaviour
         Patrol();
     }
 
+    private void GeneratePatrolPoints()
+    {
+        patrolPoints.Clear();
+
+        float sectorDegrees = 360f / patrolPointCount;
+        float startAngle = Random.Range(0f, 360f);
+
+        for (int i = 0; i < patrolPointCount; i++)
+        {
+            float angle = startAngle + sectorDegrees * i + Random.Range(0f, sectorDegrees);
+
+            Vector2 offset = new Vector2(
+                Mathf.Cos(angle * Mathf.Deg2Rad),
+                Mathf.Sin(angle * Mathf.Deg2Rad)
+            ) * patrolRadius;
+
+            patrolPoints.Add(transform.position + (Vector3)offset);
+        }
+    }
+
     private void Patrol()
     {
-        if (waypoints.Count == 0)
+        if (patrolPoints.Count == 0)
         {
             if (npcAnimator != null)
                 npcAnimator.PlayIdle();
@@ -74,26 +98,20 @@ public class Thief : MonoBehaviour
             return;
         }
 
-        Transform target = waypoints[currentWaypointIndex];
+        Vector3 target = patrolPoints[currentWaypointIndex];
 
-        if (target == null)
-        {
-            NextWaypoint();
-            return;
-        }
-
-        MoveTowards(target.position, patrolSpeed);
+        MoveTowards(target, patrolSpeed);
 
         if (npcAnimator != null)
-            npcAnimator.SetMoveDirection(target.position - transform.position);
+            npcAnimator.SetMoveDirection(target - transform.position);
 
-        if (Vector3.Distance(transform.position, target.position) < 0.05f)
+        if (Vector3.Distance(transform.position, target) < 0.05f)
             NextWaypoint();
     }
 
     private void NextWaypoint()
     {
-        currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
+        currentWaypointIndex = (currentWaypointIndex + 1) % patrolPoints.Count;
     }
 
     private void MoveTowards(Vector3 targetPosition, float speed)
