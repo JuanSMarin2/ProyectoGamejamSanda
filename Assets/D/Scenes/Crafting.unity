@@ -1024,7 +1024,7 @@ Transform:
   m_GameObject: {fileID: 317667392}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.82, y: -3.35, z: 0}
+  m_LocalPosition: {x: 3, y: -3.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2227,7 +2227,7 @@ Transform:
   m_GameObject: {fileID: 544134148}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.9, y: 0.26, z: 0}
+  m_LocalPosition: {x: 3, y: 0.26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2470,7 +2470,7 @@ Transform:
   m_GameObject: {fileID: 681751753}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.02, y: 2.72, z: 0}
+  m_LocalPosition: {x: 3, y: 2.72, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2908,6 +2908,7 @@ MonoBehaviour:
   panelDropDuration: 0.4
   panelHoldDuration: 2
   panelRiseDuration: 0.35
+  panelClickCooldown: 0.5
   panelDropCurve:
     serializedVersion: 2
     m_Curve:
@@ -4742,7 +4743,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2047176738, guid: 69ba862fd412d1547acb3872969c3afe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5113,7 +5114,7 @@ Transform:
   m_GameObject: {fileID: 1529080481}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.71, y: -1.57, z: 0}
+  m_LocalPosition: {x: 3, y: -1.57, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6842,7 +6843,7 @@ Transform:
   m_GameObject: {fileID: 2134283137}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.35, y: -2.35, z: 0}
+  m_LocalPosition: {x: 3, y: -2.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

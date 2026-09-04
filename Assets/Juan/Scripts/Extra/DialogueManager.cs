@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 
 public class DialogueManager : MonoBehaviour
@@ -13,14 +14,22 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] protected float typingSpeed = 0.03f;
     [SerializeField] protected bool isInteractable = true;
 
+
+    [Header("Face")]
+    [SerializeField] protected Sprite npcSprite;
+    [SerializeField] protected Image faceImage;
+
+
     [Header("Dialogue Space")]
     [SerializeField] protected GameObject dialogueSpace;
     [SerializeField] protected float scaleInDuration = 0.2f;
     [SerializeField] protected float scaleOutDuration = 0.15f;
 
+
     [Header("Interaction")]
     [SerializeField] protected GameObject interactableFeedback;
     [SerializeField] protected PlayerMovement playerMovement;
+
 
     [System.Serializable]
     protected class DialogueEvent
@@ -29,9 +38,11 @@ public class DialogueManager : MonoBehaviour
         public UnityEvent onDialogueReached;
     }
 
+
     [Header("Events")]
     [SerializeField] protected List<DialogueEvent> dialogueEvents;
     [SerializeField] protected UnityEvent onDialogueEnd;
+
 
     protected int currentIndex = -1;
     protected Coroutine typingCoroutine;
@@ -60,8 +71,10 @@ public class DialogueManager : MonoBehaviour
             dialogueSpace.SetActive(false);
         }
 
+
         if (isInteractable)
             return;
+
 
         StartDialogue();
     }
@@ -84,6 +97,7 @@ public class DialogueManager : MonoBehaviour
         if (!dialogueActive)
             return;
 
+
         if (inputActions.Player.NextText.WasPressedThisFrame())
         {
             NextDialogue();
@@ -96,20 +110,37 @@ public class DialogueManager : MonoBehaviour
         if (dialogueActive)
             return;
 
+
         dialogueActive = true;
         currentIndex = -1;
+
+
+        if (npcSprite != null && faceImage != null)
+        {
+            faceImage.sprite = npcSprite;
+            faceImage.enabled = true;
+        }
+        else if (faceImage != null)
+        {
+            faceImage.sprite = null;
+            faceImage.enabled = false;
+        }
+
 
         if (interactableFeedback != null)
             interactableFeedback.SetActive(false);
 
+
         if (playerMovement != null)
             playerMovement.SetMovementEnabled(false);
+
 
         if (dialogueSpace != null)
         {
             dialogueSpace.SetActive(true);
             StartCoroutine(ScaleIn());
         }
+
 
         NextDialogue();
     }
@@ -120,7 +151,9 @@ public class DialogueManager : MonoBehaviour
         if (!dialogueActive)
             return;
 
+
         PlayDialogueSound();
+
 
         if (isTyping)
         {
@@ -128,7 +161,9 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
+
         currentIndex++;
+
 
         if (currentIndex >= EndLimit)
         {
@@ -136,16 +171,26 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
+
         TriggerDialogueEvent(currentIndex);
 
-        typingCoroutine = StartCoroutine(TypeText(dialogues[currentIndex]));
+        typingCoroutine = StartCoroutine(
+            TypeText(dialogues[currentIndex])
+        );
     }
 
 
     private void PlayDialogueSound()
     {
-        if (AudioManager.instance != null && FMODEvents.instance != null && !FMODEvents.instance.uiBotonClick.IsNull)
-            AudioManager.instance.PlayOneShot(FMODEvents.instance.uiBotonClick, transform.position);
+        if (AudioManager.instance != null &&
+            FMODEvents.instance != null &&
+            !FMODEvents.instance.uiBotonClick.IsNull)
+        {
+            AudioManager.instance.PlayOneShot(
+                FMODEvents.instance.uiBotonClick,
+                transform.position
+            );
+        }
     }
 
 
@@ -153,52 +198,84 @@ public class DialogueManager : MonoBehaviour
     {
         isTyping = true;
 
-        // Ponemos todo el texto desde el principio.
-        // Así TMP calcula el Auto Size y los saltos de línea
-        // usando el texto completo.
+
         dialogueText.text = text;
         dialogueText.ForceMeshUpdate();
 
+
         TMP_TextInfo textInfo = dialogueText.textInfo;
 
-        // Ocultamos todos los caracteres visibles.
+
         for (int i = 0; i < textInfo.characterCount; i++)
         {
-            TMP_CharacterInfo characterInfo = textInfo.characterInfo[i];
+            TMP_CharacterInfo characterInfo =
+                textInfo.characterInfo[i];
+
 
             if (!characterInfo.isVisible)
                 continue;
 
-            SetCharacterAlpha(characterInfo, 0);
+
+            SetCharacterAlpha(
+                characterInfo,
+                0
+            );
         }
 
-        dialogueText.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
 
-        // Vamos mostrando los caracteres uno por uno.
+        dialogueText.UpdateVertexData(
+            TMP_VertexDataUpdateFlags.Colors32
+        );
+
+
         for (int i = 0; i < textInfo.characterCount; i++)
         {
-            TMP_CharacterInfo characterInfo = textInfo.characterInfo[i];
+            TMP_CharacterInfo characterInfo =
+                textInfo.characterInfo[i];
+
 
             if (!characterInfo.isVisible)
                 continue;
 
-            SetCharacterAlpha(characterInfo, 255);
 
-            dialogueText.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+            SetCharacterAlpha(
+                characterInfo,
+                255
+            );
 
-            yield return new WaitForSeconds(typingSpeed);
+
+            dialogueText.UpdateVertexData(
+                TMP_VertexDataUpdateFlags.Colors32
+            );
+
+
+            yield return new WaitForSeconds(
+                typingSpeed
+            );
         }
+
 
         isTyping = false;
     }
 
 
-    private void SetCharacterAlpha(TMP_CharacterInfo characterInfo, byte alpha)
+    private void SetCharacterAlpha(
+        TMP_CharacterInfo characterInfo,
+        byte alpha)
     {
-        int materialIndex = characterInfo.materialReferenceIndex;
-        int vertexIndex = characterInfo.vertexIndex;
+        int materialIndex =
+            characterInfo.materialReferenceIndex;
 
-        Color32[] vertexColors = dialogueText.textInfo.meshInfo[materialIndex].colors32;
+        int vertexIndex =
+            characterInfo.vertexIndex;
+
+
+        Color32[] vertexColors =
+            dialogueText
+                .textInfo
+                .meshInfo[materialIndex]
+                .colors32;
+
 
         vertexColors[vertexIndex + 0].a = alpha;
         vertexColors[vertexIndex + 1].a = alpha;
@@ -212,23 +289,39 @@ public class DialogueManager : MonoBehaviour
         if (typingCoroutine != null)
             StopCoroutine(typingCoroutine);
 
-        dialogueText.text = dialogues[currentIndex];
+
+        dialogueText.text =
+            dialogues[currentIndex];
+
+
         dialogueText.ForceMeshUpdate();
 
-        TMP_TextInfo textInfo = dialogueText.textInfo;
 
-        // Hacemos visibles todos los caracteres.
+        TMP_TextInfo textInfo =
+            dialogueText.textInfo;
+
+
         for (int i = 0; i < textInfo.characterCount; i++)
         {
-            TMP_CharacterInfo characterInfo = textInfo.characterInfo[i];
+            TMP_CharacterInfo characterInfo =
+                textInfo.characterInfo[i];
+
 
             if (!characterInfo.isVisible)
                 continue;
 
-            SetCharacterAlpha(characterInfo, 255);
+
+            SetCharacterAlpha(
+                characterInfo,
+                255
+            );
         }
 
-        dialogueText.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+
+        dialogueText.UpdateVertexData(
+            TMP_VertexDataUpdateFlags.Colors32
+        );
+
 
         isTyping = false;
     }
@@ -239,22 +332,39 @@ public class DialogueManager : MonoBehaviour
         if (typingCoroutine != null)
             StopCoroutine(typingCoroutine);
 
-        dialogueText.text = dialogues[currentIndex];
+
+        dialogueText.text =
+            dialogues[currentIndex];
+
+
         dialogueText.ForceMeshUpdate();
 
-        TMP_TextInfo textInfo = dialogueText.textInfo;
+
+        TMP_TextInfo textInfo =
+            dialogueText.textInfo;
+
 
         for (int i = 0; i < textInfo.characterCount; i++)
         {
-            TMP_CharacterInfo characterInfo = textInfo.characterInfo[i];
+            TMP_CharacterInfo characterInfo =
+                textInfo.characterInfo[i];
+
 
             if (!characterInfo.isVisible)
                 continue;
 
-            SetCharacterAlpha(characterInfo, 255);
+
+            SetCharacterAlpha(
+                characterInfo,
+                255
+            );
         }
 
-        dialogueText.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+
+        dialogueText.UpdateVertexData(
+            TMP_VertexDataUpdateFlags.Colors32
+        );
+
 
         isTyping = false;
     }
@@ -264,14 +374,27 @@ public class DialogueManager : MonoBehaviour
     {
         float time = 0f;
 
-        dialogueSpace.transform.localScale = dialogueSpaceScale * 0.01f;
+
+        dialogueSpace.transform.localScale =
+            dialogueSpaceScale * 0.01f;
+
 
         while (time < scaleInDuration)
         {
             time += Time.deltaTime;
 
-            float progress = time / scaleInDuration;
-            progress = Mathf.SmoothStep(0f, 1f, progress);
+
+            float progress =
+                time / scaleInDuration;
+
+
+            progress =
+                Mathf.SmoothStep(
+                    0f,
+                    1f,
+                    progress
+                );
+
 
             dialogueSpace.transform.localScale =
                 Vector3.Lerp(
@@ -280,10 +403,13 @@ public class DialogueManager : MonoBehaviour
                     progress
                 );
 
+
             yield return null;
         }
 
-        dialogueSpace.transform.localScale = dialogueSpaceScale;
+
+        dialogueSpace.transform.localScale =
+            dialogueSpaceScale;
     }
 
 
@@ -291,14 +417,27 @@ public class DialogueManager : MonoBehaviour
     {
         float time = 0f;
 
-        Vector3 startingScale = dialogueSpace.transform.localScale;
+
+        Vector3 startingScale =
+            dialogueSpace.transform.localScale;
+
 
         while (time < scaleOutDuration)
         {
             time += Time.deltaTime;
 
-            float progress = time / scaleOutDuration;
-            progress = Mathf.SmoothStep(0f, 1f, progress);
+
+            float progress =
+                time / scaleOutDuration;
+
+
+            progress =
+                Mathf.SmoothStep(
+                    0f,
+                    1f,
+                    progress
+                );
+
 
             dialogueSpace.transform.localScale =
                 Vector3.Lerp(
@@ -307,10 +446,15 @@ public class DialogueManager : MonoBehaviour
                     progress
                 );
 
+
             yield return null;
         }
 
-        dialogueSpace.transform.localScale = dialogueSpaceScale * 0.01f;
+
+        dialogueSpace.transform.localScale =
+            dialogueSpaceScale * 0.01f;
+
+
         dialogueSpace.SetActive(false);
     }
 
@@ -332,19 +476,23 @@ public class DialogueManager : MonoBehaviour
         dialogueActive = false;
         isTyping = false;
 
+
         if (typingCoroutine != null)
             StopCoroutine(typingCoroutine);
+
 
         if (dialogueSpace != null)
             StartCoroutine(ScaleOut());
 
+
         if (interactableFeedback != null)
             interactableFeedback.SetActive(true);
+
 
         if (playerMovement != null)
             playerMovement.SetMovementEnabled(true);
 
+
         onDialogueEnd?.Invoke();
     }
 }
-

@@ -63,6 +63,8 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
+    public bool MovementEnabled => movementEnabled;
+
     public void SetMovementEnabled(bool enabled)
     {
         movementEnabled = enabled;

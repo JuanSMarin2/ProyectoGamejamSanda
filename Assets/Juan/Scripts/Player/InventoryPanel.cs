@@ -149,6 +149,14 @@ public class InventoryPanel : MonoBehaviour
 
     private void ToggleInventory()
     {
+        if (inventoryPanel != null &&
+            !inventoryPanel.activeSelf &&
+            playerMovement != null &&
+            !playerMovement.MovementEnabled)
+        {
+            return;
+        }
+
         if (AudioManager.instance != null &&
             FMODEvents.instance != null &&
             !FMODEvents.instance.abrirInventario.IsNull)

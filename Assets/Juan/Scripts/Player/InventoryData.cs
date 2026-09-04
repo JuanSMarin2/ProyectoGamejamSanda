@@ -149,6 +149,8 @@ public class InventoryData : MonoBehaviour
         if (!removed)
             return false;
 
+        PlayRemoveSound();
+
         RebuildCombinedItems();
         OnInventoryChanged?.Invoke();
 
@@ -156,11 +158,26 @@ public class InventoryData : MonoBehaviour
     }
 
 
+    private void PlayRemoveSound()
+    {
+        if (AudioManager.instance == null ||
+            FMODEvents.instance == null ||
+            FMODEvents.instance.agarrarObjeto.IsNull)
+        {
+            return;
+        }
+
+        AudioManager.instance.PlayOneShot(
+            FMODEvents.instance.agarrarObjeto,
+            transform.position
+        );
+    }
+
+
     public void ClearInventory()
     {
         if (ItemCount == 0)
             return;
-
         baseItems.Clear();
         smallItems.Clear();
         largeItems.Clear();
@@ -176,6 +193,14 @@ public class InventoryData : MonoBehaviour
             return null;
 
         return combinedItems[index];
+    }
+
+
+    public bool CanIncreaseInventory()
+    {
+        return maxBaseItems < MaxBaseLimit ||
+               maxLargeItems < MaxLargeLimit ||
+               maxSmallItems < MaxSmallLimit;
     }
 
 

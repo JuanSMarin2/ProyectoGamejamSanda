@@ -44,6 +44,9 @@ public class TimeManager : MonoBehaviour
         if (!dayStarted || dayEnded)
             return;
 
+        if (!ShopTimeGate.IsInShopScene)
+            return;
+
 
         currentTime += Time.deltaTime;
 
