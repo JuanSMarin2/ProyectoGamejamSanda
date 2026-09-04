@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: "M\xE1s Inventario"
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemData
   itemId: 1
-  itemName: Bolso
+  itemName: Bolsa
   description: Aumentan la cantidad de objetos que puedes llevar
-  icon: {fileID: 21300000, guid: 81369a71f5249be4d9021702faba4862, type: 3}
+  icon: {fileID: 21300000, guid: e13e99ceb54f57a41b9d0d9015cfe43a, type: 3}
   basePrice: 50
   maxLevel: 3
   priceByLevel: 640000002c01000020030000

@@ -157,15 +157,7 @@ public class InventoryPanel : MonoBehaviour
             return;
         }
 
-        if (AudioManager.instance != null &&
-            FMODEvents.instance != null &&
-            !FMODEvents.instance.abrirInventario.IsNull)
-        {
-            AudioManager.instance.PlayOneShot(
-                FMODEvents.instance.abrirInventario,
-                transform.position
-            );
-        }
+     
 
         if (inventoryPanel == null)
         {
@@ -183,7 +175,15 @@ public class InventoryPanel : MonoBehaviour
     public void OpenInventory()
     {
         inventoryPanel.SetActive(true);
-
+           if (AudioManager.instance != null &&
+            FMODEvents.instance != null &&
+            !FMODEvents.instance.abrirInventario.IsNull)
+        {
+            AudioManager.instance.PlayOneShot(
+                FMODEvents.instance.abrirInventario,
+                transform.position
+            );
+        }
         if (playerMovement != null)
             playerMovement.SetMovementEnabled(false);
     }
@@ -191,6 +191,15 @@ public class InventoryPanel : MonoBehaviour
 
     public void CloseInventory()
     {
+           if (AudioManager.instance != null &&
+            FMODEvents.instance != null &&
+            !FMODEvents.instance.abrirInventario.IsNull)
+        {
+            AudioManager.instance.PlayOneShot(
+                FMODEvents.instance.abrirInventario,
+                transform.position
+            );
+        }
         if (artworksPanel != null)
             artworksPanel.ClosePanel();
 
