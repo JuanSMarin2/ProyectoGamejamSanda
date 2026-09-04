@@ -36,6 +36,7 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference risaVagabundo { get; private set; }
     [field: SerializeField] public EventReference ajaVagabundo { get; private set; }
     [field: SerializeField] public EventReference slapRapar { get; private set; }
+    [field: SerializeField] public EventReference LayeringRobo { get; private set; }
 
     [field: Header("UI")]
     [field: SerializeField] public EventReference pausa { get; private set; }
@@ -49,6 +50,11 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference positivo { get; private set; }
     [field: SerializeField] public EventReference calendarioAbierto { get; private set; }
     [field: SerializeField] public EventReference aparicionDinero { get; private set; }
+    [field: SerializeField] public EventReference SeleccionarColor { get; private set; }
+    [field: SerializeField] public EventReference WooshAgudo { get; private set; }
+    [field: SerializeField] public EventReference WooshGrave { get; private set; }
+
+    [field: SerializeField] public EventReference AplicarColor { get; private set; }
 
     [field: Header("Objetos")]
     [field: SerializeField] public EventReference metalesPequenos { get; private set; }
