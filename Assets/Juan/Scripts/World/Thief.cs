@@ -140,7 +140,7 @@ public class Thief : MonoBehaviour
         string stolenItemName = StealItem();
 
         if (stolenMoney > 0 || stolenItemName != null)
-            PlaySlapSound();
+            PlayStealSound();
 
         ShowThiefPanel(stolenMoney, stolenItemName);
 
@@ -198,11 +198,12 @@ public class Thief : MonoBehaviour
         Debug.Log($"[THIEF] Te robaron ${stolenMoney} y {(stolenItemName ?? "nada")}.");
     }
 
-    private void PlaySlapSound()
+    private void PlayStealSound()
     {
         if (AudioManager.instance == null || FMODEvents.instance == null || FMODEvents.instance.slapRapar.IsNull)
             return;
 
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.slapRapar, transform.position);
+        
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.layeringRobo, transform.position);
     }
 }

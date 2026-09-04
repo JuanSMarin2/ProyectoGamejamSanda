@@ -4995,6 +4995,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 305437511}
+    - target: {fileID: 6984846183119714336, guid: 4232c7e207317534daf7f10cc48f6dbd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Introduction
+      objectReference: {fileID: 0}
     - target: {fileID: 8480690976754757994, guid: 4232c7e207317534daf7f10cc48f6dbd, type: 3}
       propertyPath: m_Name
       value: FondoBotonJugar

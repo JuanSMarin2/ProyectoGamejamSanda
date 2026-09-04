@@ -36,7 +36,7 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference risaVagabundo { get; private set; }
     [field: SerializeField] public EventReference ajaVagabundo { get; private set; }
     [field: SerializeField] public EventReference slapRapar { get; private set; }
-    [field: SerializeField] public EventReference LayeringRobo { get; private set; }
+    [field: SerializeField] public EventReference layeringRobo { get; private set; }
 
     [field: Header("UI")]
     [field: SerializeField] public EventReference pausa { get; private set; }
