@@ -1065,8 +1065,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 071c1b9a2d1924d439f4799202418429, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Buyer
-  elegancePreference: 0
-  robustnessPreference: 15
+  elegancePreference: 100
+  robustnessPreference: 0
   brightnessPreference: 0
   maxInterestDistance: 0.6
   moveSpeed: 3
