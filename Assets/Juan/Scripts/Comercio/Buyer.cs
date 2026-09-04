@@ -17,6 +17,7 @@ public class Buyer : MonoBehaviour
     [SerializeField]
     [Range(0f, 1f)]
     private float maxInterestDistance = 0.6f;
+    [SerializeField] private bool approachClosestWhenNoMatch = true;
 
 
     [Header("Movement")]
@@ -156,22 +157,36 @@ public class Buyer : MonoBehaviour
             if (GetArtworkDistance(artwork) > maxInterestDistance)
                 break;
 
-            int newIndex = buyerManager.TryJoinQueue(artwork, this);
+            if (TryJoinArtworkQueue(artwork))
+                return;
+        }
 
-            if (newIndex < 0)
-                continue;
-
-            targetArtwork = artwork;
-            queueIndex = newIndex;
-            state = BuyerState.MovingToQueueSpot;
-
-            if (npcAnimator != null)
-                npcAnimator.PlayUp();
-
+        if (approachClosestWhenNoMatch &&
+            candidates.Count > 0 &&
+            TryJoinArtworkQueue(candidates[0]))
+        {
             return;
         }
 
         StartBrowsing();
+    }
+
+
+    private bool TryJoinArtworkQueue(ArtworkData artwork)
+    {
+        int newIndex = buyerManager.TryJoinQueue(artwork, this);
+
+        if (newIndex < 0)
+            return false;
+
+        targetArtwork = artwork;
+        queueIndex = newIndex;
+        state = BuyerState.MovingToQueueSpot;
+
+        if (npcAnimator != null)
+            npcAnimator.PlayUp();
+
+        return true;
     }
 
 

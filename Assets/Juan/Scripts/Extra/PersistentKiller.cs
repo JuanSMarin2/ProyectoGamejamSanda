@@ -5,6 +5,7 @@ public class PersistentKiller : MonoBehaviour
 {
     private void Start()
     {
+       Time.timeScale = 1;
         GameObject[] roundDataObjects = GameObject.FindGameObjectsWithTag("RoundData");
 
 
