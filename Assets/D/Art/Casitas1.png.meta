@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7607b6c9f4a3ae542bc2291f5ce5a2a1
+guid: cfde684c32d1af94eb33fd39160f0caf
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -123,23 +123,67 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Fuente_0
+      name: Casitas1_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 8
-        width: 214
-        height: 228
-      alignment: 9
-      pivot: {x: 0.50135154, y: 0.34523854}
+        x: 14
+        y: 0
+        width: 148
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 06a1452eb4e8f8744bcf380d590274db
-      internalID: -1201137206
+      spriteID: b108f97dcdf21af428d3b9c7b105c1ee
+      internalID: -1474130822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Casitas1_1
+      rect:
+        serializedVersion: 2
+        x: 190
+        y: 0
+        width: 148
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f8d10d414c7d06449feff4ec46c6d50
+      internalID: 816307474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Casitas1_2
+      rect:
+        serializedVersion: 2
+        x: 366
+        y: 0
+        width: 148
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63fa3cce7036b0140a6b52c90ad996c8
+      internalID: 1806986657
       vertices: []
       indices: 
       edges: []
@@ -148,7 +192,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 3038d43f0be7a0c48a462ae2f9769852
+    spriteID: 9fe15173f020a2a4f97dcb3e716bb015
     internalID: 0
     vertices: []
     indices: 
@@ -160,7 +204,9 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Fuente_0: -1201137206
+      Casitas1_0: -1474130822
+      Casitas1_1: 816307474
+      Casitas1_2: 1806986657
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
