@@ -300,7 +300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CursorManager
   placementCursor:
-    texture: {fileID: 0}
+    texture: {fileID: 2800000, guid: 488eefe5d8ff45c429518390d0a2397d, type: 3}
     hotspot: {x: 0, y: 0}
     mode: 1
   cleaningCursor:
@@ -312,7 +312,7 @@ MonoBehaviour:
     hotspot: {x: 0, y: 0}
     mode: 1
   weldingCursor:
-    texture: {fileID: 2800000, guid: dbf4cfecfa8bd7a4f9212232b68251f5, type: 3}
+    texture: {fileID: 2800000, guid: 488eefe5d8ff45c429518390d0a2397d, type: 3}
     hotspot: {x: 0, y: 0}
     mode: 1
   paintingCursor:
@@ -320,7 +320,7 @@ MonoBehaviour:
     hotspot: {x: 0, y: 0}
     mode: 1
   completedCursor:
-    texture: {fileID: 0}
+    texture: {fileID: 2800000, guid: 488eefe5d8ff45c429518390d0a2397d, type: 3}
     hotspot: {x: 0, y: 0}
     mode: 1
 --- !u!4 &60415565
