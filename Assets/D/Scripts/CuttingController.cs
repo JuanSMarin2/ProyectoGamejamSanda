@@ -166,7 +166,8 @@ public class CuttingController : MonoBehaviour
             
             polygonCollider.SetPath(0, colliderPoints);
         }
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.sierraElectrica, baseCleaningObject.transform.position);
+
+        PlayCutSound();
         IsCuttingCompleted = true;
         shapeSelected = false;
 
@@ -174,6 +175,23 @@ public class CuttingController : MonoBehaviour
             previewRenderer.enabled = false;
 
         OnCuttingCompleted?.Invoke();
+    }
+
+    private void PlayCutSound()
+    {
+        Debug.Log("[CUTTING] Reproduciendo sonido de corte");
+        if (AudioManager.instance == null ||
+            FMODEvents.instance == null ||
+            FMODEvents.instance.sierraElectrica.IsNull ||
+            baseCleaningObject == null)
+        {
+            return;
+        }
+
+        AudioManager.instance.PlayOneShot(
+            FMODEvents.instance.sierraElectrica,
+            baseCleaningObject.transform.position
+        );
     }
 
     /// <summary>

@@ -23,6 +23,7 @@ public class GameFlowManager : MonoBehaviour
     [SerializeField] private CuttingController cuttingController;
     [SerializeField] private WeldingManager weldingManager;
     [SerializeField] private PaintingManager paintingManager;
+    [SerializeField] private CursorManager cursorManager;
 
     [Header("UI")]
     [SerializeField] private Button continueButton;
@@ -65,6 +66,7 @@ public class GameFlowManager : MonoBehaviour
         if (cuttingController == null) cuttingController = FindFirstObjectByType<CuttingController>();
         if (weldingManager == null) weldingManager = FindFirstObjectByType<WeldingManager>();
         if (paintingManager == null) paintingManager = FindFirstObjectByType<PaintingManager>();
+        if (cursorManager == null) cursorManager = FindFirstObjectByType<CursorManager>();
 
         if (pieceSelectionManager != null) pieceSelectionManager.OnSelectionPhaseCompleted += HandleSelectionPhaseCompleted;
         if (cleaningManager != null) cleaningManager.PhaseCompleted += HandleCleaningPhaseCompleted;
@@ -217,6 +219,8 @@ public class GameFlowManager : MonoBehaviour
         CurrentPhase = phase;
         Debug.Log($"[GAME FLOW] Cambiando a: {phase}");
         UpdateContinueButtonState();
+        if (cursorManager != null)
+            cursorManager.SetPhaseCursor(phase);
         ShowPhasePanel(phase);
     }
 

@@ -103,6 +103,13 @@ public class AudioManager : MonoBehaviour
         RuntimeManager.PlayOneShot(sound, worldPos);
     }
 
+    public void PlayShopSound()
+    {
+        if (FMODEvents.instance != null && !FMODEvents.instance.cachingComprar.IsNull)
+        {
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.cachingComprar, transform.position);
+        }
+    }
    
     public EventInstance CreateInstance(EventReference eventReference)
     {

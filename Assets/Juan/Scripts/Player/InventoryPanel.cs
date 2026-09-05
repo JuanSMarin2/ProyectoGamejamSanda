@@ -147,7 +147,7 @@ public class InventoryPanel : MonoBehaviour
     }
 
 
-    private void ToggleInventory()
+    public void ToggleInventory()
     {
         if (inventoryPanel != null &&
             !inventoryPanel.activeSelf &&
