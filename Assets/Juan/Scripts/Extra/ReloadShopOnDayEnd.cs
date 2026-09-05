@@ -81,7 +81,10 @@ public class ReloadShopOnDayEnd : MonoBehaviour
     private void OnOneHourRemaining()
     {
 
-           //Poner sonido aqui 
+           if(AudioManager.instance != null && FMODEvents.instance != null && !FMODEvents.instance.ClockTicking.IsNull)
+           {
+                AudioManager.instance.PlayOneShot(FMODEvents.instance.ClockTicking, transform.position);
+           }
 
     }
 

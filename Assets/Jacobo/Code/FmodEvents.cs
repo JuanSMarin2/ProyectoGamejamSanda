@@ -53,6 +53,7 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference SeleccionarColor { get; private set; }
     [field: SerializeField] public EventReference WooshAgudo { get; private set; }
     [field: SerializeField] public EventReference WooshGrave { get; private set; }
+    [field: SerializeField] public EventReference ClockTicking { get; private set; }
 
     [field: SerializeField] public EventReference AplicarColor { get; private set; }
 
