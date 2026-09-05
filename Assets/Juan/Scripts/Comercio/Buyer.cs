@@ -1,25 +1,23 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 
 public class Buyer : MonoBehaviour
 {
     [Header("Preferences")]
-    [FormerlySerializedAs("rustPreference")]
-    [SerializeField] private float elegancePreference = 50f;
-    [FormerlySerializedAs("weightPreference")]
-    [SerializeField] private float robustnessPreference = 50f;
-    [FormerlySerializedAs("shinePreference")]
-    [SerializeField] private float brightnessPreference = 50f;
+    [SerializeField] private PreferredStat preferredStat = PreferredStat.Elegance;
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float preferenceWeight = 0.5f;
 
 
     [Header("Interest")]
     [SerializeField]
     [Range(0f, 1f)]
     private float maxInterestDistance = 0.6f;
+    [SerializeField] private bool approachClosestWhenNoMatch = true;
 
 
     [Header("Movement")]
@@ -40,11 +38,21 @@ public class Buyer : MonoBehaviour
 
     [Header("Offer")]
     [SerializeField] private float maxOfferMultiplier = 4f;
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float offerRandomnessPercent = 0.15f;
     [SerializeField] private GameObject offerPanel;
     [SerializeField] private TMP_Text offerText;
     [SerializeField] private Button confirmButton;
     [SerializeField] private Button rejectButton;
 
+
+    private enum PreferredStat
+    {
+        Elegance,
+        Robustness,
+        Brightness
+    }
 
     private enum BuyerState
     {
@@ -152,22 +160,36 @@ public class Buyer : MonoBehaviour
             if (GetArtworkDistance(artwork) > maxInterestDistance)
                 break;
 
-            int newIndex = buyerManager.TryJoinQueue(artwork, this);
+            if (TryJoinArtworkQueue(artwork))
+                return;
+        }
 
-            if (newIndex < 0)
-                continue;
-
-            targetArtwork = artwork;
-            queueIndex = newIndex;
-            state = BuyerState.MovingToQueueSpot;
-
-            if (npcAnimator != null)
-                npcAnimator.PlayUp();
-
+        if (approachClosestWhenNoMatch &&
+            candidates.Count > 0 &&
+            TryJoinArtworkQueue(candidates[0]))
+        {
             return;
         }
 
         StartBrowsing();
+    }
+
+
+    private bool TryJoinArtworkQueue(ArtworkData artwork)
+    {
+        int newIndex = buyerManager.TryJoinQueue(artwork, this);
+
+        if (newIndex < 0)
+            return false;
+
+        targetArtwork = artwork;
+        queueIndex = newIndex;
+        state = BuyerState.MovingToQueueSpot;
+
+        if (npcAnimator != null)
+            npcAnimator.PlayUp();
+
+        return true;
     }
 
 
@@ -363,19 +385,38 @@ public class Buyer : MonoBehaviour
         if (targetArtwork == null)
             return 0f;
 
-        float distance = GetArtworkDistance(targetArtwork);
+        float quality =
+            (targetArtwork.rust + targetArtwork.weight + targetArtwork.shine) / 300f;
 
-        float compatibility = 1f - distance;
+        float preference =
+            GetPreferredStatValue(targetArtwork) / 100f;
 
-        compatibility = Mathf.Clamp01(compatibility);
+        float score =
+            quality * (1f - preferenceWeight) +
+            preference * preferenceWeight;
+
+        score = Mathf.Clamp01(score);
 
         float multiplier = Mathf.Lerp(
             1f,
             maxOfferMultiplier,
-            compatibility
+            score
         );
 
-        return targetArtwork.baseValue * multiplier;
+        float finalOffer = targetArtwork.baseValue * multiplier;
+
+        if (DayTendency.Instance != null &&
+            DayTendency.Instance.MatchesTendency(targetArtwork))
+        {
+            finalOffer *= DayTendency.Instance.TendencyMultiplier;
+        }
+
+        finalOffer *= Random.Range(
+            1f - offerRandomnessPercent,
+            1f + offerRandomnessPercent
+        );
+
+        return finalOffer;
     }
 
 
@@ -509,19 +550,22 @@ public class Buyer : MonoBehaviour
 
     private float GetArtworkDistance(ArtworkData artwork)
     {
-        float eleganceDifference =
-            Mathf.Abs(artwork.rust - elegancePreference) / 100f;
+        return 1f - GetPreferredStatValue(artwork) / 100f;
+    }
 
-        float robustnessDifference =
-            Mathf.Abs(artwork.weight - robustnessPreference) / 100f;
 
-        float brightnessDifference =
-            Mathf.Abs(artwork.shine - brightnessPreference) / 100f;
-
-        return (
-            eleganceDifference +
-            robustnessDifference +
-            brightnessDifference
-        ) / 3f;
+    private float GetPreferredStatValue(ArtworkData artwork)
+    {
+        switch (preferredStat)
+        {
+            case PreferredStat.Elegance:
+                return artwork.rust;
+            case PreferredStat.Robustness:
+                return artwork.weight;
+            case PreferredStat.Brightness:
+                return artwork.shine;
+            default:
+                return 0f;
+        }
     }
 }

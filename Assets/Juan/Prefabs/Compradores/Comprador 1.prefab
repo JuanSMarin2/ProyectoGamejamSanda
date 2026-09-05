@@ -1065,10 +1065,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 071c1b9a2d1924d439f4799202418429, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Buyer
-  elegancePreference: 0
-  robustnessPreference: 0
-  brightnessPreference: 100
+  preferredStat: 2
+  preferenceWeight: 1
   maxInterestDistance: 0.6
+  approachClosestWhenNoMatch: 1
   moveSpeed: 3
   shelfOffset: {x: 0, y: -2.5, z: 0}
   minBrowseDuration: 2
@@ -1077,6 +1077,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 8618501955617430471}
   interactColor: {r: 0.9622642, g: 0.94916195, b: 0.8033998, a: 1}
   maxOfferMultiplier: 4
+  offerRandomnessPercent: 0.15
   offerPanel: {fileID: 788143235914811868}
   offerText: {fileID: 1359842752721520978}
   confirmButton: {fileID: 7220569396506122011}
@@ -1094,7 +1095,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
   interactableFeedback: {fileID: 3313761297139551351}
-  newInteractionSprite: {fileID: 21300000, guid: fbfd81d30543911428eccc2605d9a453, type: 3}
+  newInteractionSprite: {fileID: 21300000, guid: 7a79e187fcbdab9488fe470845cc0aa8, type: 3}
   fadeSpeed: 5
   onInteract:
     m_PersistentCalls:
