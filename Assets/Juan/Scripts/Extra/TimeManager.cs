@@ -23,6 +23,12 @@ public class TimeManager : MonoBehaviour
     public int CurrentHour { get; private set; }
     public int CurrentMinute { get; private set; }
 
+    public bool IsOneHourRemaining =>
+        dayStarted &&
+        !dayEnded &&
+        currentTime >= (endHour - startHour - 1) * realSecondsPerGameHour;
+
+    
 
     private void Awake()
     {

@@ -16,11 +16,14 @@ public class ReloadShopOnDayEnd : MonoBehaviour
     [SerializeField] private string shopSceneName = "Tienda";
 
     private bool subscribed;
+    private bool timeSubscribed;
+    private bool oneHourRemainingTriggered;
 
     private void OnEnable()
     {
         ShopTimeGate.SetInShopScene(true);
         TrySubscribe();
+        CheckOneHourRemaining();
     }
 
     private void OnDisable()
@@ -30,21 +33,56 @@ public class ReloadShopOnDayEnd : MonoBehaviour
         if (subscribed && DayManager.Instance != null)
             DayManager.Instance.OnDayStarted -= HandleDayStarted;
 
+        if (TimeManager.Instance != null)
+            TimeManager.Instance.OnTimeChanged -= HandleTimeChanged;
+
         subscribed = false;
+        timeSubscribed = false;
     }
 
     private void Start()
     {
         TrySubscribe();
+        CheckOneHourRemaining();
     }
 
     private void TrySubscribe()
     {
-        if (subscribed || DayManager.Instance == null)
-            return;
+        if (!subscribed && DayManager.Instance != null)
+        {
+            DayManager.Instance.OnDayStarted += HandleDayStarted;
+            subscribed = true;
+        }
 
-        DayManager.Instance.OnDayStarted += HandleDayStarted;
-        subscribed = true;
+        if (!timeSubscribed && TimeManager.Instance != null)
+        {
+            TimeManager.Instance.OnTimeChanged += HandleTimeChanged;
+            timeSubscribed = true;
+        }
+    }
+
+    private void HandleTimeChanged(int hour, int minute)
+    {
+        CheckOneHourRemaining();
+    }
+
+    private void CheckOneHourRemaining()
+    {
+        if (oneHourRemainingTriggered || TimeManager.Instance == null ||
+            !TimeManager.Instance.IsOneHourRemaining)
+        {
+            return;
+        }
+
+        oneHourRemainingTriggered = true;
+        OnOneHourRemaining();
+    }
+
+    private void OnOneHourRemaining()
+    {
+
+           //Poner sonido aqui 
+
     }
 
     private void HandleDayStarted(int day, int rent)
